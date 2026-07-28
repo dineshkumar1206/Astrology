@@ -5,54 +5,54 @@ import { API_BASE_URL } from '../../config';
 
 const CRYSTAL_CATEGORIES = [
   {
-    name: 'Rashi',
+    name: 'Rasi',
     desc: 'Specially energized crystals harmonized for your specific zodiac sign to bring balance and positive cosmic vibrations.',
-    image: '/rashi.png'
-  },
-  {
-    name: 'Dhanyog',
-    desc: 'Attracts wealth, financial abundance, and prosperity into your home and business environment.',
-    image: '/dhanyog.png'
+    image: '/Raw-Amethyst-Geode.png'
   },
   {
     name: 'Bracelet',
     desc: 'Beautifully crafted bead bracelets for daily energetic protection, emotional peace, and spiritual support.',
-    image: '/bracelet.png'
-  },
-  {
-    name: 'Karungali',
-    desc: 'Made from authentic black ebony wood to absorb negative energy, bring good luck, and shield against evil eye.',
-    image: '/karungali.png'
-  },
-  {
-    name: 'Rudraksh',
-    desc: 'Sacred natural beads representing peace, health, and spiritual focus. Ideal for meditation and prayer.',
-    image: '/rudraksh.png'
-  },
-  {
-    name: 'Yantra',
-    desc: 'Sacred geometric plates designed to channel positive energy, shield against negativity, and bring success.',
-    image: '/yantra.png'
+    image: '/Rose-Quartz-Love-Bowl-Tumbles.png'
   },
   {
     name: 'Pyrite',
     desc: 'The golden stone of luck, abundance, and business growth. Ideal for work tables and wealth manifestation.',
-    image: '/pyrite.png'
+    image: '/Golden-Pyrite-Cluster.png'
   },
   {
     name: 'Rings',
     desc: 'Sacred energized crystal rings to keep positive vibrations in close contact with your personal energy paths throughout the day.',
-    image: '/rings.png'
-  },
-  {
-    name: 'Anklets',
-    desc: 'Beautifully protective and grounding crystal anklets, energized to shield your aura and align lower body chakras.',
-    image: '/anklets.png'
+    image: '/crystal.jpg'
   },
   {
     name: 'Pendants',
     desc: 'Sacred crystal pendants charged to rest near your heart chakra, enhancing emotional healing, peace, and spiritual connection.',
-    image: '/pendants.png'
+    image: '/Clear-Quartz-Generator-Point.png'
+  },
+  {
+    name: 'Tumbles',
+    desc: 'Smooth, polished crystal pocket stones for personal healing, chakra balance, and daily focus.',
+    image: '/Raw-Black-Tourmaline-Shield.png'
+  },
+  {
+    name: 'Crystal balls',
+    desc: 'Perfectly spherical crystal balls to radiate healing energy in all directions, ideal for home and meditation spaces.',
+    image: '/Clear-Quartz-Generator-Point.png'
+  },
+  {
+    name: 'Pyrite frames',
+    desc: 'Beautifully framed pyrite clusters to attract wealth, abundance, and protection into your home or office.',
+    image: '/Golden-Pyrite-Cluster.png'
+  },
+  {
+    name: 'Crystal mala',
+    desc: 'Sacred crystal prayer beads for mantra chanting, meditation, and continuous spiritual connection.',
+    image: '/crystal.jpg'
+  },
+  {
+    name: 'Crystal tower',
+    desc: 'Energized crystal towers to amplify intention, direct positive energy, and cleanse your living space.',
+    image: '/Raw-Amethyst-Geode.png'
   }
 ];
 
@@ -158,6 +158,10 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const handleOpenPopup = (itemId, e) => {
     e.stopPropagation();
     setActiveItemId(itemId);
+    const item = items.find(i => i.id === itemId);
+    if (item && Array.isArray(item.sizes) && item.sizes.length > 0) {
+      setSelectedSizes(prev => ({ ...prev, [itemId]: item.sizes[0] }));
+    }
   };
 
   const handleClosePopup = () => {
