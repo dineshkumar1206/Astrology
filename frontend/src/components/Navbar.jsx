@@ -16,10 +16,11 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   useEffect(() => {
     axios.get(`${API_BASE_URL}/api/categories`)
       .then(res => {
-        setCategories(res.data);
+        setCategories(Array.isArray(res.data) ? res.data : []);
       })
       .catch(err => {
         console.error('Failed to load categories in Navbar:', err);
+        setCategories([]);
       });
   }, []);
 

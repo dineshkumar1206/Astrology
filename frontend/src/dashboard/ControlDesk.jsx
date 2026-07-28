@@ -77,11 +77,13 @@ export default function ControlDesk() {
         axios.get(`${API_BASE_URL}/api/products`),
         axios.get(`${API_BASE_URL}/api/categories`)
       ]);
-      setProducts(prodRes.data);
-      setCategories(catRes.data);
+      const prodData = Array.isArray(prodRes.data) ? prodRes.data : [];
+      const catData = Array.isArray(catRes.data) ? catRes.data : [];
+      setProducts(prodData);
+      setCategories(catData);
       
       // Auto select first category if current is not in the loaded list
-      const loadedCatNames = catRes.data.map(c => c.name);
+      const loadedCatNames = catData.map(c => c.name);
       if (loadedCatNames.length > 0 && !loadedCatNames.includes(activeCategory) && activeCategory !== '_manage_menus') {
         setActiveCategory(loadedCatNames[0]);
       }
