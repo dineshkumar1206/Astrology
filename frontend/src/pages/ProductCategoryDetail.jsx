@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import ProductDetailModal from '../components/ProductDetailModal';
 
 import TarotConsultation from '../components/categories/TarotConsultation';
 import SpiritualHealing from '../components/categories/SpiritualHealing';
@@ -17,6 +18,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
   const [dynamicCat, setDynamicCat] = useState(null);
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeProduct, setActiveProduct] = useState(null);
 
   useEffect(() => {
     const fetchCategoriesAndProducts = async () => {
@@ -47,13 +49,18 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
   const handleAddToCart = (item) => {
     if (!setCart) return;
 
-    const existingItem = cart.find((c) => c.id === item.id);
+    const qty = item._quantity || 1;
+    const size = item._selectedSize || null;
+    const cartItemId = size ? `${item.id}-${size}` : item.id;
+    const cartName = size ? `${item.name} (${size})` : item.name;
+
+    const existingItem = cart.find((c) => c.id === cartItemId);
 
     if (existingItem) {
       setCart(
         cart.map((c) =>
-          c.id === item.id
-            ? { ...c, quantity: c.quantity + 1 }
+          c.id === cartItemId
+            ? { ...c, quantity: c.quantity + qty }
             : c
         )
       );
@@ -61,11 +68,11 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
       setCart([
         ...cart,
         {
-          id: item.id,
-          name: item.name,
+          id: cartItemId,
+          name: cartName,
           price: item.price,
           image: item.image || '/saraa-logo.jpeg',
-          quantity: 1
+          quantity: qty
         }
       ]);
     }
@@ -101,6 +108,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
 
       if (dynamicCat) {
         return (
+          <>
           <div className="bg-sara-dark min-h-screen text-sara-white font-sans pt-16 pb-24 px-8 max-lg:py-8 max-lg:px-4">
             <div className="max-w-[1200px] mx-auto">
 
@@ -138,10 +146,11 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                       products.map((item) => (
                         <div
                           key={item.id}
-                          className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)]"
+                          onClick={() => setActiveProduct(item)}
+                          className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] cursor-pointer"
                         >
                           {item.image && (
-                            <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.15)] bg-sara-darkDeep">
+                            <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.15)] bg-sara-darkDeep flex-shrink-0">
                               <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                             </div>
                           )}
@@ -162,7 +171,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                               ₹{item.price.toLocaleString('en-IN')}
                             </div>
                             <button
-                              onClick={() => handleAddToCart(item)}
+                              onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
                               className="bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-[0.6rem] px-6 rounded text-[12px] font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold"
                             >
                               Add To Cart
@@ -177,6 +186,16 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
 
             </div>
           </div>
+
+          {/* Product Detail Modal */}
+          {activeProduct && (
+            <ProductDetailModal
+              product={activeProduct}
+              onClose={() => setActiveProduct(null)}
+              onAddToCart={(p) => handleAddToCart(p)}
+            />
+          )}
+        </>
         );
       }
 

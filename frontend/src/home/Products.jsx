@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import ProductDetailModal from '../components/ProductDetailModal';
 
 const fadeInUpVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -89,6 +90,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   const [allProducts, setAllProducts] = useState([]);
   const [crystalCategoryNames, setCrystalCategoryNames] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeProduct, setActiveProduct] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -123,15 +125,20 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   };
 
   const handleAddToCart = (product, e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (!setCart) return;
 
-    const existingItem = cart.find((item) => item.id === product.id);
+    const qty = product._quantity || 1;
+    const size = product._selectedSize || null;
+    const cartItemId = size ? `${product.id}-${size}` : product.id;
+    const cartName = size ? `${product.name} (${size})` : product.name;
+
+    const existingItem = cart.find((item) => item.id === cartItemId);
     if (existingItem) {
       setCart(
         cart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
+          item.id === cartItemId
+            ? { ...item, quantity: item.quantity + qty }
             : item
         )
       );
@@ -139,11 +146,11 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
       setCart([
         ...cart,
         {
-          id: product.id,
-          name: product.name,
+          id: cartItemId,
+          name: cartName,
           price: product.price,
           image: getProductImage(product, FALLBACK_IMAGES),
-          quantity: 1
+          quantity: qty
         }
       ]);
     }
@@ -210,7 +217,8 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: idx * 0.06, ease: [0.25, 1, 0.5, 1] }}
-                      className="min-w-[260px] max-w-[260px] bg-sara-panel border border-[rgba(214,178,106,0.12)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)] select-none"
+                      onClick={() => setActiveProduct(product)}
+                      className="min-w-[260px] max-w-[260px] bg-sara-panel border border-[rgba(214,178,106,0.12)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)] select-none cursor-pointer"
                     >
                       <div className="w-full h-[180px] overflow-hidden relative bg-sara-darkDeep">
                         <img
@@ -257,6 +265,15 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
             </motion.div>
           );
         })
+      )}
+
+      {/* Product Detail Modal */}
+      {activeProduct && (
+        <ProductDetailModal
+          product={activeProduct}
+          onClose={() => setActiveProduct(null)}
+          onAddToCart={(p) => handleAddToCart(p)}
+        />
       )}
     </div>
   );

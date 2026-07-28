@@ -1,0 +1,271 @@
+import React, { useState, useEffect } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import axios from 'axios';
+import { API_BASE_URL } from '../config';
+
+const FALLBACK_IMAGES = {
+  'crystal': '/crystal.jpg',
+  'murugar cards': '/card-1.jpg',
+  'tarot private consultation': '/tarot.jpg',
+  'spiritual healing': '/meditation.jpg',
+  'kali pooja': '/card-3.jpg',
+  'tarot card reading': '/tarot.jpg',
+  'spiritual counseling': '/meditation.jpg',
+};
+
+const SLUG_MAP = {
+  'crystals': 'crystal',
+  'murugar-cards': 'Murugar Cards',
+  'tarot-consultation': 'Tarot Private Consultation',
+  'spiritual-healing': 'Spiritual Healing',
+  'kali-pooja': 'Kali Pooja',
+  'tarot-classes': 'Tarot Card Reading',
+  'counseling-classes': 'Spiritual Counseling',
+};
+
+export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [quantity, setQuantity] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/products/${id}`);
+        setProduct(res.data);
+        if (res.data.sizes && res.data.sizes.length > 0) {
+          setSelectedSize(res.data.sizes[0]);
+        }
+      } catch (err) {
+        console.error('Failed to fetch product:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
+
+  const getImgSrc = () => {
+    if (!product) return '/saraa-logo.jpeg';
+    if (product.image) return product.image;
+    const catLower = (product.category || '').toLowerCase();
+    return FALLBACK_IMAGES[catLower] || '/saraa-logo.jpeg';
+  };
+
+  const getCategorySlug = () => {
+    if (!product) return '/';
+    const catLower = (product.category || '').toLowerCase();
+    // Check crystal subcategories
+    const crystalSlugs = ['rasi', 'bracelet', 'pyrite', 'rings', 'pendants', 'tumbles', 'crystal balls', 'pyrite frames', 'crystal mala', 'crystal tower'];
+    if (crystalSlugs.includes(catLower)) return '/products/crystals';
+    // Check service categories
+    for (const [slug, catName] of Object.entries(SLUG_MAP)) {
+      if (catLower === catName.toLowerCase()) return `/products/${slug}`;
+    }
+    return '/';
+  };
+
+  const handleAddToCart = () => {
+    if (!setCart || !product) return;
+
+    const cartItemId = selectedSize ? `${product.id}-${selectedSize}` : product.id;
+    const existingItem = cart.find((item) => item.id === cartItemId);
+
+    const cartName = selectedSize
+      ? `${product.name} (${selectedSize})`
+      : product.name;
+
+    if (existingItem) {
+      setCart(
+        cart.map((item) =>
+          item.id === cartItemId
+            ? { ...item, quantity: item.quantity + quantity }
+            : item
+        )
+      );
+    } else {
+      setCart([
+        ...cart,
+        {
+          id: cartItemId,
+          name: cartName,
+          price: product.price,
+          image: getImgSrc(),
+          quantity
+        }
+      ]);
+    }
+
+    setAddedToCart(true);
+    setTimeout(() => setAddedToCart(false), 2000);
+    if (setIsCartOpen) setIsCartOpen(true);
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-sara-dark flex items-center justify-center pt-16">
+        <div className="text-sara-gold text-sm tracking-wider">Loading product...</div>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-sara-dark flex flex-col items-center justify-center pt-16 gap-4">
+        <div className="text-sara-muted text-lg">Product not found</div>
+        <Link to="/" className="text-sara-gold text-sm uppercase tracking-wider no-underline hover:underline">
+          Return Home
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-sara-dark text-sara-white font-sans pt-16 pb-24">
+      {/* Header gradient */}
+      <div className="bg-[radial-gradient(ellipse_at_center,rgba(67,32,78,0.2)_0%,transparent_70%)] bg-sara-darkDeep border-b border-[rgba(214,178,106,0.1)]">
+        <div className="max-w-[1200px] mx-auto px-4 sm:px-8 pt-8 pb-6">
+          <div className="mb-6 text-[13px] tracking-[0.5px]">
+            <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">Home</Link>
+            <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
+            <Link to={getCategorySlug()} className="text-sara-muted no-underline hover:text-sara-gold transition-colors">{product.category}</Link>
+            <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
+            <span className="text-sara-gold">{product.name}</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-[1200px] mx-auto px-4 sm:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+          className="flex flex-col lg:flex-row gap-10 py-10"
+        >
+          {/* Image */}
+          <div className="flex-[1_1_450px]">
+            <div className="relative rounded-lg overflow-hidden border border-[rgba(214,178,106,0.15)] bg-sara-panel">
+              <img
+                src={getImgSrc()}
+                alt={product.name}
+                className="w-full h-[400px] sm:h-[500px] object-cover"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';
+                }}
+              />
+              <div className="absolute top-4 right-4 bg-[rgba(34,32,66,0.9)] border border-[rgba(214,178,106,0.3)] px-3 py-1.5 rounded text-[11px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
+                {product.type}
+              </div>
+            </div>
+          </div>
+
+          {/* Details */}
+          <div className="flex-[1_1_400px] flex flex-col">
+            <span className="text-sara-gold text-[11px] uppercase tracking-[2px] font-semibold mb-2">
+              {product.category}
+            </span>
+            <h1 className="text-sara-white font-serif text-[2rem] sm:text-[2.5rem] font-normal leading-tight mb-4">
+              {product.name}
+            </h1>
+            <p className="text-sara-muted text-[0.95rem] leading-7 mb-6">
+              {product.desc}
+            </p>
+
+            <div className="text-sara-gold text-[2rem] font-semibold mb-6">
+              Rs. {product.price.toLocaleString('en-IN')}
+            </div>
+
+            {/* Sizes */}
+            {product.sizes && product.sizes.length > 0 && (
+              <div className="mb-6">
+                <label className="block text-[11px] text-sara-muted uppercase tracking-[1px] mb-2 font-medium">
+                  Select Size
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {product.sizes.map((size) => (
+                    <button
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider border transition-all duration-200 cursor-pointer ${
+                        selectedSize === size
+                          ? 'bg-sara-gold text-sara-dark border-sara-gold'
+                          : 'bg-transparent text-sara-muted border-[rgba(214,178,106,0.2)] hover:border-sara-gold hover:text-sara-gold'
+                      }`}
+                    >
+                      {size}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Quantity */}
+            <div className="mb-6">
+              <label className="block text-[11px] text-sara-muted uppercase tracking-[1px] mb-2 font-medium">
+                Quantity
+              </label>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="w-9 h-9 rounded border border-[rgba(214,178,106,0.2)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
+                >
+                  -
+                </button>
+                <span className="text-sara-white text-sm font-medium w-8 text-center">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(quantity + 1)}
+                  className="w-9 h-9 rounded border border-[rgba(214,178,106,0.2)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+
+            {/* Add to Cart */}
+            <button
+              onClick={handleAddToCart}
+              className={`w-full py-3.5 rounded text-xs font-bold uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mb-6 ${
+                addedToCart
+                  ? 'bg-green-600 text-white border-green-600'
+                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark border-none hover:shadow-[0_4px_20px_rgba(214,178,106,0.3)] hover:-translate-y-0.5'
+              }`}
+            >
+              {addedToCart ? 'Added to Cart' : 'Add To Cart'}
+            </button>
+
+            {/* Inclusions */}
+            {product.inclusions && product.inclusions.length > 0 && (
+              <div className="border-t border-[rgba(214,178,106,0.1)] pt-6">
+                <h3 className="text-sara-gold font-serif text-lg mb-4 tracking-[1px]">What's Included</h3>
+                <ul className="m-0 pl-0 list-none">
+                  {product.inclusions.map((item, i) => (
+                    <li key={i} className="flex items-start gap-2 mb-3 text-sara-muted text-[0.9rem] leading-6">
+                      <span className="text-sara-gold mt-1 text-[8px]">●</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        </motion.div>
+
+        {/* Back link */}
+        <div className="border-t border-[rgba(214,178,106,0.1)] pt-8 mt-4">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-sara-gold text-[11px] uppercase tracking-[1.5px] font-semibold bg-transparent border border-[rgba(214,178,106,0.3)] px-5 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
+          >
+            ← Back
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}

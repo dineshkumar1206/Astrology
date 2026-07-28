@@ -9,6 +9,10 @@ const productController = require('../controllers/productController');
 // @desc    Get all products
 router.get('/', productController.getProducts);
 
+// @route   GET api/products/:id
+// @desc    Get single product by ID
+router.get('/:id', productController.getProductById);
+
 // @route   POST api/products
 // @desc    Create a new product (admin only)
 router.post('/', verifyAdmin, upload.single('image'), handleUploadError, productController.createProduct);

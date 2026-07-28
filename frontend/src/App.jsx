@@ -6,6 +6,7 @@ import Checkout from './components/Checkout';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import ProductCategoryDetail from './pages/ProductCategoryDetail';
+import ProductDetail from './pages/ProductDetail';
 import About from './pages/About/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
@@ -66,6 +67,16 @@ export default function App() {
             <Checkout 
               cartItems={cart} 
               setCartItems={setCart} 
+            />
+          } 
+        />
+        <Route 
+          path="/products/detail/:id" 
+          element={
+            <ProductDetail 
+              cart={cart} 
+              setCart={setCart} 
+              setIsCartOpen={setIsCartOpen} 
             />
           } 
         />
