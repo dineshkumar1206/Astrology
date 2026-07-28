@@ -42,59 +42,53 @@ export default function Login() {
   };
 
   return (
-    <div className="relative min-h-[85vh] flex items-center justify-center bg-[#090514] overflow-hidden px-4 py-16">
-      
-      {/* Esoteric Glow Effects */}
-      <div 
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle_at_center,rgba(184,70,122,0.12)_0%,transparent_70%)] blur-3xl pointer-events-none" 
+    <div className="relative min-h-[85vh] flex items-center justify-center overflow-hidden px-4 py-16 bg-sara-dark">
+
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle_at_center,rgba(106,53,117,0.12)_0%,transparent_70%)] blur-3xl pointer-events-none"
         aria-hidden="true"
       />
-      <div 
-        className="absolute top-[10%] right-[10%] w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle_at_center,rgba(217,181,106,0.06)_0%,transparent_70%)] blur-2xl pointer-events-none" 
+      <div
+        className="absolute top-[10%] right-[10%] w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle_at_center,rgba(214,178,106,0.06)_0%,transparent_70%)] blur-2xl pointer-events-none"
         aria-hidden="true"
       />
 
-      {/* Login Card */}
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 w-full max-w-[420px] bg-[#130f24]/60 backdrop-blur-xl border border-[#D9B56A]/20 rounded-2xl p-8 md:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] transition-all duration-500 hover:border-[#D9B56A]/45"
+        className="relative z-10 w-full max-w-[420px] backdrop-blur-xl rounded-2xl p-8 md:p-10 transition-all duration-500 bg-[rgba(34,32,66,0.8)] border border-[rgba(214,178,106,0.15)] shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
       >
-        {/* Brand Header */}
         <div className="text-center mb-8">
-          <span className="text-[#D9B56A] text-[12px] font-medium tracking-[3px] uppercase font-sans">
+          <span className="text-[12px] font-medium tracking-[3px] uppercase font-sans text-sara-muted">
             Cosmic Connection
           </span>
-          <h2 className="font-['Cinzel'] text-3xl font-normal text-center text-[#F4F0EA] tracking-wide mt-2">
+          <h2 className="font-['Cinzel'] text-3xl font-normal text-center tracking-wide mt-2 text-sara-gold">
             Welcome Back
           </h2>
         </div>
 
-        {/* Error Alert */}
         {error && (
           <div className="mb-6 text-sm text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-lg font-sans">
             {error}
           </div>
         )}
 
-        {/* Email Input */}
         <div className="mb-5 font-sans">
-          <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-2 font-medium">
+          <label className="block text-[11px] uppercase tracking-[1px] mb-2 font-medium text-sara-muted">
             Email Address
           </label>
           <input
             type="email"
             placeholder="name@example.com"
-            className="w-full px-4 py-3 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-300 text-[14px]"
+            className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] bg-sara-darkDeep text-sara-white"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
 
-        {/* Password Input */}
         <div className="mb-8 font-sans relative">
           <div className="flex justify-between items-center mb-2">
-            <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] font-medium">
+            <label className="block text-[11px] uppercase tracking-[1px] font-medium text-sara-muted">
               Password
             </label>
           </div>
@@ -102,13 +96,13 @@ export default function Login() {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-300 text-[14px] pr-12"
+              className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] pr-12 bg-sara-darkDeep text-sara-white"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
             <div
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#D9B56A] cursor-pointer transition-colors duration-200"
+              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer transition-colors duration-200 text-sara-muted hover:text-sara-gold"
               onClick={() => setShowPassword(!showPassword)}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -116,11 +110,10 @@ export default function Login() {
           </div>
         </div>
 
-        {/* Login Action Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-lg bg-[#D9B56A] text-[#0A0713] font-semibold font-sans uppercase tracking-[1px] text-[13px] transition-all duration-300 hover:bg-[#F4F0EA] hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer shadow-[0_10px_25px_rgba(217,181,106,0.15)] disabled:opacity-50"
+          className="w-full py-3.5 rounded-lg font-semibold font-sans uppercase tracking-[1px] text-[13px] transition-all duration-300 hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark shadow-[0_10px_25px_rgba(214,178,106,0.2)]"
         >
           {loading ? (
             <>
@@ -131,7 +124,6 @@ export default function Login() {
             'Sign In'
           )}
         </button>
-
 
       </form>
     </div>

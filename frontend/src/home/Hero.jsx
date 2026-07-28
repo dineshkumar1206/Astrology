@@ -1,25 +1,19 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion'; // Imported Framer Motion
+import { motion } from 'framer-motion';
 
-// ============================================================
-// Brand tokens — sampled directly from the Saraa Tarot mark
-// (deep indigo-black ground, warm gold linework, magenta bloom)
-// ============================================================
 const COLORS = {
-  ink: '#120B1F',        // primary background
-  inkDeep: '#0A0713',    // darker edge for gradients
-  panel: '#1D1430',      // image frame / card ground
-  gold: '#D9B56A',       // headline accent, button, linework
-  goldSoft: '#F0DFB0',   // hover / highlight
-  magenta: '#B8467A',    // corner bloom, echoes the logo's pink glow
-  ink200: '#B7AFC7',     // muted body copy
-  cream: '#F4F0EA',      // high-contrast headline text
+  bg: '#0B1225',
+  bgDeep: '#161330',
+  panel: '#222042',
+  gold: '#D6B26A',
+  goldSoft: '#E8C985',
+  text: '#FFFFFF',
+  muted: '#CFCFCF',
+  purple: '#43204E',
+  accentPurple: '#6A3575',
 };
 
-// ============================================================
-// Zodiac wheel — full chart redrawn as SVG
-// ============================================================
 const ZODIAC_ICONS = {
   Aries: (
     <>
@@ -150,12 +144,12 @@ function polar(r, deg, cx = 250, cy = 250) {
   return [cx + r * Math.sin(rad), cy - r * Math.cos(rad)];
 }
 
-function ZodiacWheel({ size = 620, gold = '#D9B56A', dim = '#9C8FB0' }) {
+function ZodiacWheel({ size = 620, gold = '#D6B26A', dim = '#CFCFCF' }) {
   const cx = 250;
   const cy = 250;
 
   return (
-    <svg viewBox="0 0 500 500" width={size} height={size} style={{ display: 'block' }}>
+    <svg viewBox="0 0 500 500" width={size} height={size} className="block">
       <g fill="none" stroke={gold} strokeLinecap="round" strokeLinejoin="round">
         {[WHEEL_R.outer, WHEEL_R.nameInner, WHEEL_R.iconInner, WHEEL_R.centerR].map((r) => (
           <circle key={r} cx={cx} cy={cy} r={r} strokeWidth="1" opacity="0.85" />
@@ -238,255 +232,97 @@ function ZodiacWheel({ size = 620, gold = '#D9B56A', dim = '#9C8FB0' }) {
 
 export default function Hero() {
   const navigate = useNavigate();
-  // Shared text animation variant configurations (Fade In Up)
   const fadeInUpVariants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } 
+      transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] }
     }
   };
 
   return (
     <section
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        width: '100%',
-        minHeight: '95vh',
-        background: `radial-gradient(120% 90% at 88% 6%, rgba(184,70,122,0.28) 0%, rgba(184,70,122,0) 45%), linear-gradient(180deg, ${COLORS.ink} 0%, ${COLORS.inkDeep} 100%)`,
-        color: COLORS.cream,
-        display: 'flex',
-        alignItems: 'center',
-        boxSizing: 'border-box',
-      }}
+      className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border text-sara-white bg-[radial-gradient(ellipse_60%_50%_at_75%_20%,rgba(106,53,117,0.25)_0%,rgba(67,32,78,0.10)_40%,transparent_70%),radial-gradient(ellipse_40%_35%_at_20%_70%,rgba(214,178,106,0.08)_0%,transparent_60%),linear-gradient(180deg,#0B1225_0%,#161330_100%)]"
     >
-      {/* Scoped font import + responsive / hover rules */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500;600&display=swap');
-
-        .saraa-cta {
-          transition: background-color .35s ease, color .35s ease, transform .35s ease;
-        }
-        .saraa-cta:hover {
-          background-color: ${COLORS.cream} !important;
-          color: ${COLORS.inkDeep} !important;
-          transform: translateY(-1px);
-        }
-        .saraa-dot {
-          transition: background-color .3s ease, transform .3s ease;
-        }
-
-        @media (max-width: 900px) {
-          .saraa-content-row {
-            flex-direction: column-reverse !important;
-            flex-wrap: wrap !important;
-            align-items: center !important;
-            padding-top: 6rem !important;
-            padding-bottom: 3rem !important;
-            gap: 3rem !important;
-          }
-          .saraa-image-col {
-            width: 100% !important;
-            max-width: 320px !important;
-            flex: 0 0 auto !important;
-            margin-left: 0 !important; 
-          }
-        }
-      `}</style>
-
-      {/* Zodiac wheel, left-hand background accent */}
       <div
-        style={{
-          position: 'absolute',
-          left: '-190px',
-          top: '50%',
-          transform: 'translateY(-50%)',
-          opacity: 0.30,
-          pointerEvents: 'none',
-          zIndex: 1,
-        }}
-      >
-        <ZodiacWheel size={640} gold={COLORS.gold} dim={COLORS.ink200} />
+        aria-hidden="true"
+        className="absolute -top-[10%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(106,53,117,0.22)_0%,transparent_70%)] blur-[60px] pointer-events-none z-0 animate-[floatGlowPurple_8s_ease-in-out_infinite]"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute bottom-[5%] left-[15%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.12)_0%,transparent_70%)] blur-[50px] pointer-events-none z-0 animate-[floatGlowGold_10s_ease-in-out_infinite]"
+      />
+
+      <div className="absolute -left-[190px] top-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none z-[1]">
+        <ZodiacWheel size={640} gold={COLORS.gold} dim={COLORS.muted} />
       </div>
 
-      {/* Structural row */}
-      <div
-        className="saraa-content-row"
-        style={{
-          width: '100%',
-          maxWidth: '1320px',
-          margin: '0 auto',
-          display: 'flex',
-          flexDirection: 'row',       
-          flexWrap: 'nowrap',         
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          gap: '2rem',
-          position: 'relative',
-          zIndex: 5,
-          padding: '0 6vw',
-          boxSizing: 'border-box',
-        }}
-      >
-        {/* Left typography block — Parent container for orchestrated text appearance */}
-        <motion.div 
+      <div className="w-full max-w-[1320px] mx-auto flex flex-row flex-nowrap justify-between items-center gap-8 relative z-[5] px-[6vw] box-border max-lg:flex-col-reverse max-lg:flex-wrap max-lg:items-center max-lg:pt-24 max-lg:pb-12 max-lg:gap-12">
+        <motion.div
           initial="hidden"
           animate="visible"
-          transition={{ staggerChildren: 0.15 }} // Delays each nested child block for a sequenced layout build
-          style={{ flex: '0 1 60%', maxWidth: '680px', boxSizing: 'border-box' }}
+          transition={{ staggerChildren: 0.15 }}
+          className="flex-[0_1_60%] max-w-[680px] box-border"
         >
           <motion.h1
             variants={fadeInUpVariants}
-            style={{
-              margin: '0 0 2rem 0',
-              fontFamily: "'Playfair Display', 'Georgia', serif",
-              fontWeight: 400,
-              lineHeight: 1.15,
-              letterSpacing: '-0.5px',
-            }}
+            className="m-0 mb-8 font-['Playfair_Display',Georgia,serif] font-normal leading-[1.15] tracking-[-0.5px]"
           >
-            {/* Forces "Unlock" and "The Best" to remain strictly on a single line */}
-            <div style={{ display: 'block', whiteSpace: 'nowrap' }}>
-              {/* "Unlock" standard filled serif */}
-              <span 
-                style={{ 
-                  fontSize: 'clamp(42px, 5.5vw, 92px)', 
-                  color: COLORS.cream,
-                  marginRight: '20px' 
-                }}
-              >
+            <div className="block whitespace-nowrap">
+              <span className="text-[clamp(42px,5.5vw,92px)] text-sara-white mr-5">
                 Unlock
               </span>
-
-              {/* "The Best" standard filled serif */}
-              <span 
-                style={{ 
-                  fontSize: 'clamp(42px, 5.5vw, 92px)', 
-                  color: COLORS.cream,
-                  letterSpacing: '0.5px'
-                }}
-              >
+              <span className="text-[clamp(42px,5.5vw,92px)] text-sara-white tracking-[0.5px]">
                 The Best
               </span>
             </div>
-
-            {/* "Future" massive serif standard filled layout breaking cleanly onto line two */}
-            <span
-              style={{
-                display: 'block',
-                fontWeight: 400,
-                fontSize: 'clamp(60px, 8vw, 100px)',
-                lineHeight: 1.05,
-                color: COLORS.cream,
-                marginTop: '0.5rem',
-              }}
-            >
+            <span className="block font-normal text-[clamp(60px,8vw,100px)] leading-[1.05] text-sara-gold mt-2">
               Future
             </span>
           </motion.h1>
 
           <motion.div
             variants={fadeInUpVariants}
-            style={{
-              color: 'rgba(244, 240, 234, 0.85)',
-              fontFamily: "'Poppins', sans-serif",
-              fontWeight: 300,
-              fontSize: '16px',
-              lineHeight: 1.75,
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.75rem',
-              maxWidth: '480px',
-            }}
+            className="text-sara-muted font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px]"
           >
-            <p style={{ margin: 0 }}>
+            <p className="m-0">
               Discover insights, guidance, and clarity through personalized tarot readings.
               Gain clarity and direction with every card you draw.
             </p>
-            <p style={{ margin: 0 }}>Explore the path ahead with confidence.</p>
+            <p className="m-0">Explore the path ahead with confidence.</p>
           </motion.div>
         </motion.div>
 
-        {/* Right imagery block — Animated into motion component container */}
         <motion.div
-          className="saraa-image-col"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
-          whileHover={{ 
+          whileHover={{
             scale: 1.025,
-            boxShadow: '0 40px 80px rgba(184, 70, 122, 0.15)', // Custom colorful glow accent matching the brand tokens on hover
+            boxShadow: '0 40px 80px rgba(67, 32, 78, 0.3)',
             transition: { duration: 0.4, ease: 'easeOut' }
           }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
-          style={{
-            flex: '0 0 400px',        
-            maxWidth: '460px',
-            position: 'relative',
-            borderRadius: '22px',
-            overflow: 'hidden',
-            border: `1px solid rgba(217,181,106,0.25)`,
-            backgroundColor: COLORS.panel,
-            boxShadow: '0 30px 60px rgba(0,0,0,0.45)',
-            cursor: 'pointer'
-          }}
+          className="flex-[0_0_400px] max-w-[460px] relative rounded-[22px] overflow-hidden border border-[rgba(214,178,106,0.25)] bg-sara-darkDeep shadow-[0_30px_60px_rgba(67,32,78,0.3)] cursor-pointer max-lg:w-full max-lg:max-w-[320px] max-lg:flex-none max-lg:ml-0"
         >
-          {/* ========================================== */}
-          {/* CHANGE IMAGE HERE: Update the src value below with your image link */}
-          {/* ========================================== */}
           <img
-            src={'/hero-1.png'}
+            src="/hero-1.png"
             alt="Personalized tarot reading session"
-            style={{
-              width: '100%',
-              height: '100%',
-              aspectRatio: '4 / 5',
-              objectFit: 'cover',
-              display: 'block',
-            }}
+            className="w-full h-full aspect-[4/5] object-cover block"
           />
 
-          {/* Call to action */}
           <button
-            className="saraa-cta"
             onClick={() => navigate('/products/tarot-consultation')}
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              right: 0,
-              backgroundColor: COLORS.gold,
-              color: COLORS.inkDeep,
-              border: 'none',
-              padding: '1.2rem 2.5rem',
-              fontFamily: "'Poppins', sans-serif",
-              fontSize: '13px',
-              fontWeight: 500,
-              textTransform: 'uppercase',
-              letterSpacing: '2px',
-              cursor: 'pointer',
-              zIndex: 15,
-            }}
+            className="absolute bottom-0 right-0 border-none py-[1.2rem] px-[2.5rem] font-['Poppins',sans-serif] text-[13px] font-medium uppercase tracking-[2px] cursor-pointer z-[15] bg-gradient-to-br from-sara-gold to-sara-goldSoft text-sara-dark transition-[transform,box-shadow,filter] duration-[350ms] ease-in-out hover:brightness-90 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)]"
           >
             Book A Reading
           </button>
         </motion.div>
       </div>
 
-      {/* Carousel markers */}
-      <div
-        style={{
-          position: 'absolute',
-          bottom: '24px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          display: 'flex',
-          gap: '10px',
-          zIndex: 6,
-        }}
-      >
-        <span className="saraa-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: COLORS.gold }} />
-        <span className="saraa-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', backgroundColor: 'rgba(244,240,234,0.2)' }} />
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-[10px] z-[6]">
+        <span className="w-[7px] h-[7px] rounded-full bg-sara-gold transition-[background-color,transform] duration-300 ease-in-out" />
+        <span className="w-[7px] h-[7px] rounded-full bg-[rgba(255,255,255,0.2)] transition-[background-color,transform] duration-300 ease-in-out" />
       </div>
     </section>
   );

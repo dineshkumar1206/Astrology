@@ -49,6 +49,21 @@ const Product = sequelize.define('Product', {
     set(value) {
       this.setDataValue('inclusions', JSON.stringify(value || []));
     }
+  },
+  sizes: {
+    type: DataTypes.TEXT, // Will store stringified JSON array
+    allowNull: true,
+    get() {
+      const rawValue = this.getDataValue('sizes');
+      try {
+        return rawValue ? JSON.parse(rawValue) : [];
+      } catch (err) {
+        return [];
+      }
+    },
+    set(value) {
+      this.setDataValue('sizes', JSON.stringify(value || []));
+    }
   }
 }, {
   tableName: 'products'

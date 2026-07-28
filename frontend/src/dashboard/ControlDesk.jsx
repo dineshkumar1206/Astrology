@@ -41,7 +41,8 @@ export default function ControlDesk() {
     category: '',
     desc: '',
     image: '',
-    inclusions: ''
+    inclusions: '',
+    sizes: ''
   });
 
   // Category Modal / Form state
@@ -108,6 +109,11 @@ export default function ControlDesk() {
     return (catName || '').toLowerCase() === 'kali pooja';
   };
 
+  // Check if a category matches Murugar Cards
+  const isMurugarCategory = (catName) => {
+    return (catName || '').toLowerCase() === 'murugar cards';
+  };
+
   const openAddModal = () => {
     const isCrystal = isCrystalCategory(activeCategory);
     setFormData({
@@ -118,7 +124,8 @@ export default function ControlDesk() {
       category: activeCategory,
       desc: '',
       image: '',
-      inclusions: ''
+      inclusions: '',
+      sizes: ''
     });
     setImageFile(null);
     setFormError('');
@@ -136,7 +143,8 @@ export default function ControlDesk() {
       category: product.category || activeCategory,
       desc: product.desc || '',
       image: product.image || '',
-      inclusions: Array.isArray(product.inclusions) ? product.inclusions.join('\n') : ''
+      inclusions: Array.isArray(product.inclusions) ? product.inclusions.join('\n') : '',
+      sizes: Array.isArray(product.sizes) ? product.sizes.join('\n') : ''
     });
     setImageFile(null);
     setFormError('');
@@ -169,8 +177,15 @@ export default function ControlDesk() {
     setFormLoading(true);
 
     const isCrystal = isCrystalCategory(formData.category);
+    const hasImageUpload = isCrystal || isKaliPoojaCategory(formData.category) || isMurugarCategory(formData.category);
     const inclusionsArray = isCrystal
       ? formData.inclusions
+          .split('\n')
+          .map(item => item.trim())
+          .filter(item => item.length > 0)
+      : [];
+    const sizesArray = isCrystal
+      ? formData.sizes
           .split('\n')
           .map(item => item.trim())
           .filter(item => item.length > 0)
@@ -183,8 +198,9 @@ export default function ControlDesk() {
     fd.append('category', formData.category);
     fd.append('desc', formData.desc);
     fd.append('inclusions', JSON.stringify(inclusionsArray));
+    fd.append('sizes', JSON.stringify(sizesArray));
 
-    if (isCrystal) {
+    if (hasImageUpload) {
       if (imageFile) {
         fd.append('image', imageFile);
       } else {
@@ -555,6 +571,20 @@ export default function ControlDesk() {
                                 </ul>
                               </div>
                             )}
+
+                            {/* Sizes */}
+                            {Array.isArray(product.sizes) && product.sizes.length > 0 && (
+                              <div className="border-t border-[#D9B56A]/10 pt-3 mt-3">
+                                <span className="text-[9px] text-[#D9B56A] font-bold uppercase tracking-widest block mb-1">Sizes:</span>
+                                <div className="flex flex-wrap gap-1.5">
+                                  {product.sizes.map((size, i) => (
+                                    <span key={i} className="text-[10px] text-[#B7AFC7] bg-[#D9B56A]/10 border border-[#D9B56A]/15 px-2 py-0.5 rounded">
+                                      {size}
+                                    </span>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
                           </div>
 
                           {/* Action Buttons */}
@@ -691,7 +721,7 @@ export default function ControlDesk() {
                 </div>
 
                 {/* Image Upload Area */}
-                {(isCrystalCategory(formData.category) || isKaliPoojaCategory(formData.category)) && (
+                {(isCrystalCategory(formData.category) || isKaliPoojaCategory(formData.category) || isMurugarCategory(formData.category)) && (
                   <div>
                     <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
                       Item Image
@@ -787,6 +817,23 @@ export default function ControlDesk() {
                       onChange={handleInputChange}
                       rows="3"
                       placeholder="e.g.&#10;Spiritually cleansed and energized&#10;Sacred prasadham included"
+                      className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200 resize-none"
+                    />
+                  </div>
+                )}
+
+                {/* Sizes (Crystals Only) */}
+                {isCrystalCategory(formData.category) && (
+                  <div>
+                    <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                      Available Sizes (one size per line)
+                    </label>
+                    <textarea
+                      name="sizes"
+                      value={formData.sizes}
+                      onChange={handleInputChange}
+                      rows="3"
+                      placeholder="e.g.&#10;Small&#10;Medium&#10;Large"
                       className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200 resize-none"
                     />
                   </div>

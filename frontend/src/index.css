@@ -1,9 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  will-change: auto;
+}
+
+@keyframes floatGlowPurple {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.18; }
+  50% { transform: translate(30px, -20px) scale(1.15); opacity: 0.28; }
+}
+@keyframes floatGlowGold {
+  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.12; }
+  50% { transform: translate(-20px, 15px) scale(1.1); opacity: 0.2; }
+}
+
 @theme {
-  --color-astrology-deepBg: #0f0c1b;
-  --color-astrology-mysticPurple: #2d1b4e;
-  --color-astrology-gold: #dfba6b;
-  --color-astrology-goldHover: #c9a353;
-  --color-astrology-textLight: #f3f0ea;
+  --color-sara-dark: #0B1225;
+  --color-sara-darkDeep: #161330;
+  --color-sara-darkFooter: #080A18;
+  --color-sara-panel: #222042;
+  --color-sara-gold: #D6B26A;
+  --color-sara-goldSoft: #E8C985;
+  --color-sara-cream: #F8F2E8;
+  --color-sara-beige: #F3EADF;
+  --color-sara-lavender: #F5F1FA;
+  --color-sara-purple: #43204E;
+  --color-sara-accentPurple: #6A3575;
+  --color-sara-mysticBlue: #1C5D8B;
+  --color-sara-textDark: #4F4F4F;
+  --color-sara-muted: #CFCFCF;
+  --color-sara-white: #FFFFFF;
 }

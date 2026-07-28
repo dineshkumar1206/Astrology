@@ -3,13 +3,16 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 
+const FALLBACK_IMAGE = '/card-1.jpg';
+
 const ITEMS_DATA = [
   {
     id: 'murugar-messages-standard',
     name: 'Sara Murugan Card Reading (2 Questions)',
     price: 1500,
     type: 'Voice Note Analysis',
-    desc: 'Submit 2 specific questions. Receive deep insights, Murugan blessings, and practical remedies in a detailed voice note.'
+    desc: 'Submit 2 specific questions. Receive deep insights, Murugan blessings, and practical remedies in a detailed voice note.',
+    image: FALLBACK_IMAGE
   }
 ];
 
@@ -70,7 +73,7 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
           id: cartItemId,
           name: `${item.name}${nameSuffix}`,
           price: finalPrice,
-          image: '/saraa-logo.jpeg',
+          image: item.image || FALLBACK_IMAGE,
           quantity: 1
         }
       ]);
@@ -82,142 +85,113 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
   };
 
   return (
-    <div style={{ backgroundColor: '#0f0c1b', minHeight: '100vh', color: '#f3f0ea', fontFamily: "'Inter', sans-serif", padding: '4rem 2rem 6rem 2rem', boxSizing: 'border-box' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="min-h-screen bg-sara-dark text-sara-white font-sans pt-16 pb-24 px-4 sm:px-8">
+      <div className="max-w-[1200px] mx-auto">
         
         {/* Breadcrumbs */}
-        <div style={{ marginBottom: '2.5rem', fontSize: '13px', letterSpacing: '0.5px' }}>
-          <Link to="/" style={{ color: 'rgba(243, 240, 234, 0.5)', textDecoration: 'none' }}>Home</Link>
-          <span style={{ color: 'rgba(243, 240, 234, 0.3)', margin: '0 8px' }}>/</span>
-          <span style={{ color: '#dfba6b' }}>Murugar Cards Reading</span>
+        <div className="mb-10 text-[13px] tracking-[0.5px]">
+          <Link to="/" className="text-sara-muted no-underline">Home</Link>
+          <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
+          <span className="text-sara-gold">Murugar Cards Reading</span>
         </div>
 
         {/* Header Section */}
-        <div style={{ marginBottom: '4rem', borderBottom: '1px solid rgba(223, 186, 107, 0.15)', paddingBottom: '2.5rem' }}>
-          <span style={{ color: '#dfba6b', letterSpacing: '2px', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase' }}>
-            DIVINE VEL GUIDANCE
-          </span>
-          <h1 style={{ color: '#dfba6b', fontFamily: "'Cinzel', serif", fontSize: '2.8rem', fontWeight: '400', margin: '0.5rem 0 1.5rem 0', textTransform: 'uppercase', letterSpacing: '1px', lineHeight: '1.2' }}>
-            Murugar Cards Reading
-          </h1>
-          <p style={{ color: 'rgba(243, 240, 234, 0.8)', fontSize: '1.05rem', lineHeight: '1.7', maxWidth: '800px', margin: 0 }}>
-            Seek the sacred guidance and remedies of Lord Murugan. Receive pure answers to critical life questions, business directions, and spiritual obstacles.
-          </p>
+        <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-sara-darkDeep -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(67,32,78,0.2)_0%,transparent_70%)] flex flex-col sm:flex-row items-center gap-8">
+          <div className="flex-[1_1_400px]">
+            <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
+              DIVINE VEL GUIDANCE
+            </span>
+            <h1 className="text-sara-gold font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
+              Murugar Cards Reading
+            </h1>
+            <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
+              Seek the sacred guidance and remedies of Lord Murugan. Receive pure answers to critical life questions, business directions, and spiritual obstacles.
+            </p>
+          </div>
+          <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">
+            <img 
+              src={FALLBACK_IMAGE} 
+              alt="Murugar Card Reading" 
+              className="w-full h-full object-cover"
+              onError={(e) => { e.target.src = '/saraa-logo.jpeg'; }}
+            />
+          </div>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'row', gap: '3rem', flexWrap: 'wrap' }}>
+        <div className="flex flex-row gap-12 flex-wrap">
           
           {/* Items Listing Column */}
-          <div style={{ flex: '2 1 600px' }}>
-            <h3 style={{ color: '#dfba6b', fontFamily: "'Cinzel', serif", fontSize: '1.5rem', marginBottom: '2rem', borderBottom: '1px solid rgba(223, 186, 107, 0.1)', paddingBottom: '0.5rem', letterSpacing: '1.5px', textTransform: 'uppercase' }}>
+          <div className="flex-[2_1_600px]">
+            <h3 className="text-sara-gold font-serif text-1.5rem mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
               Available Bookings
             </h3>
 
             {/* Express Booking Toggle */}
             <div 
-              style={{ 
-                backgroundColor: 'rgba(223, 186, 107, 0.05)', 
-                border: '1px solid rgba(223, 186, 107, 0.3)', 
-                borderRadius: '4px',
-                padding: '1.25rem',
-                marginBottom: '2rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                cursor: 'pointer'
-              }}
+              className="bg-[rgba(214,178,106,0.05)] border border-[rgba(214,178,106,0.3)] rounded p-5 mb-8 flex items-center gap-3 cursor-pointer"
               onClick={() => setExpressChecked(!expressChecked)}
             >
               <input 
                 type="checkbox" 
                 checked={expressChecked}
                 onChange={() => {}}
-                style={{ 
-                  cursor: 'pointer',
-                  width: '18px',
-                  height: '18px',
-                  accentColor: '#dfba6b'
-                }} 
+                className="cursor-pointer w-[18px] h-[18px] accent-sara-gold" 
               />
               <div>
-                <div style={{ fontWeight: '600', color: '#dfba6b', fontSize: '14px', letterSpacing: '0.5px' }}>
+                <div className="font-semibold text-sara-gold text-sm tracking-[0.5px]">
                   ADD EXPRESS BOOKING (+ Rs. 1,000)
                 </div>
-                <div style={{ fontSize: '12px', color: 'rgba(243, 240, 234, 0.7)', marginTop: '2px' }}>
+                <div className="text-xs text-sara-muted mt-0.5">
                   Guarantees your appointment within 24 hours of payment verification (instead of the standard 10 days wait).
                 </div>
               </div>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="flex flex-col gap-6">
               {loading ? (
-                <div style={{ textAlign: 'center', padding: '3rem 0', color: '#dfba6b' }}>
+                <div className="text-center py-12 text-sara-gold">
                   Loading offerings...
                 </div>
               ) : items.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '3rem 0', color: 'rgba(243, 240, 234, 0.6)' }}>
+                <div className="text-center py-12 text-sara-muted">
                   No offerings available.
                 </div>
               ) : (
                 items.map((item) => (
                 <div 
                   key={item.id}
-                  style={{
-                    backgroundColor: '#130f24',
-                    border: '1px solid rgba(223, 186, 107, 0.15)',
-                    borderRadius: '4px',
-                    padding: '2rem',
-                    display: 'flex',
-                    flexDirection: 'row',
-                    gap: '1.5rem',
-                    flexWrap: 'wrap',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(223, 186, 107, 0.4)';
-                    e.currentTarget.style.boxShadow = '0 4px 20px rgba(0,0,0,0.2)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = 'rgba(223, 186, 107, 0.15)';
-                    e.currentTarget.style.boxShadow = 'none';
-                  }}
+                  className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
                 >
-                  <div style={{ flex: '1 1 280px' }}>
-                    <div style={{ color: '#dfba6b', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '600' }}>
+                  {(item.image || FALLBACK_IMAGE) && (
+                    <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] flex-shrink-0">
+                      <img 
+                        src={item.image || FALLBACK_IMAGE} 
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => { e.target.src = FALLBACK_IMAGE; }}
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex-[1_1_280px]">
+                    <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
                       {item.type}
                     </div>
-                    <h4 style={{ color: '#f3f0ea', fontSize: '1.35rem', margin: '4px 0 8px 0', fontWeight: '500' }}>
+                    <h4 className="text-sara-white text-[1.35rem] mt-1 mb-2 font-medium">
                       {item.name}
                     </h4>
-                    <p style={{ color: 'rgba(243, 240, 234, 0.75)', fontSize: '0.9rem', lineHeight: '1.5', margin: 0 }}>
+                    <p className="text-sara-muted text-[0.9rem] leading-5 m-0">
                       {item.desc}
                     </p>
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', justifyContent: 'center', gap: '0.75rem', minWidth: '150px' }}>
-                    <div style={{ color: '#dfba6b', fontSize: '1.75rem', fontWeight: '600' }}>
+                  <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">
+                    <div className="text-sara-gold text-[1.75rem] font-semibold">
                       ₹{(item.price + (expressChecked ? 1000 : 0)).toLocaleString('en-IN')}
                     </div>
                     <button
                       onClick={() => handleAddToCart(item)}
-                      style={{
-                        backgroundColor: '#dfba6b',
-                        color: '#0f0c1b',
-                        border: 'none',
-                        borderRadius: '2px',
-                        padding: '0.75rem 1.5rem',
-                        fontSize: '12px',
-                        fontWeight: '700',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        cursor: 'pointer',
-                        transition: 'opacity 0.2s',
-                        width: '100%'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                      onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                      className="bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full hover:bg-sara-gold hover:text-sara-dark"
                     >
                       Book & Add
                     </button>
@@ -229,60 +203,30 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
           </div>
 
           {/* Guidelines Sidebar Column */}
-          <div style={{ flex: '1 1 300px' }}>
-            <div 
-              style={{
-                backgroundColor: '#130f24',
-                border: '1px solid rgba(223, 186, 107, 0.25)',
-                borderRadius: '6px',
-                padding: '2rem',
-                position: 'sticky',
-                top: '120px',
-                backgroundImage: 'linear-gradient(to bottom, rgba(223, 186, 107, 0.02), transparent)'
-              }}
-            >
-              <h4 style={{ color: '#dfba6b', fontFamily: "'Cinzel', serif", fontSize: '1.25rem', marginBottom: '1.25rem', borderBottom: '1px solid rgba(223, 186, 107, 0.1)', paddingBottom: '0.5rem', letterSpacing: '1px', textTransform: 'uppercase' }}>
+          <div className="flex-[1_1_300px]">
+            <div className="bg-sara-panel border border-[rgba(214,178,106,0.25)] rounded-md p-8 sticky top-[120px] bg-gradient-to-b from-[rgba(214,178,106,0.02)] to-transparent">
+              <h4 className="text-sara-gold font-serif text-[1.25rem] mb-5 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1px] uppercase">
                 Important Notes
               </h4>
-              <p style={{ color: 'rgba(243, 240, 234, 0.9)', fontSize: '0.95rem', lineHeight: '1.6', marginBottom: '1.5rem' }}>
+              <p className="text-sara-muted text-[0.95rem] leading-6 mb-6">
                 {POLICY_DATA.intro}
               </p>
               
-              <ul style={{ paddingLeft: '1.2rem', margin: 0, color: 'rgba(243, 240, 234, 0.75)', lineHeight: '1.7', fontSize: '0.9rem' }}>
+              <ul className="pl-5 m-0 text-sara-muted leading-7 text-[0.9rem]">
                 {POLICY_DATA.points.map((pt, i) => (
-                  <li key={i} style={{ marginBottom: '0.8rem', listStyleType: 'square' }}>
+                  <li key={i} className="mb-3 list-square">
                     {pt}
                   </li>
                 ))}
               </ul>
 
-              <div style={{ borderTop: '1px solid rgba(223, 186, 107, 0.15)', marginTop: '2rem', paddingTop: '1.5rem', textAlign: 'center' }}>
-                <span style={{ fontSize: '12px', color: 'rgba(243, 240, 234, 0.5)', display: 'block', marginBottom: '1rem' }}>
+              <div className="border-t border-[rgba(214,178,106,0.15)] mt-8 pt-6 text-center">
+                <span className="text-xs text-sara-muted block mb-4">
                   All sessions require pre-payment verification.
                 </span>
                 <Link 
                   to="/checkout" 
-                  style={{
-                    display: 'block',
-                    backgroundColor: 'transparent',
-                    color: '#dfba6b',
-                    border: '1px solid rgba(223, 186, 107, 0.5)',
-                    padding: '0.75rem',
-                    textDecoration: 'none',
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.1)';
-                    e.currentTarget.style.borderColor = '#dfba6b';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.backgroundColor = 'transparent';
-                    e.currentTarget.style.borderColor = 'rgba(223, 186, 107, 0.5)';
-                  }}
+                  className="block bg-transparent text-sara-gold border border-[rgba(214,178,106,0.5)] py-3 no-underline text-xs font-semibold uppercase tracking-[1px] transition-all hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
                 >
                   View My Cart / Pay
                 </Link>

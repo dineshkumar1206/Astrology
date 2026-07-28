@@ -56,15 +56,6 @@ const CRYSTAL_CATEGORIES = [
   }
 ];
 
-const POLICY_DATA = {
-  intro: 'Crystal Delivery Details:',
-  points: [
-    'All crystals are physically cleansed and spiritually energized in India prior to dispatch.',
-    'Shipped with sacred prasadham and instructions on crystal care and reprogramming.',
-    'Dispatched within 3-5 working days of booking confirmation.'
-  ]
-};
-
 export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const subcategoryParam = searchParams.get('subcategory');
@@ -74,6 +65,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const [loading, setLoading] = useState(true);
   const [healingPowerChecked, setHealingPowerChecked] = useState(false);
   const [crystalCategories, setCrystalCategories] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState({});
 
   useEffect(() => {
     if (subcategoryParam) {
@@ -101,7 +93,6 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         setItems(crystalItems);
       } catch (err) {
         console.error('Failed to load crystals from database. Using fallback seed data.', err);
-        // Fallback using current hardcoded categories list
         const fallbackList = CRYSTAL_CATEGORIES;
         setCrystalCategories(fallbackList);
         const fallbacks = fallbackList.map((cat, idx) => ({
@@ -127,13 +118,15 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
 
     let finalPrice = item.price;
     let nameSuffix = '';
+    const selectedSize = selectedSizes[item.id] || '';
 
     if (healingPowerChecked) {
       finalPrice += 1000;
       nameSuffix = ' (+ Extra Healing Power)';
     }
 
-    const cartItemId = healingPowerChecked ? `${item.id}-healing` : item.id;
+    const sizeKey = selectedSize ? `-${selectedSize}` : '';
+    const cartItemId = healingPowerChecked ? `${item.id}${sizeKey}-healing` : `${item.id}${sizeKey}`;
     const existingItem = cart.find((c) => c.id === cartItemId);
 
     if (existingItem) {
@@ -148,8 +141,8 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
       setCart([
         ...cart,
         {
-          id: cartItemId || `crystal-${item.name.toLowerCase().replace(/\s+/g, '-')}${healingPowerChecked ? '-healing' : ''}`,
-          name: `${item.name}${nameSuffix}`,
+          id: cartItemId || `crystal-${item.name.toLowerCase().replace(/\s+/g, '-')}${selectedSize ? `-${selectedSize.toLowerCase().replace(/\s+/g, '-')}` : ''}${healingPowerChecked ? '-healing' : ''}`,
+          name: `${item.name}${selectedSize ? ` (${selectedSize})` : ''}${nameSuffix}`,
           price: finalPrice,
           image: item.image || '/saraa-logo.jpeg',
           quantity: 1
@@ -171,7 +164,6 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
     setActiveItemId(null);
   };
 
-  // Filter items based on active category selection (default to all items)
   const filteredItems = selectedCategory
     ? items.filter(item => item.category && item.category.toLowerCase() === selectedCategory.toLowerCase())
     : items;
@@ -179,71 +171,53 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const currentItem = items.find((item) => item.id === activeItemId);
 
   return (
-    <div style={{ backgroundColor: '#0f0c1b', minHeight: '100vh', color: '#f3f0ea', fontFamily: "'Inter', sans-serif", padding: '4rem 2rem 6rem 2rem', boxSizing: 'border-box' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div className="min-h-screen bg-sara-dark text-sara-white font-sans pt-16 pb-24 px-4 sm:px-8">
+      <div className="max-w-[1200px] mx-auto">
         
         {/* Breadcrumbs */}
-        <div style={{ marginBottom: '2.5rem', fontSize: '13px', letterSpacing: '0.5px' }}>
-          <Link to="/" style={{ color: 'rgba(243, 240, 234, 0.5)', textDecoration: 'none' }}>Home</Link>
-          <span style={{ color: 'rgba(243, 240, 234, 0.3)', margin: '0 8px' }}>/</span>
+        <div className="mb-10 text-[13px] tracking-[0.5px]">
+          <Link to="/" className="text-sara-muted no-underline">Home</Link>
+          <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
           {selectedCategory ? (
             <>
               <span 
                 onClick={() => setSearchParams({})} 
-                style={{ color: 'rgba(243, 240, 234, 0.5)', cursor: 'pointer', textDecoration: 'underline' }}
+                className="text-sara-muted cursor-pointer underline"
               >
                 Crystals
               </span>
-              <span style={{ color: 'rgba(243, 240, 234, 0.3)', margin: '0 8px' }}>/</span>
-              <span style={{ color: '#dfba6b' }}>{selectedCategory}</span>
+              <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
+              <span className="text-sara-gold">{selectedCategory}</span>
             </>
           ) : (
-            <span style={{ color: '#dfba6b' }}>Crystals</span>
+            <span className="text-sara-gold">Crystals</span>
           )}
         </div>
 
         {/* Header Section */}
-        <div style={{ marginBottom: '3rem', borderBottom: '1px solid rgba(223, 186, 107, 0.15)', paddingBottom: '2.5rem' }}>
-          <span style={{ color: '#dfba6b', letterSpacing: '2px', fontSize: '12px', fontWeight: '600', textTransform: 'uppercase' }}>
+        <div className="mb-12 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-sara-darkDeep -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(67,32,78,0.2)_0%,transparent_70%)]">
+          <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             SACRED GEOMETRY & ENERGY TOOLS
           </span>
-          <h1 style={{ color: '#dfba6b', fontFamily: "'Cinzel', serif", fontSize: '2.8rem', fontWeight: '400', margin: '0.5rem 0 1.5rem 0', textTransform: 'uppercase', letterSpacing: '1px', lineHeight: '1.2' }}>
+          <h1 className="text-sara-gold font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
             {selectedCategory ? `${selectedCategory} Collection` : 'Crystals'}
           </h1>
-          <p style={{ color: 'rgba(243, 240, 234, 0.8)', fontSize: '1.05rem', lineHeight: '1.7', maxWidth: '800px', margin: '0 0 2rem 0' }}>
+          <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] mb-8">
             {(() => {
               const catData = crystalCategories.find(c => c.name.toLowerCase() === (selectedCategory || '').toLowerCase());
               return catData ? catData.desc : 'A curated selection of natural crystal categories, hand-selected, cleansed, and programmed with specific intentions by Sara to support your healing and manifest your desires.';
             })()}
           </p>
 
-          {/* Elegant Horizontal Category Selector Buttons */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '1.5rem' }}>
+          {/* Category Selector Buttons */}
+          <div className="flex flex-wrap gap-3 mt-6">
             <button
               onClick={() => setSearchParams({})}
-              style={{
-                backgroundColor: selectedCategory === null ? '#dfba6b' : 'rgba(223, 186, 107, 0.05)',
-                color: selectedCategory === null ? '#0f0c1b' : '#dfba6b',
-                border: '1px solid rgba(223, 186, 107, 0.3)',
-                padding: '0.6rem 1.25rem',
-                borderRadius: '20px',
-                fontSize: '12px',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                textTransform: 'uppercase',
-                letterSpacing: '0.5px'
-              }}
-              onMouseEnter={(e) => {
-                if (selectedCategory !== null) {
-                  e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.15)';
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (selectedCategory !== null) {
-                  e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.05)';
-                }
-              }}
+              className={
+                selectedCategory === null
+                  ? 'bg-sara-gold text-sara-dark border border-[rgba(214,178,106,0.3)] py-2.5 px-5 rounded-[20px] text-xs font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px]'
+                  : 'bg-[rgba(214,178,106,0.05)] text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 px-5 rounded-[20px] text-xs font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-[rgba(214,178,106,0.15)]'
+              }
             >
               All Crystals
             </button>
@@ -251,29 +225,11 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
               <button
                 key={cat.name}
                 onClick={() => setSearchParams({ subcategory: cat.name })}
-                style={{
-                  backgroundColor: selectedCategory === cat.name ? '#dfba6b' : 'rgba(223, 186, 107, 0.05)',
-                  color: selectedCategory === cat.name ? '#0f0c1b' : '#dfba6b',
-                  border: '1px solid rgba(223, 186, 107, 0.3)',
-                  padding: '0.6rem 1.25rem',
-                  borderRadius: '20px',
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.5px'
-                }}
-                onMouseEnter={(e) => {
-                  if (selectedCategory !== cat.name) {
-                    e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.15)';
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (selectedCategory !== cat.name) {
-                    e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.05)';
-                  }
-                }}
+                className={
+                  selectedCategory === cat.name
+                    ? 'bg-sara-gold text-sara-dark border border-[rgba(214,178,106,0.3)] py-2.5 px-5 rounded-[20px] text-xs font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px]'
+                    : 'bg-[rgba(214,178,106,0.05)] text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 px-5 rounded-[20px] text-xs font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-[rgba(214,178,106,0.15)]'
+                }
               >
                 {cat.name}
               </button>
@@ -282,135 +238,112 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
 
           {/* Healing Power Toggle */}
           <div 
-            style={{ 
-              backgroundColor: 'rgba(223, 186, 107, 0.05)', 
-              border: '1px solid rgba(223, 186, 107, 0.3)', 
-              borderRadius: '4px',
-              padding: '1.25rem',
-              marginTop: '1.5rem',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              cursor: 'pointer'
-            }}
+            className="bg-[rgba(214,178,106,0.05)] border border-[rgba(214,178,106,0.3)] rounded p-5 mt-6 flex items-center gap-3 cursor-pointer"
             onClick={() => setHealingPowerChecked(!healingPowerChecked)}
           >
             <input 
               type="checkbox" 
               checked={healingPowerChecked}
               onChange={() => {}}
-              style={{ 
-                cursor: 'pointer',
-                width: '18px',
-                height: '18px',
-                accentColor: '#dfba6b'
-              }} 
+              className="cursor-pointer w-[18px] h-[18px] accent-sara-gold" 
             />
             <div>
-              <div style={{ fontWeight: '600', color: '#dfba6b', fontSize: '14px', letterSpacing: '0.5px' }}>
+              <div className="font-semibold text-sara-gold text-sm tracking-[0.5px]">
                 ADD HEALING POWER (+ Rs. 1,000)
               </div>
-              <div style={{ fontSize: '12px', color: 'rgba(243, 240, 234, 0.7)', marginTop: '2px' }}>
+              <div className="text-xs text-sara-muted mt-0.5">
                 Cleanses, activates, and programs the crystal with extra spiritual healing powers tailored to your intentions.
               </div>
             </div>
           </div>
         </div>
 
-        {/* Main Content Grid (Full Width) */}
-        <div style={{ width: '100%' }}>
+        {/* Main Content Grid */}
+        <div className="w-full">
           {loading ? (
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '5rem 0' }}>
-              <span style={{ color: '#dfba6b', fontSize: '15px', letterSpacing: '1px' }}>Loading products...</span>
+            <div className="flex justify-center py-20">
+              <span className="text-sara-gold text-[15px] tracking-[1px]">Loading products...</span>
             </div>
           ) : (
             <>
               {filteredItems.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '6rem 0', border: '1px dashed rgba(223, 186, 107, 0.15)', borderRadius: '4px' }}>
-                  <p style={{ color: 'rgba(243, 240, 234, 0.6)', margin: 0 }}>No products available in this category yet.</p>
+                <div className="text-center py-24 border border-dashed border-[rgba(214,178,106,0.15)] rounded">
+                  <p className="text-[rgba(207,207,207,0.6)] m-0">No products available in this category yet.</p>
                 </div>
               ) : (
-                /* Cards Grid Layout */
-                <div style={{ 
-                  display: 'grid', 
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', 
-                  gap: '2rem' 
-                }}>
+                <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-8">
                   {filteredItems.map((item) => (
                     <div 
                       key={item.id}
                       onClick={(e) => handleOpenPopup(item.id, e)}
-                      style={{
-                        backgroundColor: '#130f24',
-                        border: '1px solid rgba(223, 186, 107, 0.15)',
-                        borderRadius: '4px',
-                        overflow: 'hidden',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'space-between'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.borderColor = 'rgba(223, 186, 107, 0.5)';
-                        e.currentTarget.style.transform = 'translateY(-4px)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.borderColor = 'rgba(223, 186, 107, 0.15)';
-                        e.currentTarget.style.transform = 'translateY(0)';
-                      }}
+                      className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between hover:border-sara-gold hover:-translate-y-1"
                     >
                       {/* Card Image */}
                       {item.image && (
-                        <div style={{ width: '100%', height: '200px', overflow: 'hidden', position: 'relative' }}>
+                        <div className="w-full h-[200px] overflow-hidden relative bg-sara-darkDeep">
                            <img 
                              src={item.image} 
                              alt={item.name} 
-                             style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
+                             className="w-full h-full object-cover" 
                              onError={(e) => {
                                e.target.onerror = null; 
                                e.target.src = '/saraa-logo.jpeg';
                              }}
                            />
-                           <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '50%', background: 'linear-gradient(to top, #130f24, transparent)' }} />
+                           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-sara-panel to-transparent" />
                         </div>
                       )}
                       
                       {/* Card Content */}
-                      <div style={{ padding: '1.25rem', flexGrow: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                      <div className="p-5 grow flex flex-col justify-between">
                         <div>
-                          <div style={{ color: '#dfba6b', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: '600', marginBottom: '4px' }}>
+                          <div className="text-sara-gold text-[10px] uppercase tracking-[1px] font-semibold mb-1">
                             {item.type}
                           </div>
-                          <h4 style={{ color: '#f3f0ea', fontSize: '1.15rem', margin: '0 0 0.5rem 0', fontWeight: '500', lineHeight: '1.3' }}>
+                          <h4 className="text-sara-white text-[1.15rem] mb-2 font-medium leading-snug">
                             {item.name}
                           </h4>
-                          <p style={{ color: 'rgba(243, 240, 234, 0.7)', fontSize: '0.85rem', lineHeight: '1.4', margin: '0 0 1rem 0' }}>
+                          <p className="text-sara-muted text-[0.85rem] leading-5 mb-4">
                             {item.desc}
                           </p>
                         </div>
                         
                         <div>
-                          <div style={{ color: '#dfba6b', fontSize: '1.4rem', fontWeight: '600', margin: '0.75rem 0' }}>
+                          <div className="text-sara-gold text-[1.4rem] font-semibold my-3">
                             ₹{(item.price + (healingPowerChecked ? 1000 : 0)).toLocaleString('en-IN')}
                           </div>
+
+                          {/* Size Selection */}
+                          {Array.isArray(item.sizes) && item.sizes.length > 0 && (
+                            <div className="my-2">
+                              <div className="text-[10px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1px] font-semibold mb-1.5">
+                                Select Size
+                              </div>
+                              <div className="flex flex-wrap gap-1.5">
+                                {item.sizes.map((size, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setSelectedSizes(prev => ({ ...prev, [item.id]: size }));
+                                    }}
+                                    className={
+                                      selectedSizes[item.id] === size
+                                        ? 'bg-sara-gold text-sara-dark border border-sara-gold py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
+                                        : 'bg-sara-darkDeep text-sara-muted border border-[rgba(214,178,106,0.3)] py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
+                                    }
+                                  >
+                                    {size}
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
                           
-                          <div style={{ display: 'flex', gap: '0.75rem', marginTop: '0.75rem' }}>
+                          <div className="flex gap-3 mt-3">
                             <button 
                               onClick={(e) => handleOpenPopup(item.id, e)}
-                              style={{
-                                flex: 1,
-                                backgroundColor: 'transparent',
-                                color: '#dfba6b',
-                                border: '1px solid rgba(223, 186, 107, 0.4)',
-                                padding: '0.6rem',
-                                fontSize: '0.75rem',
-                                fontWeight: '600',
-                                textTransform: 'uppercase',
-                                letterSpacing: '1px',
-                                cursor: 'pointer',
-                                transition: 'all 0.2s'
-                              }}
+                              className="flex-1 bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-dark"
                             >
                               Details
                             </button>
@@ -419,18 +352,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                 e.stopPropagation();
                                 handleAddToCart(item);
                               }}
-                              style={{
-                                flex: 1,
-                                backgroundColor: '#dfba6b',
-                                color: '#0f0c1b',
-                                border: 'none',
-                                padding: '0.6rem',
-                                fontSize: '0.75rem',
-                                fontWeight: '600',
-                                textTransform: 'uppercase',
-                                letterSpacing: '1px',
-                                cursor: 'pointer',
-                              }}
+                              className="flex-1 bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-dark"
                             >
                               Add To Cart
                             </button>
@@ -451,109 +373,84 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
       {activeItemId && currentItem && (
         <div 
           onClick={handleClosePopup}
-          style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(10, 8, 20, 0.85)',
-            backdropFilter: 'blur(6px)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 2000,
-            padding: '1rem',
-            boxSizing: 'border-box'
-          }}
+          className="fixed inset-0 bg-[rgba(11,18,37,0.85)] backdrop-blur-[6px] flex items-center justify-center z-[2000] p-4"
         >
           {/* Modal Container */}
           <div 
             onClick={(e) => e.stopPropagation()}
-            style={{
-              backgroundColor: '#130f24',
-              border: '1px solid rgba(223, 186, 107, 0.25)',
-              borderRadius: '8px',
-              maxWidth: '900px',
-              width: '100%',
-              maxHeight: '90vh',
-              overflowY: 'auto',
-              position: 'relative',
-              padding: '2.5rem',
-              boxSizing: 'border-box',
-              boxShadow: '0 20px 40px rgba(0,0,0,0.6)'
-            }}
+            className="bg-sara-panel border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
           >
-            {/* Elegant Cross Closing Button */}
+            {/* Close Button */}
             <button 
               onClick={handleClosePopup}
-              style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1.5rem',
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: '#dfba6b',
-                fontSize: '2rem',
-                fontWeight: '300',
-                cursor: 'pointer',
-                lineHeight: '1',
-                padding: '4px',
-                transition: 'transform 0.2s'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.15)'}
-              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+              className="absolute top-4 right-6 bg-transparent border-none text-sara-gold text-2xl font-light cursor-pointer leading-none p-1 transition-transform hover:scale-[1.15]"
             >
               &times;
             </button>
 
             {/* Content Split Layout */}
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '2.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+            <div className="flex flex-row gap-10 flex-wrap mt-2">
               
               {/* Left Column: Image */}
               {currentItem.image && (
-                <div style={{ flex: '1 1 350px' }}>
+                <div className="flex-[1_1_350px]">
                   <img 
                     src={currentItem.image} 
                     alt={currentItem.name} 
-                    style={{ 
-                      width: '100%', 
-                      borderRadius: '4px', 
-                      border: '1px solid rgba(223, 186, 107, 0.15)', 
-                      objectFit: 'cover', 
-                      height: '100%',
-                      minHeight: '300px',
-                      maxHeight: '400px'
-                    }}
+                    className="w-full rounded border border-[rgba(214,178,106,0.15)] object-cover h-full min-h-[300px] max-h-[400px]"
                   />
                 </div>
               )}
 
               {/* Right Column: Text & Pricing Info */}
-              <div style={{ flex: '1 2 400px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+              <div className="flex-[1_2_400px] flex flex-col justify-between">
                 <div>
-                  <span style={{ color: '#dfba6b', textTransform: 'uppercase', fontSize: '0.8rem', letterSpacing: '2px', fontWeight: '600' }}>
+                  <span className="text-sara-gold uppercase text-[0.8rem] tracking-[2px] font-semibold">
                     {currentItem.type}
                   </span>
-                  <h2 style={{ color: '#f3f0ea', fontSize: '1.8rem', fontWeight: '300', margin: '0.5rem 0 0.75rem 0', lineHeight: '1.3' }}>
+                  <h2 className="text-sara-white text-[1.8rem] font-light mt-2 mb-3 leading-snug">
                     {currentItem.name}
                   </h2>
-                  <div style={{ color: '#dfba6b', fontSize: '1.75rem', fontWeight: '600', marginBottom: '1.25rem' }}>
+                  <div className="text-sara-gold text-[1.75rem] font-semibold mb-5">
                     ₹{(currentItem.price + (healingPowerChecked ? 1000 : 0)).toLocaleString('en-IN')}
                   </div>
+
+                  {/* Size Selection in Modal */}
+                  {Array.isArray(currentItem.sizes) && currentItem.sizes.length > 0 && (
+                    <div className="mb-5">
+                      <div className="text-[11px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1.5px] font-semibold mb-2">
+                        Select Size
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {currentItem.sizes.map((size, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setSelectedSizes(prev => ({ ...prev, [currentItem.id]: size }))}
+                            className={
+                              selectedSizes[currentItem.id] === size
+                                ? 'bg-sara-gold text-sara-dark border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                                : 'bg-sara-darkDeep text-sara-muted border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                            }
+                          >
+                            {size}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   
-                  <hr style={{ border: 'none', borderTop: '1px solid rgba(223, 186, 107, 0.15)', margin: '1rem 0' }} />
+                  <hr className="border-none border-t border-[rgba(214,178,106,0.15)] my-4" />
                   
-                  <p style={{ color: 'rgba(243, 240, 234, 0.8)', lineHeight: '1.6', fontSize: '0.95rem', marginBottom: '1.5rem' }}>
+                  <p className="text-sara-muted leading-6 text-[0.95rem] mb-6">
                     {currentItem.desc}
                   </p>
 
-                  <h4 style={{ color: '#dfba6b', textTransform: 'uppercase', fontSize: '0.85rem', letterSpacing: '1px', marginBottom: '0.5rem' }}>
+                  <h4 className="text-sara-gold uppercase text-[0.85rem] tracking-[1px] mb-2">
                     What this product includes:
                   </h4>
-                  <ul style={{ paddingLeft: '1.2rem', margin: '0 0 2rem 0', color: 'rgba(243, 240, 234, 0.75)', lineHeight: '1.7', fontSize: '0.9rem' }}>
+                  <ul className="pl-5 m-0 mb-8 text-sara-muted leading-7 text-[0.9rem]">
                     {Array.isArray(currentItem.inclusions) && currentItem.inclusions.map((inc, index) => (
-                      <li key={index} style={{ marginBottom: '0.4rem' }}>{inc}</li>
+                      <li key={index} className="mb-1.5">{inc}</li>
                     ))}
                   </ul>
                 </div>
@@ -563,22 +460,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     handleAddToCart(currentItem);
                     handleClosePopup();
                   }}
-                  style={{
-                    backgroundColor: '#dfba6b',
-                    color: '#0f0c1b',
-                    border: 'none',
-                    padding: '1rem 2rem',
-                    fontSize: '0.95rem',
-                    fontWeight: '600',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1.5px',
-                    cursor: 'pointer',
-                    width: '100%',
-                    borderRadius: '2px',
-                    transition: 'opacity 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                  className="bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-opacity hover:opacity-90"
                 >
                   Add To Cart
                 </button>

@@ -22,30 +22,18 @@ const formatProduct = (product) => {
 const DEFAULT_PRODUCTS = [
   // --- Crystals ---
   {
-    name: 'Rashi Crystal',
+    name: 'Rasi Crystal',
     price: 1500,
     type: 'Blessed & Energized',
-    category: 'Rashi',
-    desc: 'Harmonized for your specific zodiac sign (Rashi) to promote balance, aura cleansing, and positive celestial energy.',
-    image: '/rashi.png',
+    category: 'Rasi',
+    desc: 'Harmonized for your specific zodiac sign (Rasi) to promote balance, aura cleansing, and positive celestial energy.',
+    image: '/Raw-Amethyst-Geode.png',
     inclusions: [
       'Specially selected for your Rashi (Moon Sign)',
       'Spiritually cleansed and energized',
       'Couriered with sacred prasadham and care instructions'
-    ]
-  },
-  {
-    name: 'Dhanyog Crystal',
-    price: 1800,
-    type: 'Blessed & Energized',
-    category: 'Dhanyog',
-    desc: 'Attracts financial growth, stability, and wealth abundance. Perfect for offices, lockers, and cash registers.',
-    image: '/dhanyog.png',
-    inclusions: [
-      'Attracts wealth and success vibrations',
-      'Spiritually cleansed and energized by Sara',
-      'Couriered with sacred prasadham and activation guide'
-    ]
+    ],
+    sizes: ['6', '7', '8']
   },
   {
     name: 'Crystal Bracelet',
@@ -53,51 +41,13 @@ const DEFAULT_PRODUCTS = [
     type: 'Blessed & Energized',
     category: 'Bracelet',
     desc: 'Elegant and powerful healing crystal bead bracelet to protect your aura and maintain daily emotional peace.',
-    image: '/bracelet.png',
+    image: '/Rose-Quartz-Love-Bowl-Tumbles.png',
     inclusions: [
       'Premium hand-picked crystal beads',
       'Spiritually cleansed and energized for protection',
       'Couriered with sacred prasadham and care instructions'
-    ]
-  },
-  {
-    name: 'Karungali Malai / Bracelet',
-    price: 1600,
-    type: 'Blessed & Energized',
-    category: 'Karungali',
-    desc: 'Handcrafted black ebony wood beads to absorb negativity, enhance willpower, and shield against evil eye.',
-    image: '/karungali.png',
-    inclusions: [
-      'Authentic black ebony (Karungali) wood',
-      'Spiritually energized for shielding and confidence',
-      'Couriered with sacred prasadham'
-    ]
-  },
-  {
-    name: 'Blessed Rudraksh Bead',
-    price: 1000,
-    type: 'Blessed & Energized',
-    category: 'Rudraksh',
-    desc: 'Sacred natural Rudraksh bead representing Lord Shiva. Instills deep mental peace, focus, and health.',
-    image: '/rudraksh.png',
-    inclusions: [
-      'Sacred natural Rudraksh bead',
-      'Spiritually energized for health and meditation focus',
-      'Couriered with sacred prasadham and care guide'
-    ]
-  },
-  {
-    name: 'Energized Yantra',
-    price: 2000,
-    type: 'Blessed & Energized',
-    category: 'Yantra',
-    desc: 'Sacred geometry plate for homes/temples. Channellizes positive energy flows and repels dark vibrations.',
-    image: '/yantra.png',
-    inclusions: [
-      'Sacred geometric copper/brass yantra plate',
-      'Spiritually energized for home protection and harmony',
-      'Couriered with sacred prasadham and installation details'
-    ]
+    ],
+    sizes: ['6mm', '8mm', '10mm']
   },
   {
     name: 'Golden Pyrite',
@@ -105,12 +55,111 @@ const DEFAULT_PRODUCTS = [
     type: 'Blessed & Energized',
     category: 'Pyrite',
     desc: 'The golden stone of luck, abundance, and business growth. Ideal for work tables and wealth manifestation.',
-    image: '/pyrite.png',
+    image: '/Golden-Pyrite-Cluster.png',
     inclusions: [
       'High-grade golden Pyrite crystal',
       'Spiritually energized for wealth attraction',
       'Couriered with sacred prasadham and care instructions'
-    ]
+    ],
+    sizes: ['Small', 'Medium', 'Large']
+  },
+  {
+    name: 'Crystal Ring',
+    price: 1600,
+    type: 'Blessed & Energized',
+    category: 'Rings',
+    desc: 'Sacred energized crystal rings to keep positive vibrations in close contact with your personal energy paths throughout the day.',
+    image: '/crystal.jpg',
+    inclusions: [
+      'Premium high-grade energized crystal rings',
+      'Protects personal energy pathways',
+      'Couriered with sacred prasadham'
+    ],
+    sizes: ['6', '7', '8', '9']
+  },
+  {
+    name: 'Crystal Pendant',
+    price: 1400,
+    type: 'Blessed & Energized',
+    category: 'Pendants',
+    desc: 'Sacred crystal pendants charged to rest near your heart chakra, enhancing emotional healing, peace, and spiritual connection.',
+    image: '/Clear-Quartz-Generator-Point.png',
+    inclusions: [
+      'Energized heart-chakra connection pendant',
+      'Handcrafted natural gemstone pendant',
+      'Couriered with sacred prasadham'
+    ],
+    sizes: ['Standard']
+  },
+  {
+    name: 'Polished Tumbles',
+    price: 800,
+    type: 'Blessed & Energized',
+    category: 'Tumbles',
+    desc: 'Smooth, polished pocket crystals to carry for personal healing, continuous chakra balance, and daily focus.',
+    image: '/Raw-Black-Tourmaline-Shield.png',
+    inclusions: [
+      'Set of smooth, high-quality tumbles',
+      'Spiritually energized by Sara',
+      'Couriered with velvet carry pouch'
+    ],
+    sizes: ['100g', '200g', '500g']
+  },
+  {
+    name: 'Crystal Ball',
+    price: 3200,
+    type: 'Blessed & Energized',
+    category: 'Crystal balls',
+    desc: 'Perfectly spherical crystal balls to radiate healing energy evenly in all directions. Ideal for home and meditation spaces.',
+    image: '/Clear-Quartz-Generator-Point.png',
+    inclusions: [
+      'High-clarity energy crystal ball',
+      'Comes with a premium wooden display stand',
+      'Couriered with activation guide'
+    ],
+    sizes: ['40mm', '50mm', '60mm']
+  },
+  {
+    name: 'Pyrite Frame',
+    price: 4500,
+    type: 'Blessed & Energized',
+    category: 'Pyrite frames',
+    desc: 'Beautifully framed high-grade pyrite cluster to invite wealth, abundant business opportunities, and protection into your home or office.',
+    image: '/Golden-Pyrite-Cluster.png',
+    inclusions: [
+      'Authentic pyrite cluster mounted in elegant frame',
+      'Spiritually programmed for wealth manifest',
+      'Couriered with sacred thread and prasadham'
+    ],
+    sizes: ['5x5 inches', '6x6 inches']
+  },
+  {
+    name: 'Crystal Mala',
+    price: 2500,
+    type: 'Blessed & Energized',
+    category: 'Crystal mala',
+    desc: 'Sacred crystal prayer beads (108 beads) for mantra chanting, deep meditation, and continuous spiritual connection.',
+    image: '/crystal.jpg',
+    inclusions: [
+      '108 authentic crystal mala beads',
+      'Spiritually cleansed and energized by Sara',
+      'Couriered with sacred prasadham'
+    ],
+    sizes: ['108 Beads']
+  },
+  {
+    name: 'Crystal Tower',
+    price: 2200,
+    type: 'Blessed & Energized',
+    category: 'Crystal tower',
+    desc: 'Energized crystal towers to amplify intentions, direct healing cosmic energy upward, and cleanse your living space.',
+    image: '/Raw-Amethyst-Geode.png',
+    inclusions: [
+      'Hand-cut energetic crystal tower generator',
+      'Amplifies manifesting intentions',
+      'Couriered with sacred prasadham and care guide'
+    ],
+    sizes: ['2-3 inches', '3-4 inches']
   },
 
   // --- Tarot Private Consultation ---
@@ -236,6 +285,7 @@ const DEFAULT_PRODUCTS = [
     type: 'Voice Note Analysis',
     category: 'Murugar Cards',
     desc: 'Submit 2 specific questions. Receive deep insights, Murugan blessings, and practical remedies in a detailed voice note.',
+    image: '/card-1.jpg',
     inclusions: ['2 questions answered in depth', 'Murugan Vel remedies', 'WhatsApp audio format']
   },
 
@@ -339,7 +389,7 @@ const createProduct = async (req, res) => {
   console.log('req.body:', req.body);
   console.log('req.file:', req.file);
 
-  const { name, price, type, category, desc, image, inclusions } = req.body;
+  const { name, price, type, category, desc, image, inclusions, sizes } = req.body;
 
   if (!name || !price || !category) {
     return res.status(400).json({ message: 'Product name, price, and category are required' });
@@ -366,6 +416,15 @@ const createProduct = async (req, res) => {
       }
     }
 
+    let parsedSizes = sizes;
+    if (typeof sizes === 'string') {
+      try {
+        parsedSizes = JSON.parse(sizes);
+      } catch (e) {
+        parsedSizes = [];
+      }
+    }
+
     const newProduct = await Product.create({
       name,
       price: parseInt(price, 10),
@@ -374,7 +433,8 @@ const createProduct = async (req, res) => {
       desc,
       image: imageBuffer,
       imageMime,
-      inclusions: parsedInclusions
+      inclusions: parsedInclusions,
+      sizes: parsedSizes
     });
 
     res.status(201).json(formatProduct(newProduct));
@@ -390,7 +450,7 @@ const updateProduct = async (req, res) => {
   console.log('req.body:', req.body);
   console.log('req.file:', req.file);
 
-  const { name, price, type, category, desc, image, inclusions } = req.body;
+  const { name, price, type, category, desc, image, inclusions, sizes } = req.body;
 
   try {
     const product = await Product.findByPk(req.params.id);
@@ -426,6 +486,18 @@ const updateProduct = async (req, res) => {
       product.inclusions = parsedInclusions;
     }
 
+    if (sizes !== undefined) {
+      let parsedSizes = sizes;
+      if (typeof sizes === 'string') {
+        try {
+          parsedSizes = JSON.parse(sizes);
+        } catch (e) {
+          parsedSizes = product.sizes;
+        }
+      }
+      product.sizes = parsedSizes;
+    }
+
     await product.save();
     res.json(formatProduct(product));
   } catch (err) {
@@ -450,8 +522,23 @@ const deleteProduct = async (req, res) => {
   }
 };
 
+// Get single product by ID
+const getProductById = async (req, res) => {
+  try {
+    const product = await Product.findByPk(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+    res.json(formatProduct(product));
+  } catch (err) {
+    console.error('getProductById error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   getProducts,
+  getProductById,
   createProduct,
   updateProduct,
   deleteProduct

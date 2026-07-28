@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { LayoutDashboard, Globe, LogOut, Menu, X, ChevronDown, Settings } from 'lucide-react';
 
-const CRYSTAL_CATEGORIES_DEFAULT = ['Rashi', 'Dhanyog', 'Bracelet', 'Karungali', 'Rudraksh', 'Yantra', 'Pyrite', 'Rings', 'Anklets', 'Pendants'];
+const CRYSTAL_CATEGORIES_DEFAULT = ['Rasi', 'Bracelet', 'Pyrite', 'Rings', 'Pendants', 'Tumbles', 'Crystal balls', 'Pyrite frames', 'Crystal mala', 'Crystal tower'];
 const SERVICE_CATEGORIES_LEFT_DEFAULT = [
   'Tarot Private Consultation',
   'Spiritual Healing'

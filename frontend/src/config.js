@@ -24,7 +24,7 @@ const getLiveURL = () => {
 
 // Export as API_BASE_URL to match your current project's naming convention
 export const API_BASE_URL = isLocal 
-  ? "http://localhost:5000" // Ensure this port matches your local Node.js server port
+  ? "http://localhost:5001" // Ensure this port matches your local Node.js server port
   : getLiveURL();
 
 export default API_BASE_URL;

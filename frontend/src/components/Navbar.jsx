@@ -8,9 +8,9 @@ import { API_BASE_URL } from '../config';
 export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIsCartOpen }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [isOpen, setIsOpen] = useState(false); // Mobile menu toggle
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Desktop dropdown toggle
-  const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false); // Mobile sub-menu toggle
+  const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -23,7 +23,6 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
       });
   }, []);
 
-  // Select admin auth state from Redux
   const user = useSelector(state => state.auth.user);
 
   const handleLogout = () => {
@@ -31,12 +30,10 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
     navigate('/');
   };
 
-  // Calculate totals
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const itemsTotalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
   const grandTotal = itemsTotalAmount;
 
-  // Direct removal function for the drawer items
   const removeItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
   };
@@ -45,7 +42,6 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
     setCartItems([]);
   };
 
-  // Reusable Cart Icon SVG component
   const CartIcon = () => (
     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="9" cy="21" r="1"></circle>
@@ -54,7 +50,6 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
     </svg>
   );
 
-  // Dynamic dropdown categories logic
   const getCategoryPath = (cat) => {
     const name = cat.name.toLowerCase();
     if (name.includes('private consultation') || name.includes('consultation')) return '/products/tarot-consultation';
@@ -92,75 +87,24 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   }
 
   return (
-    <nav 
-      style={{
-        backgroundColor: '#0f0c1b',
-        borderBottom: '1px solid rgba(223, 186, 107, 0.15)',
-        width: '100%',
-        position: 'sticky',
-        top: 0,
-        zIndex: 1000,
-        boxSizing: 'border-box'
-      }}
-    >
-      <div 
-        style={{
-          maxWidth: '1240px',
-          margin: '0 auto',
-          padding: '0.5rem 2rem', 
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          boxSizing: 'border-box'
-        }}
-      >
+    <nav className="sticky top-0 z-[1000] w-full box-border bg-sara-dark border-b border-[rgba(223,186,107,0.15)]">
+      <div className="max-w-[1240px] mx-auto px-8 py-2 flex justify-between items-center box-border">
         {/* Brand Logo Identity */}
-        <Link 
-          to="/"
-          style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', textDecoration: 'none' }}
-        >
+        <Link to="/" className="flex items-center cursor-pointer no-underline">
           <img 
             src="/saraa-logo.jpeg" 
             alt="Saraa Tarot Logo" 
-            style={{
-              height: '85px', 
-              width: 'auto',
-              display: 'block',
-              borderRadius: '4px' 
-            }} 
+            className="h-[85px] w-auto block rounded" 
           />
         </Link>
 
         {/* Desktop & Tablet Navigation Menu */}
-        <div 
-          className="desktop-menu"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '2rem',
-          }}
-        >
-          <ul 
-            style={{
-              listStyle: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '2.25rem',
-              margin: 0,
-              padding: 0,
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '13px',
-              fontWeight: '400',
-              textTransform: 'uppercase',
-              letterSpacing: '1.5px'
-            }}
-          >
+        <div className="hidden lg:flex items-center gap-8">
+          <ul className="list-none flex items-center gap-9 m-0 p-0 font-sans text-[13px] font-normal uppercase tracking-[1.5px]">
             <li>
               <Link 
                 to="/" 
-                style={{ color: '#f3f0ea', textDecoration: 'none', transition: 'color 0.3s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#dfba6b'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#f3f0ea'}
+                className="text-sara-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 Home
               </Link>
@@ -170,16 +114,10 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li 
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
-              style={{ position: 'relative', padding: '1.5rem 0', cursor: 'pointer' }}
+              className="relative py-6 cursor-pointer"
             >
               <span 
-                style={{ 
-                  color: isDropdownOpen ? '#dfba6b' : '#f3f0ea', 
-                  transition: 'color 0.3s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px'
-                }}
+                className={`flex items-center gap-1.5 transition-colors duration-300 ${isDropdownOpen ? 'text-sara-gold' : 'text-sara-white'}`}
               >
                 Spiritual Services
                 <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
@@ -189,46 +127,12 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               
               {/* Dropdown Options */}
               {isDropdownOpen && (
-                <div 
-                  style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    backgroundColor: '#130f24',
-                    border: '1px solid rgba(223, 186, 107, 0.25)',
-                    borderRadius: '4px',
-                    width: '280px',
-                    padding: '0.75rem 0',
-                    boxShadow: '0 12px 30px rgba(0,0,0,0.6)',
-                    zIndex: 1100,
-                    display: 'flex',
-                    flexDirection: 'column',
-                    boxSizing: 'border-box'
-                  }}
-                >
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#130f24] border border-[rgba(223,186,107,0.25)] rounded w-[280px] py-3 shadow-[0_12px_30px_rgba(0,0,0,0.6)] z-[1100] flex flex-col box-border">
                   {dropdownItems.map((subItem) => (
                     <Link
                       key={subItem.path}
                       to={subItem.path}
-                      style={{
-                        padding: '0.75rem 1.5rem',
-                        color: '#f3f0ea',
-                        textDecoration: 'none',
-                        fontSize: '11px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        transition: 'all 0.2s ease',
-                        textAlign: 'left'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.1)';
-                        e.currentTarget.style.color = '#dfba6b';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.backgroundColor = 'transparent';
-                        e.currentTarget.style.color = '#f3f0ea';
-                      }}
+                      className="px-6 py-3 text-sara-white no-underline text-[11px] uppercase tracking-[1px] transition-colors duration-200 text-left hover:bg-[rgba(223,186,107,0.1)] hover:text-sara-gold"
                       onClick={() => setIsDropdownOpen(false)}
                     >
                       {subItem.label}
@@ -241,9 +145,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <Link 
                 to="/about" 
-                style={{ color: '#f3f0ea', textDecoration: 'none', transition: 'color 0.3s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#dfba6b'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#f3f0ea'}
+                className="text-sara-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 About
               </Link>
@@ -252,57 +154,29 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <Link 
                 to="/contact" 
-                style={{ color: '#f3f0ea', textDecoration: 'none', transition: 'color 0.3s ease' }}
-                onMouseEnter={(e) => e.currentTarget.style.color = '#dfba6b'}
-                onMouseLeave={(e) => e.currentTarget.style.color = '#f3f0ea'}
+                className="text-sara-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 Contact
               </Link>
             </li>
           </ul>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          <div className="flex items-center gap-4">
             {/* Login/Logout Action */}
             {user ? (
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
-                <span style={{ color: '#f3f0ea', fontFamily: "'Inter', sans-serif", fontSize: '12px', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+              <div className="flex items-center gap-5">
+                <span className="text-sara-white font-sans text-xs font-medium uppercase tracking-[0.5px]">
                   Hi, {user.name.split(' ')[0]}
                 </span>
                 <Link
                   to="/dashboard"
-                  style={{
-                    color: '#dfba6b',
-                    textDecoration: 'none',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: '600',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.color = '#f3f0ea'}
-                  onMouseLeave={(e) => e.currentTarget.style.color = '#dfba6b'}
+                  className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-sara-white"
                 >
                   Dashboard
                 </Link>
                 <button
                   onClick={handleLogout}
-                  style={{
-                    backgroundColor: 'transparent',
-                    color: '#dfba6b',
-                    border: '1px solid rgba(223, 186, 107, 0.4)',
-                    borderRadius: '2px',
-                    padding: '0.6rem 1.2rem',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '12px',
-                    fontWeight: '500',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.1)'}
-                  onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                  className="bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] rounded-sm px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-[rgba(223,186,107,0.1)]"
                 >
                   Logout
                 </button>
@@ -310,22 +184,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                style={{
-                  backgroundColor: '#dfba6b',
-                  color: '#0f0c1b',
-                  border: 'none',
-                  borderRadius: '2px',
-                  padding: '0.6rem 1.2rem',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '12px',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f3f0ea'}
-                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#dfba6b'}
+                className="bg-sara-gold text-sara-dark border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white"
               >
                 Login
               </button>
@@ -334,101 +193,32 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {/* Updated Cart Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              style={{
-                backgroundColor: 'rgba(223, 186, 107, 0.1)',
-                color: '#dfba6b',
-                border: '1px solid rgba(223, 186, 107, 0.3)',
-                borderRadius: '2px',
-                padding: '0.6rem 1.2rem',
-                fontFamily: "'Inter', sans-serif",
-                fontSize: '12px',
-                fontWeight: '500',
-                textTransform: 'uppercase',
-                letterSpacing: '1px',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '8px',
-                transition: 'all 0.3s ease'
-              }}
-              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.2)'}
-              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'rgba(223, 186, 107, 0.1)'}
+              className="bg-[rgba(223,186,107,0.1)] text-sara-gold border border-[rgba(223,186,107,0.3)] rounded-sm px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer flex items-center gap-2 transition-colors duration-300 hover:bg-[rgba(223,186,107,0.2)]"
             >
               <CartIcon />
               <span>Cart</span>
-              <span style={{
-                backgroundColor: '#dfba6b',
-                color: '#0f0c1b',
-                borderRadius: '50%',
-                width: '18px',
-                height: '18px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '10px',
-                fontWeight: '700'
-              }}>
+              <span className="bg-sara-gold text-sara-dark rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                 {totalItems}
               </span>
             </button>
           </div>
         </div>
 
-        <style>{`
-          @media (max-width: 991px) {
-            .desktop-menu { display: none !important; }
-            .mobile-toggle-box { display: flex !important; gap: 1rem; align-items: center; }
-          }
-          @media (min-width: 992px) {
-            .mobile-toggle-box { display: none !important; }
-            .mobile-menu-dropdown { display: none !important; }
-          }
-        `}</style>
-
         {/* Mobile & Tablet Action Corner */}
-        <div className="mobile-toggle-box" style={{ display: 'none' }}>
+        <div className="flex lg:hidden items-center gap-4">
           <button
             onClick={() => setIsCartOpen(true)}
-            style={{
-              backgroundColor: 'transparent',
-              color: '#dfba6b',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              position: 'relative',
-              padding: '8px'
-            }}
+            className="bg-transparent text-sara-gold border-none cursor-pointer flex items-center relative p-2"
           >
             <CartIcon />
-            <span style={{
-              position: 'absolute',
-              top: '-2px',
-              right: '-2px',
-              backgroundColor: '#dfba6b',
-              color: '#0f0c1b',
-              borderRadius: '50%',
-              width: '16px',
-              height: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '9px',
-              fontWeight: '700'
-            }}>
+            <span className="absolute -top-0.5 -right-0.5 bg-sara-gold text-sara-dark rounded-full w-4 h-4 flex items-center justify-center text-[9px] font-bold">
               {totalItems}
             </span>
           </button>
 
           <button 
             onClick={() => setIsOpen(!isOpen)}
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              color: '#dfba6b',
-              padding: '4px'
-            }}
+            className="bg-transparent border-none cursor-pointer text-sara-gold p-1"
           >
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               {isOpen ? <path d="M18 6L6 18M6 6l12 12" /> : <path d="M4 6h16M4 12h16M4 18h16" />}
@@ -439,34 +229,13 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
       {/* Mobile Menu Drawer */}
       {isOpen && (
-        <div 
-          className="mobile-menu-dropdown"
-          style={{
-            backgroundColor: '#130f24',
-            borderBottom: '1px solid rgba(223, 186, 107, 0.15)',
-            padding: '1.5rem 2rem',
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            width: '100%',
-            boxSizing: 'border-box',
-            zIndex: 999
-          }}
-        >
-          <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+        <div className="lg:hidden bg-[#130f24] border-b border-[rgba(223,186,107,0.15)] px-8 py-6 absolute top-full left-0 w-full box-border z-[999]">
+          <ul className="list-none m-0 p-0 flex flex-col gap-5">
             <li>
               <Link 
                 to="/"
                 onClick={() => setIsOpen(false)}
-                style={{
-                  color: '#f3f0ea',
-                  textDecoration: 'none',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  display: 'block'
-                }}
+                className="text-sara-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
                 Home
               </Link>
@@ -476,22 +245,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <button 
                 onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
-                style={{
-                  width: '100%',
-                  background: 'none',
-                  border: 'none',
-                  padding: 0,
-                  color: '#f3f0ea',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  textAlign: 'left'
-                }}
+                className="w-full bg-none border-none p-0 text-sara-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left"
               >
                 <span>Spiritual Services</span>
                 <svg 
@@ -501,10 +255,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   fill="none" 
                   stroke="currentColor" 
                   strokeWidth="2"
-                  style={{
-                    transform: isMobileProductsOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                    transition: 'transform 0.2s ease'
-                  }}
+                  className={`transition-transform duration-200 ${isMobileProductsOpen ? 'rotate-180' : 'rotate-0'}`}
                 >
                   <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -512,17 +263,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
               {/* Mobile Products Sub-menu Links */}
               {isMobileProductsOpen && (
-                <div 
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    gap: '0.9rem',
-                    padding: '0.8rem 0 0.2rem 1rem',
-                    borderLeft: '1px solid rgba(223, 186, 107, 0.2)',
-                    marginTop: '0.5rem',
-                    boxSizing: 'border-box'
-                  }}
-                >
+                <div className="flex flex-col gap-3.5 py-2 pl-4 border-l border-[rgba(223,186,107,0.2)] mt-2 box-border">
                   {dropdownItems.map((subItem) => (
                     <Link
                       key={subItem.path}
@@ -531,15 +272,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                         setIsOpen(false);
                         setIsMobileProductsOpen(false);
                       }}
-                      style={{
-                        color: 'rgba(243, 240, 234, 0.85)',
-                        textDecoration: 'none',
-                        fontFamily: "'Inter', sans-serif",
-                        fontSize: '12px',
-                        textTransform: 'uppercase',
-                        letterSpacing: '1px',
-                        display: 'block'
-                      }}
+                      className="text-[rgba(243,240,234,0.85)] no-underline font-sans text-xs uppercase tracking-[1px] block"
                     >
                       {subItem.label}
                     </Link>
@@ -552,15 +285,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <Link 
                 to="/about"
                 onClick={() => setIsOpen(false)}
-                style={{
-                  color: '#f3f0ea',
-                  textDecoration: 'none',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  display: 'block'
-                }}
+                className="text-sara-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
                 About
               </Link>
@@ -570,15 +295,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <Link 
                 to="/contact"
                 onClick={() => setIsOpen(false)}
-                style={{
-                  color: '#f3f0ea',
-                  textDecoration: 'none',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '14px',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  display: 'block'
-                }}
+                className="text-sara-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
                 Contact
               </Link>
@@ -586,8 +303,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             
             {user ? (
               <>
-                <li style={{ marginTop: '0.5rem', textAlign: 'center' }}>
-                  <span style={{ color: '#f3f0ea', fontFamily: "'Inter', sans-serif", fontSize: '13px', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                <li className="mt-2 text-center">
+                  <span className="text-sara-white font-sans text-[13px] font-medium uppercase tracking-[0.5px]">
                     Hi, {user.name}
                   </span>
                 </li>
@@ -595,18 +312,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   <Link 
                     to="/dashboard"
                     onClick={() => setIsOpen(false)}
-                    style={{
-                      display: 'block',
-                      textAlign: 'center',
-                      color: '#dfba6b',
-                      textDecoration: 'none',
-                      padding: '0.8rem',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      textTransform: 'uppercase',
-                      letterSpacing: '1px'
-                    }}
+                    className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
                   >
                     Dashboard
                   </Link>
@@ -614,22 +320,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 <li>
                   <button 
                     onClick={() => { setIsOpen(false); handleLogout(); }}
-                    style={{
-                      width: '100%',
-                      backgroundColor: 'transparent',
-                      color: '#dfba6b',
-                      border: '1px solid rgba(223, 186, 107, 0.4)',
-                      padding: '0.8rem',
-                      fontFamily: "'Inter', sans-serif",
-                      fontSize: '13px',
-                      fontWeight: '600',
-                      textTransform: 'uppercase',
-                      letterSpacing: '1px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center'
-                    }}
+                    className="w-full bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                   >
                     Logout
                   </button>
@@ -639,63 +330,21 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <li>
                 <button 
                   onClick={() => { setIsOpen(false); navigate('/login'); }}
-                  style={{
-                    width: '100%',
-                    backgroundColor: '#dfba6b',
-                    color: '#0f0c1b',
-                    border: 'none',
-                    padding: '0.8rem',
-                    fontFamily: "'Inter', sans-serif",
-                    fontSize: '13px',
-                    fontWeight: '600',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}
+                  className="w-full bg-sara-gold text-sara-dark border-0 py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                 >
                   Login
                 </button>
               </li>
             )}
 
-            <li style={{ marginTop: '0.75rem' }}>
+            <li className="mt-3">
               <button 
                 onClick={() => { setIsOpen(false); setIsCartOpen(true); }}
-                style={{
-                  width: '100%',
-                  backgroundColor: 'rgba(223, 186, 107, 0.1)',
-                  color: '#dfba6b',
-                  border: '1px solid rgba(223, 186, 107, 0.3)',
-                  padding: '0.8rem',
-                  fontFamily: "'Inter', sans-serif",
-                  fontSize: '13px',
-                  fontWeight: '600',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: '8px'
-                }}
+                className="w-full bg-[rgba(223,186,107,0.1)] text-sara-gold border border-[rgba(223,186,107,0.3)] py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center gap-2"
               >
                 <CartIcon />
                 <span>Cart</span>
-                <span style={{
-                  backgroundColor: '#dfba6b',
-                  color: '#0f0c1b',
-                  borderRadius: '50%',
-                  width: '18px',
-                  height: '18px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: '10px',
-                  fontWeight: '700'
-                }}>
+                <span className="bg-sara-gold text-sara-dark rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                   {totalItems}
                 </span>
               </button>
@@ -710,95 +359,58 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
           {/* Dark Blurred Backdrop Overlay */}
           <div 
             onClick={() => setIsCartOpen(false)}
-            style={{
-              position: 'fixed',
-              top: 0,
-              left: 0,
-              width: '100vw',
-              height: '100vh',
-              backgroundColor: 'rgba(0, 0, 0, 0.6)',
-              backdropFilter: 'blur(4px)',
-              zIndex: 2000
-            }}
+            className="fixed inset-0 w-screen h-screen bg-black/60 backdrop-blur-sm z-[2000]"
           />
 
           {/* Drawer Panel Container */}
-          <div 
-            style={{
-              position: 'fixed',
-              top: 0,
-              right: 0,
-              width: '100%',
-              maxWidth: '420px',
-              height: '100vh',
-              backgroundColor: '#130f24',
-              borderLeft: '1px solid rgba(223, 186, 107, 0.2)',
-              boxShadow: '-10px 0 30px rgba(0,0,0,0.5)',
-              zIndex: 2001,
-              display: 'flex',
-              flexDirection: 'column',
-              fontFamily: "'Inter', sans-serif",
-              color: '#f3f0ea',
-              boxSizing: 'border-box'
-            }}
-          >
+          <div className="fixed top-0 right-0 w-full max-w-[420px] h-screen bg-[#130f24] border-l border-[rgba(223,186,107,0.2)] shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-[2001] flex flex-col font-sans text-sara-white box-border">
             {/* Drawer Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', borderBottom: '1px solid rgba(223, 186, 107, 0.15)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ fontSize: '18px', fontWeight: '600', letterSpacing: '0.5px' }}>My Cart</span>
-                <span style={{ backgroundColor: 'rgba(223, 186, 107, 0.15)', color: '#dfba6b', padding: '2px 8px', borderRadius: '12px', fontSize: '12px', fontWeight: '500' }}>
+            <div className="flex justify-between items-center p-6 border-b border-[rgba(223,186,107,0.15)]">
+              <div className="flex items-center gap-3">
+                <span className="text-lg font-semibold tracking-[0.5px]">My Cart</span>
+                <span className="bg-[rgba(223,186,107,0.15)] text-sara-gold px-2 py-0.5 rounded-xl text-xs font-medium">
                   {totalItems} {totalItems === 1 ? 'Item' : 'Items'}
                 </span>
               </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+              <div className="flex items-center gap-4">
                 {cartItems.length > 0 && (
-                  <button onClick={clearCart} style={{ background: 'none', border: 'none', color: '#a09ba2', fontSize: '12px', cursor: 'pointer', textDecoration: 'underline' }}>
+                  <button onClick={clearCart} className="bg-none border-none text-[#a09ba2] text-xs cursor-pointer underline">
                     Clear All
                   </button>
                 )}
-                <button onClick={() => setIsCartOpen(false)} style={{ background: 'none', border: 'none', color: '#dfba6b', cursor: 'pointer', fontSize: '20px' }}>
+                <button onClick={() => setIsCartOpen(false)} className="bg-none border-none text-sara-gold cursor-pointer text-xl">
                   ✕
                 </button>
               </div>
             </div>
 
             {/* Drawer Dynamic Body Scroll List */}
-            <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem' }}>
+            <div className="flex-1 overflow-y-auto p-6">
               {cartItems.length === 0 ? (
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60%', color: '#a09ba2' }}>
+                <div className="flex flex-col items-center justify-center h-[60%] text-[#a09ba2]">
                   <CartIcon />
-                  <p style={{ marginTop: '1rem', fontSize: '14px' }}>Your cart is empty.</p>
+                  <p className="mt-4 text-sm">Your cart is empty.</p>
                 </div>
               ) : (
                 cartItems.map((item) => (
-                  <div key={item.id} style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', paddingBottom: '1.25rem', borderBottom: '1px solid rgba(255,255,255,0.05)', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                  <div key={item.id} className="flex gap-4 mb-5 pb-5 border-b border-[rgba(255,255,255,0.05)] items-center justify-between">
+                    <div className="flex gap-4 items-center">
                       <img 
                         src={item.image || "/placeholder-item.jpg"} 
                         alt={item.name} 
-                        style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '4px', border: '1px solid rgba(223, 186, 107, 0.1)' }} 
+                        className="w-[60px] h-[60px] object-cover rounded border border-[rgba(223,186,107,0.1)]" 
                       />
                       <div>
-                        <h4 style={{ margin: '0 0 4px 0', fontSize: '14px', fontWeight: '500', color: '#f3f0ea' }}>{item.name}</h4>
-                        <p style={{ margin: 0, fontSize: '13px', color: '#dfba6b', fontWeight: '600' }}>
+                        <h4 className="m-0 mb-1 text-sm font-medium text-sara-white">{item.name}</h4>
+                        <p className="m-0 text-[13px] text-sara-gold font-semibold">
                           ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                         </p>
                       </div>
                     </div>
 
-                    {/* Red Removal button instead of adjustment switches */}
                     <button 
                       onClick={() => removeItem(item.id)}
-                      style={{ 
-                        background: 'none', 
-                        border: 'none', 
-                        color: '#ef5353', 
-                        cursor: 'pointer', 
-                        fontSize: '16px', 
-                        padding: '4px', 
-                        display: 'flex', 
-                        alignItems: 'center' 
-                      }}
+                      className="bg-none border-none text-[#ef5353] cursor-pointer text-base p-1 flex items-center"
                       title="Remove item"
                     >
                       ✕
@@ -810,17 +422,17 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
             {/* Drawer Footer Bill Structure */}
             {cartItems.length > 0 && (
-              <div style={{ padding: '1.5rem', backgroundColor: '#0c0917', borderTop: '1px solid rgba(223, 186, 107, 0.15)' }}>
-                <h5 style={{ margin: '0 0 1rem 0', fontSize: '13px', textTransform: 'uppercase', letterSpacing: '0.5px', color: '#a09ba2' }}>Bill Details</h5>
+              <div className="p-6 bg-[#0c0917] border-t border-[rgba(223,186,107,0.15)]">
+                <h5 className="m-0 mb-4 text-[13px] uppercase tracking-[0.5px] text-[#a09ba2]">Bill Details</h5>
                 
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '1rem' }}>
-                  <span style={{ color: '#a09ba2' }}>Items Total</span>
+                <div className="flex justify-between text-[13px] mb-4">
+                  <span className="text-[#a09ba2]">Items Total</span>
                   <span>₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
                 </div>
 
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '15px', fontWeight: '600', borderTop: '1px dashed rgba(223, 186, 107, 0.2)', paddingTop: '1rem', marginBottom: '1.5rem' }}>
-                  <span style={{ color: '#dfba6b' }}>To Pay</span>
-                  <span style={{ color: '#dfba6b' }}>₹{grandTotal.toLocaleString('en-IN')}</span>
+                <div className="flex justify-between text-[15px] font-semibold border-t border-dashed border-[rgba(223,186,107,0.2)] pt-4 mb-6">
+                  <span className="text-sara-gold">To Pay</span>
+                  <span className="text-sara-gold">₹{grandTotal.toLocaleString('en-IN')}</span>
                 </div>
 
                 {/* Primary Proceed Action button */}
@@ -829,26 +441,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                     setIsCartOpen(false);
                     navigate('/checkout');
                   }}
-                  style={{
-                    width: '100%',
-                    backgroundColor: '#dfba6b',
-                    color: '#0f0c1b',
-                    border: 'none',
-                    borderRadius: '4px',
-                    padding: '1rem',
-                    fontSize: '14px',
-                    fontWeight: '700',
-                    textTransform: 'uppercase',
-                    letterSpacing: '1px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    boxSizing: 'border-box',
-                    transition: 'opacity 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-                  onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                  className="w-full bg-sara-gold text-sara-dark border-0 rounded p-4 text-sm font-bold uppercase tracking-[1px] cursor-pointer flex justify-between items-center box-border transition-opacity duration-200 hover:opacity-90"
                 >
                   <span>Proceed to Checkout</span>
                   <span>₹{grandTotal.toLocaleString('en-IN')} ➔</span>

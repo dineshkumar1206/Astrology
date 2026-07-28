@@ -1,321 +1,262 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 
-const SERVICES_DATA = [
-  {
-    id: 'basic-growth',
-    title: 'Basic Kali Pooja for Growth',
-    price: 2001,
-    tagline: 'With Prasadham included',
-    image: '/card-1.jpg',
-    description: 'A powerful monthly Amavasya pooja dedicated to removing stagnation and inviting positive energy, success, and spiritual/material growth into your life.',
-    inclusions: ['Personalized Sankalpam (Intent)', 'Archana and Aarti', 'Sacred Prasadham couriered to your address']
-  },
-  {
-    id: 'relationship',
-    title: 'Relationship Problems Pooja',
-    price: 3001,
-    tagline: 'Heal and harmonize your bonds',
-    image: '/card-2.jpg',
-    description: 'Specially performed during Amavasya to clear misunderstandings, dissolve negative energies between couples or family members, and restore peace and affection.',
-    inclusions: ['Specific prayers for relationship healing', 'Dosha Nivaran mantras', 'Blessed thread/Prasadham']
-  },
-  {
-    id: 'business-kali',
-    title: 'Business Kali Pooja',
-    price: 5001,
-    tagline: 'With Prasadham included',
-    image: '/card-3.jpg',
-    description: 'Designed for entrepreneurs, business owners, and professionals. This ritual invokes Goddess Kali to eliminate corporate evil-eyes, overcome financial blocks, and attract wealth.',
-    inclusions: ['Vyapaar Vridhi Sankalpam', 'Obstacle removal rituals', 'Energized Business Prasadham kit']
-  },
-  {
-    id: 'black-magic-single',
-    title: 'Black Magic Protection Pooja (Individual)',
-    price: 30000,
-    tagline: 'With complete protection materials & prasadham',
-    image: '/card-4.jpg',
-    description: 'A deeply intensive, protective ritual tailored for one individual struggling with severe negativity, unexplained psychological weight, or dark energy interference.',
-    inclusions: ['Individual specialized protection shield (Kavach)', 'Purification rituals using premium samagri', 'Complete customized protection items & Prasadham']
-  },
-  {
-    id: 'black-magic-family',
-    title: 'Black Magic Protection Pooja (Family)',
-    price: 50000,
-    tagline: 'Complete protection shield for the whole family',
-    image: '/card-5.jpg',
-    description: 'An expansive and powerful household-level ritual that cleanses your entire living space and creates an unbreakable protective aura around all family members.',
-    inclusions: ['Full family lineage protection Sankalpam', 'Home negative energy purging rituals', 'Comprehensive protective items & Prasadham pack for all members']
-  }
-];
-
-// ==========================================
-// FRAMER MOTION CONFIG
-// ==========================================
 const fadeInUpVariants = {
   hidden: { opacity: 0, y: 30 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
-    transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } 
+    transition: { duration: 0.6, ease: [0.25, 1, 0.5, 1] }
   }
 };
 
+const CATEGORY_SECTIONS = [
+  { title: 'Crystals', viewAllPath: '/products/crystals', filterType: 'crystal' },
+  { title: 'Murugar Card Deck', viewAllPath: '/products/murugar-cards', categoryName: 'Murugar Cards' },
+  { title: 'Tarot Private Consultation', viewAllPath: '/products/tarot-consultation', categoryName: 'Tarot Private Consultation' },
+  { title: 'Spiritual Healing', viewAllPath: '/products/spiritual-healing', categoryName: 'Spiritual Healing' },
+  { title: 'Kali Pooja', viewAllPath: '/products/kali-pooja', categoryName: 'Kali Pooja' },
+  { title: 'Tarot Card Reading', viewAllPath: '/products/tarot-classes', categoryName: 'Tarot Card Reading' },
+  { title: 'Spiritual Counseling', viewAllPath: '/products/counseling-classes', categoryName: 'Spiritual Counseling' },
+];
+
+const FALLBACK_IMAGES = {
+  'crystal': '/crystal.jpg',
+  'murugar cards': '/card-1.jpg',
+  'tarot private consultation': '/tarot.jpg',
+  'spiritual healing': '/meditation.jpg',
+  'kali pooja': '/card-3.jpg',
+  'tarot card reading': '/tarot.jpg',
+  'spiritual counseling': '/meditation.jpg',
+};
+
+function ScrollableCarousel({ children }) {
+  const scrollRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => setIsDragging(false);
+
+  return (
+    <div
+      ref={scrollRef}
+      className="flex gap-6 overflow-x-auto pb-4 scroll-smooth"
+      style={{
+        scrollbarWidth: 'thin',
+        scrollbarColor: 'rgba(214,178,106,0.2) transparent',
+        cursor: isDragging ? 'grabbing' : 'grab',
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
+    >
+      {children}
+    </div>
+  );
+}
+
+function getProductImage(product, categoryFallbacks) {
+  if (product.image && !product.image.startsWith('/') && !product.image.endsWith('.png')) {
+    return product.image;
+  }
+  if (product.image) {
+    return product.image;
+  }
+  const catLower = (product.category || '').toLowerCase();
+  return categoryFallbacks[catLower] || '/saraa-logo.jpeg';
+}
+
 export default function Products({ cart = [], setCart, setIsCartOpen }) {
-  const navigate = useNavigate();
-  const [activeServiceId, setActiveServiceId] = useState(null);
-  const [servicesData, setServicesData] = useState([]);
+  const [allProducts, setAllProducts] = useState([]);
+  const [crystalCategoryNames, setCrystalCategoryNames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchServices = async () => {
+    const fetchData = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/products?category=Kali Pooja`);
-        const mapped = res.data.map(p => ({
-          id: p.id,
-          title: p.name,
-          price: p.price,
-          tagline: p.type || 'Blessed & Energized',
-          image: p.image || '/saraa-logo.jpeg',
-          description: p.desc || '',
-          inclusions: Array.isArray(p.inclusions) ? p.inclusions : []
-        }));
-        setServicesData(mapped);
+        const [prodRes, catRes] = await Promise.all([
+          axios.get(`${API_BASE_URL}/api/products`),
+          axios.get(`${API_BASE_URL}/api/categories`)
+        ]);
+        setAllProducts(prodRes.data);
+        const crystalNames = catRes.data
+          .filter(c => c.type === 'crystal')
+          .map(c => c.name.toLowerCase());
+        setCrystalCategoryNames(crystalNames);
       } catch (err) {
-        console.error('Failed to fetch Kali Pooja products for homepage. Using fallback.', err);
-        const fallbacks = SERVICES_DATA.map(s => ({
-          ...s,
-          inclusions: Array.isArray(s.inclusions) ? s.inclusions : []
-        }));
-        setServicesData(fallbacks);
+        console.error('Failed to fetch products for homepage:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchServices();
+    fetchData();
   }, []);
 
-  const handleAddToCart = (service, e) => {
-    e.stopPropagation(); 
-    if (setCart) {
-      const existingItem = cart.find((item) => item.id === service.id);
-      if (existingItem) {
-        setCart(
-          cart.map((item) =>
-            item.id === service.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          )
-        );
-      } else {
-        setCart([
-          ...cart,
-          {
-            id: service.id,
-            name: service.title,
-            price: service.price,
-            image: service.image,
-            quantity: 1
-          }
-        ]);
-      }
+  const getProductsForSection = (section) => {
+    if (section.filterType === 'crystal') {
+      return allProducts.filter(p =>
+        p.category && crystalCategoryNames.includes(p.category.toLowerCase())
+      );
+    }
+    return allProducts.filter(p =>
+      p.category && p.category.toLowerCase() === (section.categoryName || '').toLowerCase()
+    );
+  };
+
+  const handleAddToCart = (product, e) => {
+    e.stopPropagation();
+    if (!setCart) return;
+
+    const existingItem = cart.find((item) => item.id === product.id);
+    if (existingItem) {
+      setCart(
+        cart.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        )
+      );
+    } else {
+      setCart([
+        ...cart,
+        {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: getProductImage(product, FALLBACK_IMAGES),
+          quantity: 1
+        }
+      ]);
     }
     if (setIsCartOpen) {
       setIsCartOpen(true);
     }
   };
 
-  const handleOpenPopup = (serviceId, e) => {
-    e.stopPropagation(); 
-    setActiveServiceId(serviceId);
-  };
-
-  const handleClosePopup = () => {
-    setActiveServiceId(null);
-  };
-
-  const currentService = servicesData.find(s => s.id === activeServiceId);
-
   return (
-    <div id="products-section" className="relative bg-[#0f0c1b] min-h-screen text-[#f3f0ea] font-['Inter',sans-serif]">
-      
-      {/* --- SERVICE GRID PAGE --- */}
-      <motion.div 
+    <div id="products-section" className="relative font-sans py-20 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(67,32,78,0.12)_0%,transparent_70%),linear-gradient(180deg,#0B1225_0%,#161330_50%,#0B1225_100%)]">
+
+      <motion.div
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ staggerChildren: 0.12 }}
-        className="max-w-[1240px] mx-auto py-12 px-8"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeInUpVariants}
+        className="max-w-[1240px] mx-auto px-8 mb-14 text-center"
       >
-        <motion.div variants={fadeInUpVariants} className="text-center mb-14">
-          <h1 className="text-[#dfba6b] text-4xl font-light uppercase tracking-[2px] mb-2">
-            Amavasya Monthly Pooja
-          </h1>
-          <p className="text-[#f3f0ea]/60 text-base tracking-[0.5px]">
-            Select a sacred ritual to invoke divine blessings, protection, and transformation.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-10">
-          {loading ? (
-            <div className="col-span-full text-center py-20 text-[#dfba6b]">
-              Loading pooja offerings...
-            </div>
-          ) : servicesData.length === 0 ? (
-            <div className="col-span-full text-center py-20 text-[#f3f0ea]/60 border border-dashed border-[#dfba6b]/25 rounded">
-              No pooja offerings found.
-            </div>
-          ) : (
-            servicesData.map((service) => (
-              <motion.div 
-                key={service.id}
-                variants={fadeInUpVariants}
-                onClick={(e) => handleOpenPopup(service.id, e)}
-                className="bg-[#130f24] border border-[#dfba6b]/15 rounded cursor-pointer overflow-hidden flex flex-col justify-between transition-all duration-300 ease-in-out hover:border-[#dfba6b]/50 hover:-translate-y-1"
-              >
-                {/* Card Image */}
-                <div className="w-full h-[220px] overflow-hidden relative">
-                  <img 
-                    src={service.image} 
-                    alt={service.title} 
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = '/saraa-logo.jpeg';
-                    }}
-                  />
-                  <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#130f24] to-transparent" />
-                </div>
-
-                {/* Card Content */}
-                <div className="p-6 flex-grow flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-[#f3f0ea] text-xl font-medium leading-tight m-0 mb-2">
-                      {service.title}
-                    </h3>
-                    <p className="text-[#dfba6b] text-[13.5px] italic tracking-[0.5px] m-0 mb-4">
-                      {service.tagline}
-                    </p>
-                  </div>
-
-                  <div>
-                    <div className="text-[#dfba6b] text-2xl font-semibold my-4">
-                      Rs. {service.price.toLocaleString('en-IN')}
-                    </div>
-
-                    <div className="flex gap-4 mt-4">
-                      <button 
-                        onClick={(e) => handleOpenPopup(service.id, e)}
-                        className="flex-1 bg-transparent text-[#dfba6b] border border-[#dfba6b]/40 p-[0.7rem] text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-[#dfba6b]/10 hover:border-[#dfba6b]"
-                      >
-                        View Details
-                      </button>
-                      <button 
-                        onClick={(e) => handleAddToCart(service, e)}
-                        className="flex-1 bg-[#dfba6b] text-[#0f0c1b] border-none p-[0.7rem] text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer hover:bg-[#c9a65b] transition-colors duration-200"
-                      >
-                        Add To Cart
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))
-          )}
-        </div>
-
-        {/* See More button */}
-        <motion.div variants={fadeInUpVariants} className="flex justify-center mt-14">
-          <button
-            onClick={() => navigate('/products/kali-pooja')}
-            className="bg-transparent text-[#dfba6b] border border-[#dfba6b]/50 rounded-sm py-[0.9rem] px-[2.2rem] text-[13px] font-semibold uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 ease hover:bg-[#dfba6b]/10 hover:border-[#dfba6b] hover:-translate-y-0.5"
-          >
-            See More
-          </button>
-        </motion.div>
+        <h1 className="text-sara-gold text-4xl font-light uppercase tracking-[2px] mb-2 font-serif">
+          Our Collections
+        </h1>
+        <p className="text-sara-muted text-base tracking-[0.5px]">
+          Explore sacred crystals, spiritual services, divine readings, and healing sessions.
+        </p>
       </motion.div>
 
-      {/* --- DETAILS MODAL POPUP --- */}
-      {activeServiceId && currentService && (
-        <div 
-          onClick={handleClosePopup}
-          className="fixed inset-0 bg-[#0a0814]/85 backdrop-blur-sm flex items-center justify-center z-[2000] p-4"
-        >
-          {/* Modal Container */}
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
-            onClick={(e) => e.stopPropagation()} 
-            className="bg-[#130f24] border border-[#dfba6b]/25 rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
-          >
-            {/* Elegant Cross Closing Button */}
-            <button 
-              onClick={handleClosePopup}
-              className="absolute top-4 right-6 bg-transparent border-none text-[#dfba6b] text-4xl font-light cursor-pointer leading-none p-1 transition-transform duration-200 hover:scale-110"
-            >
-              &times;
-            </button>
-
-            {/* Content Split Layout */}
-            <div className="flex flex-row flex-wrap gap-10 mt-2">
-              
-              {/* Left Column: Image */}
-              <div className="flex-[1_1_350px]">
-                <img 
-                  src={currentService.image} 
-                  alt={currentService.title} 
-                  className="w-full rounded border border-[#dfba6b]/15 object-cover h-full min-h-[300px] max-h-[400px]"
-                />
-              </div>
-
-              {/* Right Column: Text & Pricing Info */}
-              <div className="flex-[1_2_400px] flex flex-col justify-between">
-                <div>
-                  <span className="text-[#dfba6b] uppercase text-xs tracking-[2px] font-semibold">
-                    Amavasya Special Ritual
-                  </span>
-                  <h2 className="text-[#f3f0ea] text-3xl font-light mt-2 mb-3 leading-tight">
-                    {currentService.title}
-                  </h2>
-                  <div className="text-[#dfba6b] text-3xl font-semibold mb-5">
-                    Rs. {currentService.price.toLocaleString('en-IN')}
-                  </div>
-                  
-                  <hr className="border-none border-t border-[#dfba6b]/15 my-4" />
-                  
-                  <p className="text-[#f3f0ea]/80 leading-relaxed text-[15px] mb-6">
-                    {currentService.description}
-                  </p>
-
-                  <h4 className="text-[#dfba6b] uppercase text-[13.5px] tracking-[1px] mb-2">
-                    What this offering includes:
-                  </h4>
-                  <ul className="pl-5 m-0 mb-8 text-[#f3f0ea]/75 leading-loose text-sm list-disc">
-                    {currentService.inclusions.map((inc, index) => (
-                      <li key={index} className="mb-1">{inc}</li>
-                    ))}
-                  </ul>
-                </div>
-
-                <button 
-                  onClick={(e) => {
-                    handleAddToCart(currentService, e);
-                    handleClosePopup(); 
-                  }}
-                  className="bg-[#dfba6b] text-[#0f0c1b] border-none py-4 px-8 text-[15px] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-opacity duration-200 hover:opacity-90"
-                >
-                  Book Pooja (Add to Cart)
-                </button>
-              </div>
-
-            </div>
-          </motion.div>
+      {loading ? (
+        <div className="text-center py-20 text-sara-gold text-sm tracking-wider">
+          Loading collections...
         </div>
+      ) : (
+        CATEGORY_SECTIONS.map((section, sIdx) => {
+          const sectionProducts = getProductsForSection(section);
+          if (sectionProducts.length === 0) return null;
+
+          return (
+            <motion.div
+              key={section.title}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.05 }}
+              variants={fadeInUpVariants}
+              className="max-w-[1240px] mx-auto px-8 mb-14"
+            >
+              <div className="flex items-end justify-between mb-6 border-b border-[rgba(214,178,106,0.15)] pb-4">
+                <h2 className="text-sara-gold text-2xl font-light uppercase tracking-[1.5px] m-0 font-serif">
+                  {section.title}
+                </h2>
+                <Link
+                  to={section.viewAllPath}
+                  className="text-sara-gold text-[11px] font-semibold uppercase tracking-[1.5px] no-underline border border-[rgba(214,178,106,0.3)] px-4 py-2 rounded-sm transition-all duration-300 hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
+                >
+                  View All
+                </Link>
+              </div>
+
+              <ScrollableCarousel>
+                {sectionProducts.map((product, idx) => {
+                  const imgSrc = getProductImage(product, FALLBACK_IMAGES);
+                  return (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.4, delay: idx * 0.06, ease: [0.25, 1, 0.5, 1] }}
+                      className="min-w-[260px] max-w-[260px] bg-sara-panel border border-[rgba(214,178,106,0.12)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)] select-none"
+                    >
+                      <div className="w-full h-[180px] overflow-hidden relative bg-sara-darkDeep">
+                        <img
+                          src={imgSrc}
+                          alt={product.name}
+                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';
+                          }}
+                        />
+                        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-sara-panel to-transparent" />
+                        <div className="absolute top-3 right-3 bg-[rgba(34,32,66,0.85)] border border-[rgba(214,178,106,0.25)] px-2.5 py-1 rounded text-[10px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
+                          {product.type}
+                        </div>
+                      </div>
+
+                      <div className="p-4 flex-grow flex flex-col justify-between">
+                        <div>
+                          <h3 className="text-white text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
+                            {product.name}
+                          </h3>
+                          <p className="text-sara-muted text-[12px] m-0 mb-3 line-clamp-2 leading-relaxed">
+                            {product.desc}
+                          </p>
+                        </div>
+
+                        <div>
+                          <div className="text-sara-gold text-xl font-semibold my-3">
+                            Rs. {product.price.toLocaleString('en-IN')}
+                          </div>
+                          <button
+                            onClick={(e) => handleAddToCart(product, e)}
+                            className="w-full bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold rounded-sm"
+                          >
+                            Add To Cart
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </ScrollableCarousel>
+            </motion.div>
+          );
+        })
       )}
     </div>
   );
