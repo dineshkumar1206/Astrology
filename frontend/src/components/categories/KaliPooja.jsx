@@ -64,7 +64,7 @@ export default function KaliPooja({ cart = [], setCart, setIsCartOpen }) {
     const fetchItems = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/products?category=Kali Pooja`);
-        setItems(res.data);
+        setItems(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error('Failed to fetch Kali Pooja products. Using fallback.', err);
         setItems(ITEMS_DATA);

@@ -25,13 +25,15 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
       setLoading(true);
       try {
         const catRes = await axios.get(`${API_BASE_URL}/api/categories`);
-        setCategories(catRes.data);
+        const catData = Array.isArray(catRes.data) ? catRes.data : [];
+        setCategories(catData);
 
-        const matched = catRes.data.find(c => c.slug === category);
+        const matched = catData.find(c => c.slug === category);
         if (matched) {
           setDynamicCat(matched);
           const prodRes = await axios.get(`${API_BASE_URL}/api/products`);
-          const filtered = prodRes.data.filter(p => p.category && p.category.toLowerCase() === matched.name.toLowerCase());
+          const prodData = Array.isArray(prodRes.data) ? prodRes.data : [];
+          const filtered = prodData.filter(p => p.category && p.category.toLowerCase() === matched.name.toLowerCase());
           setProducts(filtered);
         } else {
           setDynamicCat(null);

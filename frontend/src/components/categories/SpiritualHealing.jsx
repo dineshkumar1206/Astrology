@@ -52,7 +52,7 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
     const fetchItems = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/products?category=Spiritual Healing`);
-        setItems(res.data);
+        setItems(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error('Failed to fetch Spiritual Healing products. Using fallback.', err);
         setItems(ITEMS_DATA);

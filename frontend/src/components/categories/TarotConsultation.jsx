@@ -94,7 +94,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
     const fetchItems = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/products?category=Tarot Private Consultation`);
-        setItems(res.data);
+        setItems(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error('Failed to fetch Tarot consultation products. Using fallback.', err);
         setItems(ITEMS_DATA);

@@ -30,7 +30,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
     const fetchItems = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/products?category=Tarot Card Reading`);
-        setItems(res.data);
+        setItems(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error('Failed to fetch Tarot classes products. Using fallback.', err);
         setItems(ITEMS_DATA);

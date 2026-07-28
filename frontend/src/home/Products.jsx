@@ -99,13 +99,17 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
           axios.get(`${API_BASE_URL}/api/products`),
           axios.get(`${API_BASE_URL}/api/categories`)
         ]);
-        setAllProducts(prodRes.data);
-        const crystalNames = catRes.data
+        const products = Array.isArray(prodRes.data) ? prodRes.data : [];
+        const categories = Array.isArray(catRes.data) ? catRes.data : [];
+        setAllProducts(products);
+        const crystalNames = categories
           .filter(c => c.type === 'crystal')
           .map(c => c.name.toLowerCase());
         setCrystalCategoryNames(crystalNames);
       } catch (err) {
         console.error('Failed to fetch products for homepage:', err);
+        setAllProducts([]);
+        setCrystalCategoryNames([]);
       } finally {
         setLoading(false);
       }

@@ -83,13 +83,13 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
           axios.get(`${API_BASE_URL}/api/categories`)
         ]);
 
-        const crystalsList = catRes.data.filter(c => c.type === 'crystal');
+        const crystalsList = Array.isArray(catRes.data) ? catRes.data.filter(c => c.type === 'crystal') : [];
         setCrystalCategories(crystalsList);
 
         const crystalCatNames = crystalsList.map(c => c.name.toLowerCase());
-        const crystalItems = prodRes.data.filter(item => 
+        const crystalItems = Array.isArray(prodRes.data) ? prodRes.data.filter(item => 
           item.category && crystalCatNames.includes(item.category.toLowerCase())
-        );
+        ) : [];
         setItems(crystalItems);
       } catch (err) {
         console.error('Failed to load crystals from database. Using fallback seed data.', err);
