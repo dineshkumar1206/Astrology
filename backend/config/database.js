@@ -6,7 +6,7 @@ const { DB_HOST, DB_USER, DB_PASSWORD, DB_PORT, DB_NAME } = process.env;
 const isProduction = process.env.NODE_ENV === 'production' || 
                      (DB_USER && DB_USER.startsWith('amigoweb_'));
 
-const dbPort = isProduction ? 3306 : parseInt(DB_PORT || '3307', 10);
+const dbPort = parseInt(DB_PORT || '3306', 10);
 
 let resolvedDbName = DB_NAME || 'sara-tarot-DB';
 const dbUser = DB_USER || 'root';
