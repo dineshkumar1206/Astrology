@@ -3,15 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const COLORS = {
-  bg: '#0B1225',
-  bgDeep: '#161330',
-  panel: '#222042',
+  bg: '#F9F5FE',
+  bgDeep: '#E3CAFA',
+  panel: '#EDE0F7',
   gold: '#D6B26A',
   goldSoft: '#E8C985',
-  text: '#FFFFFF',
-  muted: '#CFCFCF',
-  purple: '#43204E',
-  accentPurple: '#6A3575',
+  text: '#2A1635',
+  muted: '#3E2F48',
+  purple: '#C4A5E8',
+  accentPurple: '#B891E0',
 };
 
 const ZODIAC_ICONS = {
@@ -243,15 +243,15 @@ export default function Hero() {
 
   return (
     <section
-      className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border text-sara-white bg-[radial-gradient(ellipse_60%_50%_at_75%_20%,rgba(106,53,117,0.25)_0%,rgba(67,32,78,0.10)_40%,transparent_70%),radial-gradient(ellipse_40%_35%_at_20%_70%,rgba(214,178,106,0.08)_0%,transparent_60%),linear-gradient(180deg,#0B1225_0%,#161330_100%)]"
+      className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border bg-[linear-gradient(135deg,#F9F5FE_0%,#E3CAFA_100%)]"
     >
       <div
         aria-hidden="true"
-        className="absolute -top-[10%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(106,53,117,0.22)_0%,transparent_70%)] blur-[60px] pointer-events-none z-0 animate-[floatGlowPurple_8s_ease-in-out_infinite]"
+        className="absolute -top-[10%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(196,165,232,0.25)_0%,transparent_70%)] blur-[60px] pointer-events-none z-0 animate-[floatGlowPurple_8s_ease-in-out_infinite]"
       />
       <div
         aria-hidden="true"
-        className="absolute bottom-[5%] left-[15%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.12)_0%,transparent_70%)] blur-[50px] pointer-events-none z-0 animate-[floatGlowGold_10s_ease-in-out_infinite]"
+        className="absolute bottom-[5%] left-[15%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.15)_0%,transparent_70%)] blur-[50px] pointer-events-none z-0 animate-[floatGlowGold_10s_ease-in-out_infinite]"
       />
 
       <div className="absolute -left-[190px] top-1/2 -translate-y-1/2 opacity-[0.04] pointer-events-none z-[1]">
@@ -270,10 +270,10 @@ export default function Hero() {
             className="m-0 mb-8 font-['Playfair_Display',Georgia,serif] font-normal leading-[1.15] tracking-[-0.5px]"
           >
             <div className="block whitespace-nowrap">
-              <span className="text-[clamp(42px,5.5vw,92px)] text-sara-white mr-5">
+              <span className="text-[clamp(42px,5.5vw,92px)] text-[#2A1635] mr-5">
                 Unlock
               </span>
-              <span className="text-[clamp(42px,5.5vw,92px)] text-sara-white tracking-[0.5px]">
+              <span className="text-[clamp(42px,5.5vw,92px)] text-[#2A1635] tracking-[0.5px]">
                 The Best
               </span>
             </div>
@@ -284,7 +284,7 @@ export default function Hero() {
 
           <motion.div
             variants={fadeInUpVariants}
-            className="text-sara-muted font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px]"
+            className="text-[#3E2F48] font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px]"
           >
             <p className="m-0">
               Discover insights, guidance, and clarity through personalized tarot readings.
@@ -299,11 +299,11 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           whileHover={{
             scale: 1.025,
-            boxShadow: '0 40px 80px rgba(67, 32, 78, 0.3)',
+            boxShadow: '0 40px 80px rgba(42, 22, 53, 0.15)',
             transition: { duration: 0.4, ease: 'easeOut' }
           }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
-          className="flex-[0_0_400px] max-w-[460px] relative rounded-[22px] overflow-hidden border border-[rgba(214,178,106,0.25)] bg-sara-darkDeep shadow-[0_30px_60px_rgba(67,32,78,0.3)] cursor-pointer max-lg:w-full max-lg:max-w-[320px] max-lg:flex-none max-lg:ml-0"
+          className="flex-[0_0_400px] max-w-[460px] relative rounded-[22px] overflow-hidden border border-[rgba(214,178,106,0.35)] bg-white shadow-[0_30px_60px_rgba(42,22,53,0.12)] cursor-pointer max-lg:w-full max-lg:max-w-[320px] max-lg:flex-none max-lg:ml-0"
         >
           <img
             src="/hero-1.png"
@@ -313,7 +313,7 @@ export default function Hero() {
 
           <button
             onClick={() => navigate('/products/tarot-consultation')}
-            className="absolute bottom-0 right-0 border-none py-[1.2rem] px-[2.5rem] font-['Poppins',sans-serif] text-[13px] font-medium uppercase tracking-[2px] cursor-pointer z-[15] bg-gradient-to-br from-sara-gold to-sara-goldSoft text-sara-dark transition-[transform,box-shadow,filter] duration-[350ms] ease-in-out hover:brightness-90 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)]"
+            className="absolute bottom-0 right-0 border-none py-[1.2rem] px-[2.5rem] font-['Poppins',sans-serif] text-[13px] font-medium uppercase tracking-[2px] cursor-pointer z-[15] bg-gradient-to-br from-sara-gold to-sara-goldSoft text-[#2A1635] transition-[transform,box-shadow,filter] duration-[350ms] ease-in-out hover:brightness-90 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)]"
           >
             Book A Reading
           </button>
@@ -322,7 +322,7 @@ export default function Hero() {
 
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-[10px] z-[6]">
         <span className="w-[7px] h-[7px] rounded-full bg-sara-gold transition-[background-color,transform] duration-300 ease-in-out" />
-        <span className="w-[7px] h-[7px] rounded-full bg-[rgba(255,255,255,0.2)] transition-[background-color,transform] duration-300 ease-in-out" />
+        <span className="w-[7px] h-[7px] rounded-full bg-[rgba(42,22,53,0.15)] transition-[background-color,transform] duration-300 ease-in-out" />
       </div>
     </section>
   );

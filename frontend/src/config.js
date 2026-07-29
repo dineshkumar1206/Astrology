@@ -12,14 +12,14 @@ const getLiveURL = () => {
   if (typeof window !== "undefined") {
     // If we're on the staging domain, use the hardcoded staging path
     if (window.location.hostname.includes("amigowebster.in")) {
-      return "https://amigowebster.in/sara-tarot";
+      return "https://amigowebster.in/astrology";
     }
     // Dynamic fallback for custom domains (e.g., if you move to www.saraatarot.com)
-    return window.location.origin + "/sara-tarot"; 
+    return window.location.origin + "/astrology"; 
   }
   
   // 3. Absolute fallback
-  return "https://amigowebster.in/sara-tarot";
+  return "https://amigowebster.in/astrology";
 };
 
 // Export as API_BASE_URL to match your current project's naming convention
