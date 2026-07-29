@@ -2,61 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import { useLanguage } from '../../context/LanguageContext';
 
-const CRYSTAL_CATEGORIES = [
-  {
-    name: 'Rasi',
-    desc: 'Specially energized crystals harmonized for your specific zodiac sign to bring balance and positive cosmic vibrations.',
-    image: '/Raw-Amethyst-Geode.png'
-  },
-  {
-    name: 'Bracelet',
-    desc: 'Beautifully crafted bead bracelets for daily energetic protection, emotional peace, and spiritual support.',
-    image: '/Rose-Quartz-Love-Bowl-Tumbles.png'
-  },
-  {
-    name: 'Pyrite',
-    desc: 'The golden stone of luck, abundance, and business growth. Ideal for work tables and wealth manifestation.',
-    image: '/Golden-Pyrite-Cluster.png'
-  },
-  {
-    name: 'Rings',
-    desc: 'Sacred energized crystal rings to keep positive vibrations in close contact with your personal energy paths throughout the day.',
-    image: '/crystal.jpg'
-  },
-  {
-    name: 'Pendants',
-    desc: 'Sacred crystal pendants charged to rest near your heart chakra, enhancing emotional healing, peace, and spiritual connection.',
-    image: '/Clear-Quartz-Generator-Point.png'
-  },
-  {
-    name: 'Tumbles',
-    desc: 'Smooth, polished crystal pocket stones for personal healing, chakra balance, and daily focus.',
-    image: '/Raw-Black-Tourmaline-Shield.png'
-  },
-  {
-    name: 'Crystal balls',
-    desc: 'Perfectly spherical crystal balls to radiate healing energy in all directions, ideal for home and meditation spaces.',
-    image: '/Clear-Quartz-Generator-Point.png'
-  },
-  {
-    name: 'Pyrite frames',
-    desc: 'Beautifully framed pyrite clusters to attract wealth, abundance, and protection into your home or office.',
-    image: '/Golden-Pyrite-Cluster.png'
-  },
-  {
-    name: 'Crystal mala',
-    desc: 'Sacred crystal prayer beads for mantra chanting, meditation, and continuous spiritual connection.',
-    image: '/crystal.jpg'
-  },
-  {
-    name: 'Crystal tower',
-    desc: 'Energized crystal towers to amplify intention, direct positive energy, and cleanse your living space.',
-    image: '/Raw-Amethyst-Geode.png'
-  }
+const CRYSTAL_IMAGES = [
+  '/Raw-Amethyst-Geode.png',
+  '/Rose-Quartz-Love-Bowl-Tumbles.png',
+  '/Golden-Pyrite-Cluster.png',
+  '/crystal.jpg',
+  '/Clear-Quartz-Generator-Point.png',
+  '/Raw-Black-Tourmaline-Shield.png',
+  '/Clear-Quartz-Generator-Point.png',
+  '/Golden-Pyrite-Cluster.png',
+  '/crystal.jpg',
+  '/Raw-Amethyst-Geode.png'
 ];
 
 export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
+  const { t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const subcategoryParam = searchParams.get('subcategory');
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -93,7 +55,11 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         setItems(crystalItems);
       } catch (err) {
         console.error('Failed to load crystals from database. Using fallback seed data.', err);
-        const fallbackList = CRYSTAL_CATEGORIES;
+        const fallbackCats = t('crystalsPage.categories');
+        const fallbackList = fallbackCats.map((cat, idx) => ({
+          ...cat,
+          image: CRYSTAL_IMAGES[idx] || '/saraa-logo.jpeg'
+        }));
         setCrystalCategories(fallbackList);
         const fallbacks = fallbackList.map((cat, idx) => ({
           id: `fallback-${idx}`,
@@ -122,7 +88,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
 
     if (healingPowerChecked) {
       finalPrice += 1000;
-      nameSuffix = ' (+ Extra Healing Power)';
+      nameSuffix = t('crystalsPage.healingSuffix');
     }
 
     const sizeKey = selectedSize ? `-${selectedSize}` : '';
@@ -180,7 +146,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         
         {/* Breadcrumbs */}
         <div className="mb-10 text-[13px] tracking-[0.5px]">
-          <Link to="/" className="text-sara-muted no-underline">Home</Link>
+          <Link to="/" className="text-sara-muted no-underline">{t('categoryCommon.home')}</Link>
           <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
           {selectedCategory ? (
             <>
@@ -188,28 +154,28 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                 onClick={() => setSearchParams({})} 
                 className="text-sara-muted cursor-pointer underline"
               >
-                Crystals
+                {t('crystalsPage.title')}
               </span>
               <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
               <span className="text-[#000000]">{selectedCategory}</span>
             </>
           ) : (
-            <span className="text-[#000000]">Crystals</span>
+            <span className="text-[#000000]">{t('crystalsPage.title')}</span>
           )}
         </div>
 
         {/* Header Section */}
         <div className="mb-12 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
-            SACRED GEOMETRY & ENERGY TOOLS
+            {t('crystalsPage.badge')}
           </span>
           <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
-            {selectedCategory ? `${selectedCategory} Collection` : 'Crystals'}
+            {selectedCategory ? `${selectedCategory} ${t('crystalsPage.collection')}` : t('crystalsPage.title')}
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] mb-8">
             {(() => {
               const catData = crystalCategories.find(c => c.name.toLowerCase() === (selectedCategory || '').toLowerCase());
-              return catData ? catData.desc : 'A curated selection of natural crystal categories, hand-selected, cleansed, and programmed with specific intentions by Sara to support your healing and manifest your desires.';
+              return catData ? catData.desc : t('crystalsPage.description');
             })()}
           </p>
 
@@ -223,7 +189,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   : 'bg-[rgba(214,178,106,0.05)] text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 px-5 rounded-[20px] text-xs font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-[rgba(214,178,106,0.15)]'
               }
             >
-              All Crystals
+              {t('crystalsPage.allCrystals')}
             </button>
             {crystalCategories.map((cat) => (
               <button
@@ -253,10 +219,10 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
             />
             <div>
               <div className="font-semibold text-sara-gold text-sm tracking-[0.5px]">
-                ADD HEALING POWER (+ Rs. 1,000)
+                {t('crystalsPage.healingLabel')}
               </div>
               <div className="text-xs text-sara-muted mt-0.5">
-                Cleanses, activates, and programs the crystal with extra spiritual healing powers tailored to your intentions.
+                {t('crystalsPage.healingDesc')}
               </div>
             </div>
           </div>
@@ -266,13 +232,13 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         <div className="w-full">
           {loading ? (
             <div className="flex justify-center py-20">
-              <span className="text-sara-gold text-[15px] tracking-[1px]">Loading products...</span>
+              <span className="text-sara-gold text-[15px] tracking-[1px]">{t('crystalsPage.loading')}</span>
             </div>
           ) : (
             <>
               {filteredItems.length === 0 ? (
                 <div className="text-center py-24 border border-dashed border-[rgba(214,178,106,0.15)] rounded">
-                  <p className="text-[rgba(207,207,207,0.6)] m-0">No products available in this category yet.</p>
+                  <p className="text-[rgba(207,207,207,0.6)] m-0">{t('crystalsPage.empty')}</p>
                 </div>
               ) : (
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-8">
@@ -321,7 +287,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                           {Array.isArray(item.sizes) && item.sizes.length > 0 && (
                             <div className="my-2">
                               <div className="text-[10px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1px] font-semibold mb-1.5">
-                                Select Size
+                                {t('crystalsPage.selectSize')}
                               </div>
                               <div className="flex flex-wrap gap-1.5">
                                 {item.sizes.map((size, idx) => (
@@ -349,7 +315,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                               onClick={(e) => handleOpenPopup(item.id, e)}
                               className="flex-1 bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-textDark"
                             >
-                              Details
+                              {t('crystalsPage.details')}
                             </button>
                             <button 
                               onClick={(e) => {
@@ -358,7 +324,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                               }}
                               className="flex-1 bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-textDark"
                             >
-                              Add To Cart
+                              {t('crystalsPage.addToCart')}
                             </button>
                           </div>
                         </div>
@@ -423,7 +389,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   {Array.isArray(currentItem.sizes) && currentItem.sizes.length > 0 && (
                     <div className="mb-5">
                       <div className="text-[11px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1.5px] font-semibold mb-2">
-                        Select Size
+                        {t('crystalsPage.selectSize')}
                       </div>
                       <div className="flex flex-wrap gap-2">
                         {currentItem.sizes.map((size, idx) => (
@@ -450,7 +416,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   </p>
 
                   <h4 className="text-sara-gold uppercase text-[0.85rem] tracking-[1px] mb-2">
-                    What this product includes:
+                    {t('crystalsPage.inclusions')}
                   </h4>
                   <ul className="pl-5 m-0 mb-8 text-sara-muted leading-7 text-[0.9rem]">
                     {Array.isArray(currentItem.inclusions) && currentItem.inclusions.map((inc, index) => (
@@ -466,7 +432,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   }}
                   className="bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-opacity hover:opacity-90"
                 >
-                  Add To Cart
+                  {t('crystalsPage.addToCart')}
                 </button>
               </div>
 

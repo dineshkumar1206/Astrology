@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const COLORS = {
   bg: '#F9F5FE',
@@ -18,6 +19,7 @@ const COLORS = {
 
 export default function Hero() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const fadeInUpVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -60,8 +62,8 @@ export default function Hero() {
             className="m-0 mb-8 font-sans font-bold leading-[1.15] tracking-[-0.5px]"
           >
             <span className="block text-[clamp(60px,8vw,100px)] leading-[1.05]">
-              <span className="text-black">Awaken Your </span>
-              <span className="text-sara-gold">Inner Wisdom</span>
+              <span className="text-black">{t('hero.titleFirst')}</span>
+              <span className="text-sara-gold">{t('hero.titleSecond')}</span>
             </span>
           </motion.h1>
 
@@ -70,9 +72,9 @@ export default function Hero() {
             className="text-[#3E2F48] font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px]"
           >
             <p className="m-0">
-              Step into the realm of Saraa Tarot and uncover the hidden truths waiting for you. Receive personalized intuitive readings designed to illuminate your path, heal your spirit, and empower your choices.
+              {t('hero.description')}
             </p>
-            <p className="m-0">Trust the cards, embrace the journey, and find your true North.</p>
+            <p className="m-0">{t('hero.tagline')}</p>
           </motion.div>
         </motion.div>
 
@@ -97,7 +99,7 @@ export default function Hero() {
             onClick={() => navigate('/products/tarot-consultation')}
             className="absolute bottom-0 right-0 border-none py-[1.2rem] px-[2.5rem] font-['Poppins',sans-serif] text-[13px] font-medium uppercase tracking-[2px] cursor-pointer z-[15] bg-gradient-to-br from-sara-gold to-sara-goldSoft text-[#2A1635] transition-[transform,box-shadow,filter] duration-[350ms] ease-in-out hover:brightness-90 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)]"
           >
-            Book A Reading
+            {t('hero.bookBtn')}
           </button>
         </motion.div>
       </div>

@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import ProductDetailModal from '../components/ProductDetailModal';
+import { useLanguage } from '../context/LanguageContext';
 
 const fadeInUpVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -85,6 +86,7 @@ function getProductImage(product, categoryFallbacks) {
 }
 
 export default function Products({ cart = [], setCart, setIsCartOpen }) {
+  const { t } = useLanguage();
   const [allProducts, setAllProducts] = useState([]);
   const [crystalCategoryNames, setCrystalCategoryNames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -172,16 +174,16 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
         className="max-w-[1240px] mx-auto px-8 mb-14 text-center"
       >
         <h1 className="text-sara-gold text-4xl font-bold uppercase tracking-[2px] mb-2 font-serif">
-          Our Collections
+          {t('products.title')}
         </h1>
         <p className="text-sara-muted text-base tracking-[0.5px]">
-          Explore sacred crystals, spiritual services, divine readings, and healing sessions.
+          {t('products.description')}
         </p>
       </motion.div>
 
       {loading ? (
         <div className="text-center py-20 text-sara-gold text-sm tracking-wider">
-          Loading collections...
+          {t('products.loading')}
         </div>
       ) : (
         CATEGORY_SECTIONS.map((section, sIdx) => {
@@ -205,7 +207,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                   to={section.viewAllPath}
                   className="text-sara-gold text-[11px] font-semibold uppercase tracking-[1.5px] no-underline border border-[rgba(214,178,106,0.3)] px-4 py-2 rounded-sm transition-all duration-300 hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
                 >
-                  View All
+                  {t('products.viewAll')}
                 </Link>
               </div>
 
@@ -256,7 +258,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                             onClick={(e) => handleAddToCart(product, e)}
                             className="w-full bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold rounded-sm flex items-center justify-center gap-1.5"
                           >
-                            <span>Add To Cart</span>
+                            <span>{t('products.addToCart')}</span>
                             <span className="text-[13px] font-normal leading-none">→</span>
                           </button>
                         </div>

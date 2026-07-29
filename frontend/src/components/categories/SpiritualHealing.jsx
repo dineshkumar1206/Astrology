@@ -2,48 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
+import { useLanguage } from '../../context/LanguageContext';
 
-const ITEMS_DATA = [
-  {
-    id: 'healing-relationship',
-    name: 'Relationship Healing Session',
-    price: 7000,
-    type: 'Duration: 40 minutes',
-    desc: 'Clears toxic residue, heals emotional wounds, and opens heart chakra channels to restore relationship peace.'
-  },
-  {
-    id: 'healing-money',
-    name: 'Money Attraction Healing',
-    price: 7000,
-    type: 'Duration: 40 minutes',
-    desc: 'Removes financial blockages, aligns root and solar plexus chakra frequencies to attract career growth and wealth.'
-  },
-  {
-    id: 'healing-peace',
-    name: 'Mental Peace & Aura Cleansing',
-    price: 7000,
-    type: 'Duration: 40 minutes',
-    desc: 'Dissolves stress, anxiety, and external negative vibes. Restores sleep cycles and mental clarity.'
-  },
-  {
-    id: 'healing-protection',
-    name: 'Protection Healing Shield',
-    price: 7000,
-    type: 'Duration: 40 minutes',
-    desc: 'Builds a protective auric shield to neutralize negative thoughts, evil eyes, and external psychic attacks.'
-  }
-];
 
-const POLICY_DATA = {
-  intro: 'Spiritual Healing Guidelines:',
-  points: [
-    'Conducted online via Zoom or WhatsApp video/audio call.',
-    'Includes pre-session energy scan and post-session guidelines.',
-    'Appointments scheduled within 10 days of payment confirmation. Express slots available (+Rs. 1,000).'
-  ]
-};
 
 export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) {
+  const { t } = useLanguage();
   const [expressChecked, setExpressChecked] = useState(false);
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -55,7 +19,7 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
         setItems(Array.isArray(res.data) ? res.data : []);
       } catch (err) {
         console.error('Failed to fetch Spiritual Healing products. Using fallback.', err);
-        setItems(ITEMS_DATA);
+        setItems(t('spiritualHealing.items'));
       } finally {
         setLoading(false);
       }
@@ -71,7 +35,7 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
 
     if (expressChecked) {
       finalPrice += 1000;
-      nameSuffix = ' (Express 24H)';
+      nameSuffix = t('categoryCommon.express24h');
     }
 
     const cartItemId = expressChecked ? `${item.id}-express` : item.id;
@@ -109,21 +73,21 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
         
         {/* Breadcrumbs */}
         <div className="mb-10 text-[13px] tracking-[0.5px]">
-          <Link to="/" className="text-sara-muted no-underline">Home</Link>
+          <Link to="/" className="text-sara-muted no-underline">{t('categoryCommon.home')}</Link>
           <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
-          <span className="text-[#000000]">Spiritual Healing</span>
+          <span className="text-[#000000]">{t('spiritualHealing.title')}</span>
         </div>
 
         {/* Header Section */}
         <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
-            RESTORE ENERGY AND HARMONY
+            {t('spiritualHealing.badge')}
           </span>
           <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
-            Spiritual Healing
+            {t('spiritualHealing.title')}
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
-            Experience deep energy cleansing and aura healing. Clear mental blockages, dissolve negative energies, and invite wealth, love, and protection into your life.
+            {t('spiritualHealing.description')}
           </p>
         </div>
 
@@ -132,7 +96,7 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
           {/* Items Listing Column */}
           <div className="flex-[2_1_600px]">
             <h3 className="text-sara-gold font-serif text-1.5rem mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
-              Available Bookings
+              {t('categoryCommon.availableBookings')}
             </h3>
 
             {/* Express Booking Toggle */}
@@ -148,10 +112,10 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
               />
               <div>
                 <div className="font-semibold text-sara-gold text-sm tracking-[0.5px]">
-                  ADD EXPRESS BOOKING (+ Rs. 1,000)
+                  {t('categoryCommon.expressLabel')}
                 </div>
                 <div className="text-xs text-sara-muted mt-0.5">
-                  Guarantees your appointment within 24 hours of payment verification (instead of the standard 10 days wait).
+                  {t('categoryCommon.expressDesc')}
                 </div>
               </div>
             </div>
@@ -159,11 +123,11 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
             <div className="flex flex-col gap-6">
               {loading ? (
                 <div className="text-center py-12 text-sara-gold">
-                  Loading offerings...
+                  {t('categoryCommon.loading')}
                 </div>
               ) : items.length === 0 ? (
                 <div className="text-center py-12 text-sara-muted">
-                  No offerings available.
+                  {t('categoryCommon.empty')}
                 </div>
               ) : (
                 items.map((item) => (
@@ -191,7 +155,7 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
                       onClick={() => handleAddToCart(item)}
                       className="bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full hover:bg-sara-gold hover:text-sara-textDark"
                     >
-                      Book & Add
+                      {t('categoryCommon.bookAdd')}
                     </button>
                   </div>
                 </div>
@@ -204,29 +168,27 @@ export default function SpiritualHealing({ cart = [], setCart, setIsCartOpen }) 
           <div className="flex-[1_1_300px]">
             <div className="bg-white border border-[rgba(214,178,106,0.25)] rounded-md p-8 sticky top-[120px] bg-gradient-to-b from-[rgba(214,178,106,0.02)] to-transparent">
               <h4 className="text-sara-gold font-serif text-[1.25rem] mb-5 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1px] uppercase">
-                Important Notes
+                {t('categoryCommon.importantNotes')}
               </h4>
               <p className="text-sara-muted text-[0.95rem] leading-6 mb-6">
-                {POLICY_DATA.intro}
+                {t('spiritualHealing.policyIntro')}
               </p>
               
               <ul className="pl-5 m-0 text-sara-muted leading-7 text-[0.9rem]">
-                {POLICY_DATA.points.map((pt, i) => (
-                  <li key={i} className="mb-3 list-square">
-                    {pt}
-                  </li>
-                ))}
+                  <li className="mb-3 list-square">{t('spiritualHealing.policy1')}</li>
+                  <li className="mb-3 list-square">{t('spiritualHealing.policy2')}</li>
+                  <li className="mb-3 list-square">{t('spiritualHealing.policy3')}</li>
               </ul>
 
               <div className="border-t border-[rgba(214,178,106,0.15)] mt-8 pt-6 text-center">
                 <span className="text-xs text-sara-muted block mb-4">
-                  All sessions require pre-payment verification.
+                  {t('categoryCommon.prePayment')}
                 </span>
                 <Link 
                   to="/checkout" 
                   className="block bg-transparent text-sara-gold border border-[rgba(214,178,106,0.5)] py-3 no-underline text-xs font-semibold uppercase tracking-[1px] transition-all hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
                 >
-                  View My Cart / Pay
+                  {t('categoryCommon.viewCart')}
                 </Link>
               </div>
             </div>

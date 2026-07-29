@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 const heroBg = "https://images.unsplash.com/photo-1632386221545-c1fc23ffcefb?auto=format&fit=crop&w=1920&q=80";
 
@@ -13,10 +14,11 @@ const fadeInUpVariants = {
 };
 
 export default function Contact() {
+  const { t } = useLanguage();
   const accordionItems = [
-    "Personal Consultations",
-    "Event Bookings",
-    "Media Inquiries"
+    t('contactPage.accordionItems.0'),
+    t('contactPage.accordionItems.1'),
+    t('contactPage.accordionItems.2')
   ];
 
   return (
@@ -37,13 +39,13 @@ export default function Contact() {
             variants={fadeInUpVariants}
             className="font-serif text-[clamp(54px,8vw,84px)] text-[#F4F0EA] m-0 mb-2 font-normal"
           >
-            Contact
+            {t('contactPage.title')}
           </motion.h1>
           <motion.p
             variants={fadeInUpVariants}
             className="font-sans text-[14px] text-sara-gold uppercase tracking-[2px] m-0"
           >
-            Saraa Tarot | Cosmic Guidance
+            {t('contactPage.subtitle')}
           </motion.p>
         </motion.div>
 
@@ -66,11 +68,11 @@ export default function Contact() {
           <div className="flex-1 w-full lg:min-w-[500px] lg:max-w-[600px] z-10">
 
             <motion.p variants={fadeInUpVariants} className="m-0 mb-4 font-serif italic text-[18px] text-sara-gold">
-              Get in Touch with Cosmic Insights
+              {t('contactPage.sectionTitle')}
             </motion.p>
 
             <motion.h2 variants={fadeInUpVariants} className="m-0 mb-10 font-serif text-[clamp(36px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
-              Reach Out for Personalized Guidance Today
+              {t('contactPage.heading')}
             </motion.h2>
 
             <motion.div variants={fadeInUpVariants} className="mb-10">
@@ -84,24 +86,22 @@ export default function Contact() {
 
             <motion.div variants={fadeInUpVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10 font-sans">
               <div>
-                <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">Office Address</h4>
+                <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">{t('contactPage.officeAddress')}</h4>
                 <p className="text-[#3E2F48] text-[14px] leading-relaxed m-0 font-light">
-                  SARA HEALING CENTRE<br />
-                  Shri sathya nagar, Othivakkam,<br />
-                  Guduvanchery, Chengalpattu
+                  {t('contactPage.address')}
                 </p>
               </div>
               <div>
-                <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">Get in Touch</h4>
+                <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">{t('contactPage.getInTouch')}</h4>
                 <p className="text-[#3E2F48] text-[14px] leading-relaxed m-0 font-light">
-                  <span className="font-semibold text-sara-gold">Phone:</span> +91 96551 99507<br />
-                  <span className="font-semibold text-sara-gold">Email:</span> tamiltarotmagic@gmail.com
+                  <span className="font-semibold text-sara-gold">{t('contactPage.phone')}</span> {t('contactPage.phoneVal')}<br />
+                  <span className="font-semibold text-sara-gold">{t('contactPage.email')}</span> {t('contactPage.emailVal')}
                 </p>
               </div>
             </motion.div>
 
             <motion.button variants={fadeInUpVariants} className="bg-transparent text-sara-gold border border-sara-gold px-8 py-3 font-sans text-[12px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 inline-block hover:bg-sara-gold hover:text-[#2A1635]">
-              Ask for a Quote
+              {t('contactPage.quoteBtn')}
             </motion.button>
           </div>
 
@@ -115,7 +115,7 @@ export default function Contact() {
                 className="w-full h-full border-0"
                 allowFullScreen=""
                 loading="lazy"
-                title="Guduvanchery Map"
+                title={t('contactPage.mapTitle')}
               ></iframe>
             </div>
           </motion.div>

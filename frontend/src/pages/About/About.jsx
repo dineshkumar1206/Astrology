@@ -2,11 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import CosmicInsights from './CosmicInsights';
 import Team from './Team';
+import { useLanguage } from '../../context/LanguageContext';
 
 // High-quality relevant founder photography for the right-hand container
 const aboutImage = "/about.png";
 
 export default function About() {
+  const { t } = useLanguage();
   return (
     <>
       {/* Required for the fonts to load if not already in your index.html */}
@@ -34,7 +36,7 @@ export default function About() {
             }}
             className="font-serif text-[clamp(54px,8vw,84px)] text-[#F4F0EA] m-0 mb-2 font-normal"
           >
-            About
+            {t('aboutPage.heroTitle')}
           </motion.h1>
           <motion.p
             variants={{
@@ -43,7 +45,7 @@ export default function About() {
             }}
             className="font-sans text-[14px] text-sara-gold uppercase tracking-[2px] m-0"
           >
-            Saraa Tarot | The Vision & The Journey
+            {t('aboutPage.heroSubtitle')}
           </motion.p>
         </motion.div>
 
@@ -63,17 +65,17 @@ export default function About() {
             
             {/* Small upper serif label */}
             <p className="m-0 mb-3 font-['Playfair_Display'] italic text-[18px] text-[#D9B56A]">
-              Meet the Visionary Behind Saraa Tarot
+              {t('aboutPage.label')}
             </p>
 
             {/* Main Title Header */}
             <h2 className="m-0 mb-6 font-['Playfair_Display'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
-              Guiding Your Spirit Toward Absolute Clarity
+              {t('aboutPage.heading')}
             </h2>
 
             {/* Description Copy */}
             <p className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
-              My journey into the esoteric arts began as a profound personal calling. I founded Saraa Tarot with a singular purpose: to bridge the gap between the material world and universal wisdom. By drawing on decades of intuitive practice, I am dedicated to helping you decode life's complexities and step confidently into your true alignment.
+              {t('aboutPage.p1')}
             </p>
 
             {/* Side-by-side Mini Insights Modules Grid */}
@@ -94,10 +96,10 @@ export default function About() {
                   </svg>
                 </div>
                 <h4 className="m-0 mb-2 font-['Playfair_Display'] text-[20px] font-normal">
-                  Intuitive Mastery
+                  {t('aboutPage.feature1Title')}
                 </h4>
                 <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#3E2F48]">
-                  Harnessing deep empathic abilities to read the energies shaping your current path.
+                  {t('aboutPage.feature1Desc')}
                 </p>
               </div>
 
@@ -113,10 +115,10 @@ export default function About() {
                   </svg>
                 </div>
                 <h4 className="m-0 mb-2 font-['Playfair_Display'] text-[20px] font-normal">
-                  Empathetic Healing
+                  {t('aboutPage.feature2Title')}
                 </h4>
                 <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#3E2F48]">
-                  Creating a safe space for vulnerability, transformation, and profound emotional release.
+                  {t('aboutPage.feature2Desc')}
                 </p>
               </div>
 
@@ -124,7 +126,7 @@ export default function About() {
 
             {/* Action button */}
             <button className="bg-transparent text-[#D9B56A] border border-dashed border-[#D9B56A]/40 py-4 px-8 font-['Poppins'] text-[13px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mt-8 hover:border-solid hover:border-[#D9B56A] hover:bg-[#D9B56A]/5">
-              Connect With Me
+              {t('aboutPage.connectBtn')}
             </button>
 
           </div>
@@ -135,7 +137,7 @@ export default function About() {
             <div className="w-full aspect-[4/3.8] rounded-bl-[180px] overflow-hidden border border-[#D9B56A]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative">
               <img 
                 src={aboutImage} 
-                alt="Founder of Saraa Tarot" 
+                alt={t('aboutPage.founderAlt')} 
                 className="w-full h-full object-cover block"
               />
             </div>

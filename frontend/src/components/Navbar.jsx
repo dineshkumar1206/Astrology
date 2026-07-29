@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import { logout } from '../store/slices/authSlice';
 import { API_BASE_URL } from '../config';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIsCartOpen }) {
   const navigate = useNavigate();
@@ -12,6 +13,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
+  const { locale, setLocale, t } = useLanguage();
+  const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
   useEffect(() => {
     axios.get(`${API_BASE_URL}/api/categories`)
@@ -62,28 +65,40 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
     return `/products/${cat.slug || cat.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
   };
 
+  const getTranslatedLabel = (name) => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('crystals')) return t('nav.crystals');
+    if (lowerName.includes('private consultation') || lowerName.includes('tarot consultation')) return t('categories.tarot.title');
+    if (lowerName.includes('spiritual healing') || lowerName.includes('healing')) return t('categories.healing.title');
+    if (lowerName.includes('murugar')) return t('categories.murugar.title');
+    if (lowerName.includes('tarot card reading') || lowerName.includes('tarot reading') || lowerName.includes('tarot classes')) return t('categories.tarotClasses.title');
+    if (lowerName.includes('spiritual counseling') || lowerName.includes('counseling')) return t('categories.counselingClasses.title');
+    if (lowerName.includes('kali pooja')) return t('categories.pooja.title');
+    return name;
+  };
+
   const serviceCategories = categories.filter(c => c.type === 'service');
   const dropdownItems = [];
 
   if (serviceCategories.length > 0) {
     serviceCategories.forEach((cat, idx) => {
       if (idx === 2) {
-        dropdownItems.push({ label: 'Crystals', path: '/products/crystals' });
+        dropdownItems.push({ label: t('nav.crystals'), path: '/products/crystals' });
       }
-      dropdownItems.push({ label: cat.name, path: getCategoryPath(cat) });
+      dropdownItems.push({ label: getTranslatedLabel(cat.name), path: getCategoryPath(cat) });
     });
-    if (dropdownItems.findIndex(item => item.label === 'Crystals') === -1) {
-      dropdownItems.splice(2, 0, { label: 'Crystals', path: '/products/crystals' });
+    if (dropdownItems.findIndex(item => item.label === t('nav.crystals')) === -1) {
+      dropdownItems.splice(2, 0, { label: t('nav.crystals'), path: '/products/crystals' });
     }
   } else {
     dropdownItems.push(
-      { label: 'Tarot Private Consultation', path: '/products/tarot-consultation' },
-      { label: 'Spiritual Healing', path: '/products/spiritual-healing' },
-      { label: 'Crystals', path: '/products/crystals' },
-      { label: 'Murugar Cards', path: '/products/murugar-cards' },
-      { label: 'Tarot Reading Classes', path: '/products/tarot-classes' },
-      { label: 'Spiritual Counseling', path: '/products/counseling-classes' },
-      { label: 'Kali Pooja', path: '/products/kali-pooja' }
+      { label: getTranslatedLabel('Tarot Private Consultation'), path: '/products/tarot-consultation' },
+      { label: getTranslatedLabel('Spiritual Healing'), path: '/products/spiritual-healing' },
+      { label: t('nav.crystals'), path: '/products/crystals' },
+      { label: getTranslatedLabel('Murugar Cards'), path: '/products/murugar-cards' },
+      { label: getTranslatedLabel('Tarot Reading Classes'), path: '/products/tarot-classes' },
+      { label: getTranslatedLabel('Spiritual Counseling'), path: '/products/counseling-classes' },
+      { label: getTranslatedLabel('Kali Pooja'), path: '/products/kali-pooja' }
     );
   }
 
@@ -107,7 +122,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 to="/" 
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
-                Home
+                {t('nav.home')}
               </Link>
             </li>
             
@@ -120,7 +135,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <span 
                 className={`flex items-center gap-1.5 transition-colors duration-300 ${isDropdownOpen ? 'text-sara-gold' : 'text-white'}`}
               >
-                Spiritual Services
+                {t('nav.services')}
                 <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -148,7 +163,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 to="/about" 
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
-                About
+                {t('nav.about')}
               </Link>
             </li>
 
@@ -157,7 +172,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 to="/contact" 
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
-                Contact
+                {t('nav.contact')}
               </Link>
             </li>
           </ul>
@@ -167,19 +182,19 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {user ? (
               <div className="flex items-center gap-5">
                 <span className="text-white font-sans text-xs font-medium uppercase tracking-[0.5px]">
-                  Hi, {user.name.split(' ')[0]}
+                  {t('nav.hi')}, {user.name.split(' ')[0]}
                 </span>
                 <Link
                   to="/dashboard"
                   className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
                 >
-                  Dashboard
+                  {t('nav.dashboard')}
                 </Link>
                 <button
                   onClick={handleLogout}
                   className="bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] rounded-sm px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-[rgba(223,186,107,0.1)]"
                 >
-                  Logout
+                  {t('nav.logout')}
                 </button>
               </div>
             ) : (
@@ -187,9 +202,46 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 onClick={() => navigate('/login')}
                 className="bg-sara-gold text-[#0B1225] border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white"
               >
-                Login
+                {t('nav.login')}
               </button>
             )}
+
+            {/* Translation Dropdown */}
+            <div className="relative">
+              <button
+                onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+                className="bg-[rgba(223,186,107,0.1)] text-sara-gold border border-[rgba(223,186,107,0.3)] rounded-sm px-3.5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer flex items-center gap-1.5 transition-colors duration-300 hover:bg-[rgba(223,186,107,0.2)]"
+              >
+                <span className="text-[14px]">🌐</span>
+                <span>{locale === 'en' ? 'EN' : 'TA'}</span>
+                <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+
+              {isLangDropdownOpen && (
+                <div className="absolute right-0 top-full mt-2 bg-[#130f24] border border-[rgba(223,186,107,0.25)] rounded shadow-[0_12px_30px_rgba(0,0,0,0.6)] z-[1100] flex flex-col w-[120px] py-1 box-border">
+                  <button
+                    onClick={() => {
+                      setLocale('en');
+                      setIsLangDropdownOpen(false);
+                    }}
+                    className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'en' ? 'text-sara-gold font-bold' : 'text-white hover:text-sara-gold hover:bg-[rgba(223,186,107,0.1)]'}`}
+                  >
+                    {t('nav.english')}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLocale('ta');
+                      setIsLangDropdownOpen(false);
+                    }}
+                    className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'ta' ? 'text-sara-gold font-bold' : 'text-white hover:text-sara-gold hover:bg-[rgba(223,186,107,0.1)]'}`}
+                  >
+                    {t('nav.tamil')}
+                  </button>
+                </div>
+              )}
+            </div>
 
             {/* Updated Cart Button */}
             <button
@@ -197,7 +249,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               className="bg-[rgba(223,186,107,0.1)] text-sara-gold border border-[rgba(223,186,107,0.3)] rounded-sm px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer flex items-center gap-2 transition-colors duration-300 hover:bg-[rgba(223,186,107,0.2)]"
             >
               <CartIcon />
-              <span>Cart</span>
+              <span>{t('nav.cart')}</span>
               <span className="bg-sara-gold text-[#0B1225] rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                 {totalItems}
               </span>
@@ -207,6 +259,39 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
         {/* Mobile & Tablet Action Corner */}
         <div className="flex lg:hidden items-center gap-4">
+          {/* Mobile Language Selector */}
+          <div className="relative">
+            <button
+              onClick={() => setIsLangDropdownOpen(!isLangDropdownOpen)}
+              className="bg-transparent text-sara-gold border-none cursor-pointer flex items-center gap-1 p-2 font-sans text-xs font-semibold uppercase tracking-[0.5px]"
+            >
+              <span className="text-[14px]">🌐</span>
+              <span>{locale === 'en' ? 'EN' : 'TA'}</span>
+            </button>
+            {isLangDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 bg-[#130f24] border border-[rgba(223,186,107,0.25)] rounded shadow-[0_12px_30px_rgba(0,0,0,0.6)] z-[1100] flex flex-col w-[120px] py-1 box-border">
+                <button
+                  onClick={() => {
+                    setLocale('en');
+                    setIsLangDropdownOpen(false);
+                  }}
+                  className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'en' ? 'text-sara-gold font-bold' : 'text-white'}`}
+                >
+                  {t('nav.english')}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setLocale('ta');
+                      setIsLangDropdownOpen(false);
+                    }}
+                    className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'ta' ? 'text-sara-gold font-bold' : 'text-white'}`}
+                  >
+                    {t('nav.tamil')}
+                </button>
+              </div>
+            )}
+          </div>
+
           <button
             onClick={() => setIsCartOpen(true)}
             className="bg-transparent text-sara-gold border-none cursor-pointer flex items-center relative p-2"
@@ -238,7 +323,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
-                Home
+                {t('nav.home')}
               </Link>
             </li>
 
@@ -248,7 +333,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
                 className="w-full bg-none border-none p-0 text-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left"
               >
-                <span>Spiritual Services</span>
+                <span>{t('nav.services')}</span>
                 <svg 
                   width="10" 
                   height="6" 
@@ -288,7 +373,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
-                About
+                {t('nav.about')}
               </Link>
             </li>
 
@@ -298,7 +383,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
-                Contact
+                {t('nav.contact')}
               </Link>
             </li>
             
@@ -306,7 +391,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <>
                 <li className="mt-2 text-center">
                   <span className="text-white font-sans text-[13px] font-medium uppercase tracking-[0.5px]">
-                    Hi, {user.name}
+                    {t('nav.hi')}, {user.name}
                   </span>
                 </li>
                 <li>
@@ -315,7 +400,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                     onClick={() => setIsOpen(false)}
                     className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
                   >
-                    Dashboard
+                    {t('nav.dashboard')}
                   </Link>
                 </li>
                 <li>
@@ -323,7 +408,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                     onClick={() => { setIsOpen(false); handleLogout(); }}
                     className="w-full bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                   >
-                    Logout
+                    {t('nav.logout')}
                   </button>
                 </li>
               </>
@@ -333,7 +418,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   onClick={() => { setIsOpen(false); navigate('/login'); }}
                   className="w-full bg-sara-gold text-[#0B1225] border-0 py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                 >
-                  Login
+                  {t('nav.login')}
                 </button>
               </li>
             )}
@@ -344,7 +429,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 className="w-full bg-[rgba(223,186,107,0.1)] text-sara-gold border border-[rgba(223,186,107,0.3)] py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center gap-2"
               >
                 <CartIcon />
-                <span>Cart</span>
+                <span>{t('nav.cart')}</span>
                 <span className="bg-sara-gold text-[#0B1225] rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                   {totalItems}
                 </span>
@@ -368,15 +453,15 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {/* Drawer Header */}
             <div className="flex justify-between items-center p-6 border-b border-[rgba(223,186,107,0.15)]">
               <div className="flex items-center gap-3">
-                <span className="text-lg font-semibold tracking-[0.5px]">My Cart</span>
+                <span className="text-lg font-semibold tracking-[0.5px]">{t('nav.myCart')}</span>
                 <span className="bg-[rgba(223,186,107,0.15)] text-sara-gold px-2 py-0.5 rounded-xl text-xs font-medium">
-                  {totalItems} {totalItems === 1 ? 'Item' : 'Items'}
+                  {totalItems} {totalItems === 1 ? t('nav.item') : t('nav.items')}
                 </span>
               </div>
               <div className="flex items-center gap-4">
                 {cartItems.length > 0 && (
                   <button onClick={clearCart} className="bg-none border-none text-[#a09ba2] text-xs cursor-pointer underline">
-                    Clear All
+                    {t('nav.clearAll')}
                   </button>
                 )}
                 <button onClick={() => setIsCartOpen(false)} className="bg-none border-none text-sara-gold cursor-pointer text-xl">
@@ -390,7 +475,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               {cartItems.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-[60%] text-[#a09ba2]">
                   <CartIcon />
-                  <p className="mt-4 text-sm">Your cart is empty.</p>
+                  <p className="mt-4 text-sm">{t('nav.yourCartIsEmpty')}</p>
                 </div>
               ) : (
                 cartItems.map((item) => (
@@ -412,7 +497,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                     <button 
                       onClick={() => removeItem(item.id)}
                       className="bg-none border-none text-[#ef5353] cursor-pointer text-base p-1 flex items-center"
-                      title="Remove item"
+                      title={t('nav.removeItem')}
                     >
                       ✕
                     </button>
@@ -424,15 +509,15 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {/* Drawer Footer Bill Structure */}
             {cartItems.length > 0 && (
               <div className="p-6 bg-[#0c0917] border-t border-[rgba(223,186,107,0.15)]">
-                <h5 className="m-0 mb-4 text-[13px] uppercase tracking-[0.5px] text-[#a09ba2]">Bill Details</h5>
+                <h5 className="m-0 mb-4 text-[13px] uppercase tracking-[0.5px] text-[#a09ba2]">{t('nav.billDetails')}</h5>
                 
                 <div className="flex justify-between text-[13px] mb-4">
-                  <span className="text-[#a09ba2]">Items Total</span>
+                  <span className="text-[#a09ba2]">{t('nav.itemsTotal')}</span>
                   <span>₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="flex justify-between text-[15px] font-semibold border-t border-dashed border-[rgba(223,186,107,0.2)] pt-4 mb-6">
-                  <span className="text-sara-gold">To Pay</span>
+                  <span className="text-sara-gold">{t('nav.toPay')}</span>
                   <span className="text-sara-gold">₹{grandTotal.toLocaleString('en-IN')}</span>
                 </div>
 
@@ -444,7 +529,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   }}
                   className="w-full bg-sara-gold text-[#0B1225] border-0 rounded p-4 text-sm font-bold uppercase tracking-[1px] cursor-pointer flex justify-between items-center box-border transition-opacity duration-200 hover:opacity-90"
                 >
-                  <span>Proceed to Checkout</span>
+                  <span>{t('nav.proceedToCheckout')}</span>
                   <span>₹{grandTotal.toLocaleString('en-IN')} ➔</span>
                 </button>
               </div>

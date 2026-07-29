@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import { useLanguage } from '../context/LanguageContext';
 
 const FALLBACK_IMAGES = {
   'crystal': '/crystal.jpg',
@@ -25,6 +26,7 @@ const SLUG_MAP = {
 };
 
 export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
+  const { t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
@@ -109,7 +111,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
   if (loading) {
     return (
         <div className="min-h-screen bg-[#F8F6FF] flex items-center justify-center pt-16">
-        <div className="text-sara-gold text-sm tracking-wider">Loading product...</div>
+        <div className="text-sara-gold text-sm tracking-wider">{t('productDetail.loading')}</div>
       </div>
     );
   }
@@ -117,9 +119,9 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
   if (!product) {
     return (
       <div className="min-h-screen bg-[#F8F6FF] flex flex-col items-center justify-center pt-16 gap-4">
-        <div className="text-sara-muted text-lg">Product not found</div>
+        <div className="text-sara-muted text-lg">{t('productDetail.notFound')}</div>
         <Link to="/" className="text-sara-gold text-sm uppercase tracking-wider no-underline hover:underline">
-          Return Home
+          {t('productDetail.returnHome')}
         </Link>
       </div>
     );
@@ -131,7 +133,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
       <div className="bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)] bg-white border-b border-[rgba(214,178,106,0.1)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-8 pt-8 pb-6">
           <div className="mb-6 text-[13px] tracking-[0.5px]">
-            <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">Home</Link>
+            <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">{t('productDetail.home')}</Link>
             <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
             <Link to={getCategorySlug()} className="text-sara-muted no-underline hover:text-sara-gold transition-colors">{product.category}</Link>
             <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
@@ -185,7 +187,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             {product.sizes && product.sizes.length > 0 && (
               <div className="mb-6">
                 <label className="block text-[11px] text-sara-muted uppercase tracking-[1px] mb-2 font-medium">
-                  Select Size
+                  {t('productDetail.selectSize')}
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {product.sizes.map((size) => (
@@ -208,7 +210,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             {/* Quantity */}
             <div className="mb-6">
               <label className="block text-[11px] text-sara-muted uppercase tracking-[1px] mb-2 font-medium">
-                Quantity
+                {t('productDetail.quantity')}
               </label>
               <div className="flex items-center gap-3">
                 <button
@@ -229,10 +231,10 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
 
             {/* Policy & Shipping Notice */}
             <div className="my-6 p-4 rounded-lg bg-[rgba(214,178,106,0.08)] border border-[rgba(214,178,106,0.25)] text-xs text-[#2A1635] leading-relaxed">
-              <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">Order Policy & Shipping</div>
+              <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">{t('productDetail.policyTitle')}</div>
               <ul className="list-disc pl-4 m-0 flex flex-col gap-1 text-[#3E2F48]">
-                <li>All products: After payment, no refund.</li>
-                <li>After placing the order, it will take 10 to 20 days.</li>
+                <li>{t('productDetail.policyNoRefund')}</li>
+                <li>{t('productDetail.policyTimeline')}</li>
               </ul>
             </div>
 
@@ -245,13 +247,13 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                   : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none hover:shadow-[0_4px_20px_rgba(214,178,106,0.3)] hover:-translate-y-0.5'
               }`}
             >
-              {addedToCart ? 'Added to Cart' : 'Add To Cart'}
+              {addedToCart ? t('productDetail.addedToCart') : t('productDetail.addToCart')}
             </button>
 
             {/* Inclusions */}
             {product.inclusions && product.inclusions.length > 0 && (
               <div className="border-t border-[rgba(214,178,106,0.1)] pt-6">
-                <h3 className="text-sara-gold font-serif text-lg mb-4 tracking-[1px]">What's Included</h3>
+                <h3 className="text-sara-gold font-serif text-lg mb-4 tracking-[1px]">{t('productDetail.whatsIncluded')}</h3>
                 <ul className="m-0 pl-0 list-none">
                   {product.inclusions.map((item, i) => (
                     <li key={i} className="flex items-start gap-2 mb-3 text-sara-muted text-[0.9rem] leading-6">
@@ -271,7 +273,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             onClick={() => navigate(-1)}
             className="text-sara-gold text-[11px] uppercase tracking-[1.5px] font-semibold bg-transparent border border-[rgba(214,178,106,0.3)] px-5 py-2.5 rounded-sm cursor-pointer transition-all hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
           >
-            ← Back
+            {t('productDetail.back')}
           </button>
         </div>
       </div>

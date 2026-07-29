@@ -5,8 +5,10 @@ import axios from 'axios';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { loginSuccess } from '../store/slices/authSlice';
 import { API_BASE_URL } from '../config';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Login() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -36,7 +38,7 @@ export default function Login() {
       if (err.response && err.response.data && err.response.data.message) {
         setError(err.response.data.message);
       } else {
-        setError('Invalid email or password');
+        setError(t('login.error'));
       }
     }
   };
@@ -50,10 +52,10 @@ export default function Login() {
       >
         <div className="text-center mb-8">
           <span className="text-[12px] font-medium tracking-[3px] uppercase font-sans text-sara-muted">
-            Cosmic Connection
+            {t('login.title')}
           </span>
           <h2 className="font-['Cinzel'] text-3xl font-normal text-center tracking-wide mt-2 text-sara-gold">
-            Welcome Back
+            {t('login.welcome')}
           </h2>
         </div>
 
@@ -65,11 +67,11 @@ export default function Login() {
 
         <div className="mb-5 font-sans">
           <label className="block text-[11px] uppercase tracking-[1px] mb-2 font-medium text-sara-muted">
-            Email Address
+            {t('login.email')}
           </label>
           <input
             type="email"
-            placeholder="name@example.com"
+            placeholder={t('login.emailPlaceholder')}
             className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] bg-white text-[#2A1635]"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -80,13 +82,13 @@ export default function Login() {
         <div className="mb-8 font-sans relative">
           <div className="flex justify-between items-center mb-2">
             <label className="block text-[11px] uppercase tracking-[1px] font-medium text-sara-muted">
-              Password
+              {t('login.password')}
             </label>
           </div>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
-              placeholder="••••••••"
+              placeholder={t('login.passwordPlaceholder')}
               className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] pr-12 bg-white text-[#2A1635]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -109,10 +111,10 @@ export default function Login() {
           {loading ? (
             <>
               <Loader2 className="animate-spin" size={16} />
-              Signing In...
+              {t('login.signingIn')}
             </>
           ) : (
-            'Sign In'
+            t('login.signIn')
           )}
         </button>
 

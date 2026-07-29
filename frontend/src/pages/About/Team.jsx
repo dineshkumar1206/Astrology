@@ -1,28 +1,30 @@
 import React from 'react';
-
-// High-quality portrait placeholders (Replace with your actual team photos)
-const teamMembers = [
-  {
-    name: "Elena Rostova",
-    role: "HEAD TAROT READER",
-    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
-    socials: { fb: "#", tw: "#", ig: "#" }
-  },
-  {
-    name: "Naya Solis",
-    role: "RITUAL FACILITATOR",
-    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
-    socials: { fb: "#", tw: "#", ig: "#" }
-  },
-  {
-    name: "Julian Mercer",
-    role: "ASTROLOGER",
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
-    socials: { fb: "#", tw: "#", ig: "#" }
-  }
-];
+import { useLanguage } from '../../context/LanguageContext';
 
 export default function Team() {
+  const { t } = useLanguage();
+
+  const teamMembers = [
+    {
+      name: t('team.members.0.name'),
+      role: t('team.members.0.role'),
+      image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80",
+      socials: { fb: "#", tw: "#", ig: "#" }
+    },
+    {
+      name: t('team.members.1.name'),
+      role: t('team.members.1.role'),
+      image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80",
+      socials: { fb: "#", tw: "#", ig: "#" }
+    },
+    {
+      name: t('team.members.2.name'),
+      role: t('team.members.2.role'),
+      image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=600&q=80",
+      socials: { fb: "#", tw: "#", ig: "#" }
+    }
+  ];
+
   return (
     <section className="bg-[#F8F6FF] py-28 w-full box-border overflow-hidden">
       
@@ -36,10 +38,10 @@ export default function Team() {
         {/* Section Header */}
         <div className="max-w-[800px]">
           <p className="m-0 mb-2 font-serif text-[18px] text-[#D9B56A] font-semibold tracking-[1px]">
-            Soul Circle
+            {t('team.badge')}
           </p>
           <h2 className="m-0 font-serif text-[clamp(42px,6vw,68px)] font-normal text-[#2A1635] leading-[1.05] uppercase">
-            The Kindred Spirits Guiding <span className="font-['Parisienne'] lowercase text-[#2A1635] text-[1.2em] font-light">Your</span> Journey
+            {t('team.title')}<span className="font-['Parisienne'] lowercase text-[#2A1635] text-[1.2em] font-light">{t('team.titleEnd')}</span>
           </h2>
         </div>
 
@@ -73,17 +75,17 @@ export default function Team() {
 
                 {/* Social Media Icons */}
                 <div className="flex justify-center gap-3 mt-5">
-                  <a href={member.socials.fb} className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[#F8F6FF] text-[#2A1635] no-underline transition-all duration-300 hover:bg-[#D9B56A] hover:text-[#2A1635] hover:-translate-y-1" aria-label="Facebook">
+                  <a href={member.socials.fb} className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[#F8F6FF] text-[#2A1635] no-underline transition-all duration-300 hover:bg-[#D9B56A] hover:text-[#2A1635] hover:-translate-y-1" aria-label={t('team.facebook')}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
                     </svg>
                   </a>
-                  <a href={member.socials.tw} className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[#F8F6FF] text-[#2A1635] no-underline transition-all duration-300 hover:bg-[#D9B56A] hover:text-[#2A1635] hover:-translate-y-1" aria-label="Twitter">
+                  <a href={member.socials.tw} className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[#F8F6FF] text-[#2A1635] no-underline transition-all duration-300 hover:bg-[#D9B56A] hover:text-[#2A1635] hover:-translate-y-1" aria-label={t('team.twitter')}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
                     </svg>
                   </a>
-                  <a href={member.socials.ig} className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[#F8F6FF] text-[#2A1635] no-underline transition-all duration-300 hover:bg-[#D9B56A] hover:text-[#2A1635] hover:-translate-y-1" aria-label="Instagram">
+                  <a href={member.socials.ig} className="flex items-center justify-center w-[36px] h-[36px] rounded-full bg-[#F8F6FF] text-[#2A1635] no-underline transition-all duration-300 hover:bg-[#D9B56A] hover:text-[#2A1635] hover:-translate-y-1" aria-label={t('team.instagram')}>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>

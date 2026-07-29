@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { useLanguage } from '../context/LanguageContext';
 
 // ============================================================
 // Brand tokens — Saraa Tarot Theme
@@ -106,6 +107,7 @@ const ZODIAC_DATA = [
 ];
 
 export default function ZodiacWisdom() {
+  const { t } = useLanguage();
   // Animation sequences
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -182,10 +184,10 @@ export default function ZodiacWisdom() {
           transition={{ duration: 0.8 }}
           style={styles.header}
         >
-          <p style={styles.eyebrow}>Zodiac Wisdom</p>
+          <p style={styles.eyebrow}>{t('zodiac.subtitle')}</p>
           <h2 className="zw-heading" style={styles.heading}>
-            ROOTED IN THE STARS, <br />
-            GUIDED <span style={styles.cursiveWord}>By</span> SOUL
+            {t('zodiac.titleFirst')}<br />
+            {t('zodiac.titleSecond')}<span style={styles.cursiveWord}>{t('zodiac.titleThird')}</span>{t('zodiac.titleFourth')}
           </h2>
         </motion.div>
 
@@ -203,9 +205,9 @@ export default function ZodiacWisdom() {
               
               {/* Text Area */}
               <div style={styles.cardText}>
-                <h3 style={styles.cardTitle}>{zodiac.name}</h3>
-                <p style={styles.cardDates}>{zodiac.dates}</p>
-                <span className="zw-learn-more" style={styles.learnMore}>LEARN MORE</span>
+                <h3 style={styles.cardTitle}>{t('zodiac.signs.' + zodiac.name.toLowerCase())}</h3>
+                <p style={styles.cardDates}>{t('zodiac.dates.' + zodiac.name.toLowerCase())}</p>
+                <span className="zw-learn-more" style={styles.learnMore}>{t('zodiac.learnMore')}</span>
               </div>
 
               {/* Gradient & Icon Block */}

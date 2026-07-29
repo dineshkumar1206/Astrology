@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import { useLanguage } from '../context/LanguageContext';
 import ProductDetailModal from '../components/ProductDetailModal';
 
 import TarotConsultation from '../components/categories/TarotConsultation';
@@ -13,6 +14,7 @@ import CounselingClasses from '../components/categories/CounselingClasses';
 import KaliPooja from '../components/categories/KaliPooja';
 
 export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpen }) {
+  const { t } = useLanguage();
   const { category } = useParams();
   const [categories, setCategories] = useState([]);
   const [dynamicCat, setDynamicCat] = useState(null);
@@ -103,7 +105,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
       if (loading) {
         return (
           <div className="bg-[#F8F6FF] min-h-screen flex justify-center items-center text-sara-gold">
-            <p className="font-[Cinzel] text-[1.5rem] tracking-[1px]">Loading Collection...</p>
+            <p className="font-[Cinzel] text-[1.5rem] tracking-[1px]">{t('productCategoryDetail.loading')}</p>
           </div>
         );
       }
@@ -115,7 +117,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
             <div className="max-w-[1200px] mx-auto">
 
               <div className="mb-10 text-[13px] tracking-[0.5px]">
-                <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">Home</Link>
+                <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">{t('productCategoryDetail.home')}</Link>
                 <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
                 <span className="text-sara-gold">{dynamicCat.name}</span>
               </div>
@@ -123,20 +125,20 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
               <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-[linear-gradient(135deg,#FFFFFF_0%,#F5EEFF_60%,rgba(161,61,142,0.08)_100%)] rounded-lg p-10 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(161,61,142,0.08)_0%,transparent_70%)] pointer-events-none" />
                 <span className="text-sara-muted tracking-[2px] text-[12px] font-semibold uppercase">
-                  {dynamicCat.type === 'crystal' ? 'Blessed & Programmed Crystals' : 'Divine Spiritual Guidance'}
+                  {dynamicCat.type === 'crystal' ? t('productCategoryDetail.crystalType') : t('productCategoryDetail.divineType')}
                 </span>
                 <h1 className="text-[#000000] font-[Cinzel] text-[2.8rem] font-normal my-2 mb-6 uppercase tracking-[1px] leading-[1.2]">
                   {dynamicCat.name}
                 </h1>
                 <p className="text-sara-muted text-[1.05rem] leading-[1.7] max-w-[800px] m-0">
-                  {dynamicCat.desc || 'Explore our blessed services and product offerings meticulously programmed by Sara to bring alignment, protection, and positive transformations.'}
+                  {dynamicCat.desc || t('productCategoryDetail.fallbackDesc')}
                 </p>
               </div>
 
               <div className="flex flex-row gap-12 flex-wrap">
                 <div className="flex-[2_1_600px]">
                   <h3 className="text-sara-gold font-[Cinzel] text-[1.5rem] mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
-                    Available Bookings / Offerings
+                    {t('productCategoryDetail.availableBookings')}
                   </h3>
 
                   <div className="flex flex-col gap-6">

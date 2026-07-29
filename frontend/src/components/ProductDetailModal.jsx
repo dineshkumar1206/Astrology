@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 
 const FALLBACK_IMAGES = {
   'crystal': '/crystal.jpg',
@@ -17,6 +18,7 @@ function getImgSrc(product) {
 }
 
 export default function ProductDetailModal({ product, onClose, onAddToCart }) {
+  const { t } = useLanguage();
   const [selectedSize, setSelectedSize] = useState(
     product.sizes && product.sizes.length > 0 ? product.sizes[0] : null
   );
@@ -87,7 +89,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               {product.sizes && product.sizes.length > 0 && (
                 <div className="mb-5">
                   <div className="text-[11px] text-[#3E2F48] uppercase tracking-[1.5px] font-semibold mb-2">
-                    Select Size
+                    {t('productDetailModal.selectSize')}
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {product.sizes.map((size, idx) => (
@@ -110,7 +112,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               {/* Quantity */}
               <div className="mb-5">
                 <div className="text-[11px] text-[#3E2F48] uppercase tracking-[1.5px] font-semibold mb-2">
-                  Quantity
+                  {t('productDetailModal.quantity')}
                 </div>
                 <div className="flex items-center gap-3">
                   <button
@@ -139,7 +141,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               {product.inclusions && product.inclusions.length > 0 && (
                 <>
                   <h4 className="text-sara-gold uppercase text-[0.85rem] tracking-[1px] mb-2">
-                    What this product includes:
+                    {t('productDetailModal.whatsIncluded')}
                   </h4>
                   <ul className="pl-5 m-0 mb-8 text-sara-muted leading-7 text-[0.9rem]">
                     {product.inclusions.map((inc, index) => (
@@ -152,10 +154,10 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
 
             {/* Policy & Shipping Notice */}
             <div className="my-6 p-4 rounded-lg bg-[rgba(214,178,106,0.08)] border border-[rgba(214,178,106,0.25)] text-xs text-[#2A1635] leading-relaxed">
-              <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">Order Policy & Shipping</div>
+              <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">{t('productDetailModal.policyTitle')}</div>
               <ul className="list-disc pl-4 m-0 flex flex-col gap-1 text-[#3E2F48]">
-                <li>All products: After payment, no refund.</li>
-                <li>After placing the order, it will take 10 to 20 days.</li>
+                <li>{t('productDetailModal.policyNoRefund')}</li>
+                <li>{t('productDetailModal.policyTimeline')}</li>
               </ul>
             </div>
 
@@ -167,7 +169,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
                   : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark hover:opacity-90'
               }`}
             >
-              {added ? 'Added to Cart' : 'Add To Cart'}
+              {added ? t('productDetailModal.addedToCart') : t('productDetailModal.addToCart')}
             </button>
           </div>
         </div>

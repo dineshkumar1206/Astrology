@@ -1,4 +1,5 @@
 import React from 'react';
+import { useLanguage } from '../../context/LanguageContext';
 
 // Images 
 const cardImages = [
@@ -9,26 +10,27 @@ const cardImages = [
 ];
 
 export default function CosmicInsights() {
+  const { t } = useLanguage();
   const cards = [
     {
-      title: "Crystal Magic",
+      title: t('cosmicInsights.cards.0.title'),
       img: cardImages[0],
-      desc: "Discover the magical properties of crystals and how they can enhance your life. Learn which gemstones resonate with your energy and how to use them for healing and protection."
+      desc: t('cosmicInsights.cards.0.desc')
     },
     {
-      title: "Lucky Charms",
+      title: t('cosmicInsights.cards.1.title'),
       img: cardImages[1],
-      desc: "Explore the world of lucky charms and talismans. Learn how these powerful objects can attract good fortune, ward off negativity, and bring positive energy into your life."
+      desc: t('cosmicInsights.cards.1.desc')
     },
     {
-      title: "Tarot Insights",
+      title: t('cosmicInsights.cards.2.title'),
       img: cardImages[2],
-      desc: "Dive into the world of tarot with our expert guidance. Learn to interpret the cards and uncover hidden messages about your past, present, and future."
+      desc: t('cosmicInsights.cards.2.desc'),
     },
     {
-      title: "Meditation & Prediction",
+      title: t('cosmicInsights.cards.3.title'),
       img: cardImages[3],
-      desc: "Combine meditation with prediction to enhance your intuitive abilities. Discover techniques to connect with your inner wisdom and foresee upcoming opportunities and challenges."
+      desc: t('cosmicInsights.cards.3.desc')
     }
   ];
 
@@ -63,10 +65,10 @@ export default function CosmicInsights() {
       {/* Centered Headers */}
       <div className="text-center relative z-20 mb-16 px-5">
         <p className="m-0 mb-2 font-serif italic text-[18px] text-[#D9B56A]">
-          Exploring Cosmic Wisdom
+          {t('cosmicInsights.badge')}
         </p>
         <h2 className="m-0 font-serif text-[clamp(36px,4.5vw,54px)] font-normal text-[#2A1635]">
-          Insights from the Cosmic Oracle
+          {t('cosmicInsights.title')}
         </h2>
       </div>
 
@@ -95,7 +97,7 @@ export default function CosmicInsights() {
               href={`#${card.title.toLowerCase().replace(' ', '-')}`} 
               className="font-sans font-medium text-[13px] text-[#2A1635] no-underline uppercase tracking-[1px] mt-auto pt-4 transition-colors duration-300 inline-block group-hover:text-[#D9B56A]"
             >
-              Read More
+              {t('cosmicInsights.readMore')}
             </a>
 
           </div>

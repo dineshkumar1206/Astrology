@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { useLanguage } from "../context/LanguageContext";
 
 const IMAGES = {
   mainPortrait: "/abt-1.png",
@@ -11,6 +12,7 @@ const IMAGES = {
 export default function AbtSara() {
   const sectionRef = useRef(null);
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -55,14 +57,14 @@ export default function AbtSara() {
           variants={fadeInUpVariants}
           className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-[#000000] m-0 mb-2"
         >
-          The Founder
+          {t('aboutHome.subtitle')}
         </motion.p>
 
         <motion.h2
           variants={fadeInUpVariants}
           className="text-center font-serif text-[clamp(44px,6.5vw,72px)] font-semi bold tracking-[0.5px] m-0 mb-16 text-black"
         >
-          The Story of Saraa Tarot
+          {t('aboutHome.title')}
         </motion.h2>
 
         <motion.div
@@ -96,10 +98,10 @@ export default function AbtSara() {
             className="flex flex-col justify-center py-5"
           >
             <p className="font-sans font-light text-[15px] leading-[1.8] text-black m-0 mb-6">
-              Saraa's journey into the mystical realm of Tarot and spiritual healing began as a deeply personal calling to help others find alignment. Guided by decades of study and intuitive practice, she founded Saraa Tarot to bridge the gap between the material world and divine wisdom.
+              {t('aboutHome.p1')}
             </p>
             <p className="font-sans font-light text-[15px] leading-[1.8] text-black m-0 mb-6">
-              Through personalized consultations and spiritual classes, Saraa provides a compassionate, empowering space. Every reading and session is crafted to decode life's complexities and guide your spirit toward absolute clarity.
+              {t('aboutHome.p2')}
             </p>
 
             <div className="flex items-center gap-11 mt-4 flex-wrap py-5">
@@ -107,7 +109,7 @@ export default function AbtSara() {
                 onClick={() => navigate('/contact')}
                 className="font-sans text-[12px] font-semibold tracking-[2px] uppercase bg-gradient-to-r from-sara-gold to-sara-goldSoft text-black py-4 px-8 cursor-pointer rounded transition-all duration-300 hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)] hover:-translate-y-0.5"
               >
-                Connect With Me
+                {t('aboutHome.connectBtn')}
               </button>
             </div>
           </motion.div>

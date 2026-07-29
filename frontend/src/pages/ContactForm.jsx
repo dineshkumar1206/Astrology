@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function ContactForm() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,15 +30,15 @@ export default function ContactForm() {
       const res = await axios.post(`${API_BASE_URL}/api/contact`, formData);
       setStatus({
         type: 'success',
-        message: res.data.message || 'Your message has been sent successfully.'
+        message: res.data.message || t('contactForm.successMsg')
       });
 
       const whatsappNumber = "919655199507";
-      const formattedMessage = `Hello, I'd like to get in touch!\n\n` +
-                               `*Name:* ${formData.name}\n` +
-                               `*Email:* ${formData.email}\n` +
-                               `*Subject:* ${formData.subject}\n` +
-                               `*Message:* ${formData.message}`;
+      const formattedMessage = `${t('contactForm.whatsappGreeting')}\n\n` +
+                               `${t('contactForm.whatsappName')}${formData.name}\n` +
+                               `${t('contactForm.whatsappEmail')}${formData.email}\n` +
+                               `${t('contactForm.whatsappSubject')}${formData.subject}\n` +
+                               `${t('contactForm.whatsappMessage')}${formData.message}`;
       const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(formattedMessage)}`;
       window.open(whatsappUrl, '_blank');
 
@@ -50,7 +52,7 @@ export default function ContactForm() {
       console.error(err);
       setStatus({
         type: 'error',
-        message: err.response?.data?.message || 'Something went wrong. Please try again.'
+        message: err.response?.data?.message || t('contactForm.errorMsg')
       });
     } finally {
       setLoading(false);
@@ -63,10 +65,10 @@ export default function ContactForm() {
       <div className="max-w-3xl mx-auto p-8 md:p-12 bg-white border border-sara-gold/15 shadow-[0_4px_20px_rgba(29,11,46,0.08)] rounded-sm">
         <div className="text-center mb-12">
           <h3 className="m-0 mb-2 font-serif text-3xl text-[#2A1635] font-normal">
-            Send a Message
+            {t('contactForm.title')}
           </h3>
           <p className="m-0 font-sans text-[#3E2F48] text-sm font-light">
-            Fill out the form below and we will get back to you shortly.
+            {t('contactForm.description')}
           </p>
         </div>
 
@@ -91,7 +93,7 @@ export default function ContactForm() {
                   onChange={handleChange}
                   disabled={loading}
                   className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light disabled:opacity-50"
-                  placeholder="Your Name"
+                  placeholder={t('contactForm.name')}
                   required
                 />
               </div>
@@ -105,7 +107,7 @@ export default function ContactForm() {
                   onChange={handleChange}
                   disabled={loading}
                   className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light disabled:opacity-50"
-                  placeholder="Your Email"
+                  placeholder={t('contactForm.email')}
                   required
                 />
               </div>
@@ -120,7 +122,7 @@ export default function ContactForm() {
               onChange={handleChange}
               disabled={loading}
               className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light disabled:opacity-50"
-              placeholder="Subject / Service Requested"
+              placeholder={t('contactForm.subject')}
               required
             />
           </div>
@@ -132,7 +134,7 @@ export default function ContactForm() {
               onChange={handleChange}
               disabled={loading}
               className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light resize-none disabled:opacity-50"
-              placeholder="Your Message"
+              placeholder={t('contactForm.message')}
               rows="4"
               required
             ></textarea>
@@ -143,7 +145,7 @@ export default function ContactForm() {
             disabled={loading}
             className="w-full mt-4 bg-sara-gold text-[#2A1635] py-4 md:py-5 font-sans text-[13px] font-semibold uppercase tracking-[2px] cursor-pointer transition-all duration-300 hover:bg-sara-goldSoft hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            {loading ? 'Sending...' : 'Send Message'}
+            {loading ? t('contactForm.sending') : t('contactForm.sendBtn')}
           </button>
         </form>
       </div>

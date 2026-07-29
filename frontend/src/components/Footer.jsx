@@ -1,8 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Footer() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
     <footer
@@ -17,21 +19,21 @@ export default function Footer() {
         <div className="grid grid-cols-[1.2fr_1.6fr_1.2fr] max-md:grid-cols-1 max-md:gap-10 max-md:text-center mb-16">
           <div>
             <h4 className="text-sara-gold text-[15px] uppercase tracking-[1px] font-semibold mb-6 border-b border-[rgba(214,178,106,0.1)] pb-2">
-              Address
+              {t('footer.address')}
             </h4>
             <ul className="list-none p-0 m-0 text-sm text-[#CFCFCF] leading-8 max-md:flex max-md:flex-col max-md:items-center">
-              <li className="mb-2"><span className="text-sara-gold font-medium">Centre:</span> SARA HEALING CENTRE</li>
-              <li className="mb-2"><span className="text-sara-gold font-medium">Address:</span> Shri sathya nagar, Othivakkam</li>
-              <li className="mb-2"><span className="text-sara-gold font-medium">Location:</span> Guduvanchery, Chengalpattu</li>
+              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.centre')}</span> {t('footer.saraHealing')}</li>
+              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.addressLabel')}</span> {t('footer.addressLine')}</li>
+              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.locationLabel')}</span> {t('footer.locationLine')}</li>
             </ul>
           </div>
 
           <div className="text-center flex flex-col items-center justify-center">
             <div className="font-serif text-[2.5rem] text-sara-gold tracking-[3px] uppercase font-light mb-4">
-              Saraa Tarot
+              {t('footer.brand')}
             </div>
             <p className="text-[13px] leading-7 text-[#CFCFCF] max-w-[440px] mx-auto mb-8">
-              Unlock the secrets of the cosmos and transform your life today! Connect with me for personalized consultations that reveal your unique strengths and help you navigate challenges with confidence.
+              {t('footer.desc')}
             </p>
             <div className="flex gap-6 justify-center">
               <a href="#facebook" className="text-sara-gold opacity-80 hover:opacity-100 transition-opacity">
@@ -54,27 +56,27 @@ export default function Footer() {
 
           <div>
             <h4 className="text-sara-gold text-[15px] uppercase tracking-[1px] font-semibold mb-6 border-b border-[rgba(214,178,106,0.1)] pb-2">
-              Info
+              {t('footer.info')}
             </h4>
             <ul className="list-none p-0 m-0 text-sm text-[#CFCFCF] leading-8 max-md:flex max-md:flex-col max-md:items-center">
-              <li className="mb-2"><span className="text-sara-gold font-medium">Email:</span> tamiltarotmagic@gmail.com</li>
-              <li className="mb-2"><span className="text-sara-gold font-medium">Phone:</span> +91 96551 99507</li>
+              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.emailLabel')}</span> {t('footer.emailVal')}</li>
+              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.phoneLabel')}</span> {t('footer.phoneVal')}</li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-[rgba(214,178,106,0.15)] pt-8 flex justify-center items-center flex-wrap gap-6 max-md:flex-col max-md:text-center">
           <div className="flex gap-4 text-[13px] text-[#CFCFCF] font-serif italic">
-            <span>Card Reading</span>
+            <span>{t('footer.cardReading')}</span>
             <span>•</span>
-            <span>Chakra Balancing</span>
+            <span>{t('footer.chakraBalancing')}</span>
             <span>•</span>
-            <span>Mineralotherapy</span>
+            <span>{t('footer.mineralotherapy')}</span>
           </div>
         </div>
 
         <div className="text-center mt-12 text-[11px] text-[rgba(255,255,255,0.4)] tracking-[0.5px]">
-          © {new Date().getFullYear()} Saraa Tarot. All rights reserved.
+          {t('footer.copyright').replace('{year}', new Date().getFullYear())}
         </div>
       </div>
     </footer>

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Plus, Pencil, Trash2, Loader2, AlertCircle, CheckCircle, Settings, Menu } from 'lucide-react';
 import { logout } from '../store/slices/authSlice';
 import { API_BASE_URL } from '../config';
+import { useLanguage } from '../context/LanguageContext';
 
 // Component Imports
 import AdminNavbar from './AdminNavbar'; 
@@ -12,6 +13,7 @@ import AdminNavbar from './AdminNavbar';
 export default function ControlDesk() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { t } = useLanguage();
   
   // Auth state from Redux
   const token = useSelector(state => state.auth.token);
@@ -89,7 +91,7 @@ export default function ControlDesk() {
       }
     } catch (err) {
       console.error(err);
-      setError('Failed to fetch data from the database.');
+      setError(t('controlDesk.fetchError'));
     } finally {
       setLoading(false);
     }
@@ -155,7 +157,7 @@ export default function ControlDesk() {
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this listing?')) return;
+    if (!window.confirm(t('controlDesk.deleteConfirm'))) return;
     try {
       await axios.delete(`${API_BASE_URL}/api/products/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -163,7 +165,7 @@ export default function ControlDesk() {
       setProducts(products.filter(p => p.id !== id));
     } catch (err) {
       console.error(err);
-      alert('Failed to delete product. Please try again.');
+      alert(t('controlDesk.deleteError'));
     }
   };
 
@@ -218,13 +220,13 @@ export default function ControlDesk() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProducts(products.map(p => p.id === formData.id ? res.data : p));
-        setFormSuccess('Listing updated successfully!');
+        setFormSuccess(t('controlDesk.updateSuccess'));
       } else {
         const res = await axios.post(`${API_BASE_URL}/api/products`, fd, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProducts([...products, res.data]);
-        setFormSuccess('New listing added successfully!');
+        setFormSuccess(t('controlDesk.addSuccess'));
       }
 
       setTimeout(() => {
@@ -236,7 +238,7 @@ export default function ControlDesk() {
       if (err.response && err.response.data && err.response.data.message) {
         setFormError(err.response.data.message);
       } else {
-        setFormError('Failed to save product details.');
+        setFormError(t('controlDesk.saveError'));
       }
     } finally {
       setFormLoading(false);
@@ -274,7 +276,7 @@ export default function ControlDesk() {
   };
 
   const handleDeleteCategory = async (id) => {
-    if (!window.confirm('Warning: Deleting this menu/category will not delete its products, but they will no longer be visible under this category tab. Are you sure you want to delete this menu?')) return;
+    if (!window.confirm(t('controlDesk.deleteCategoryConfirm'))) return;
     try {
       await axios.delete(`${API_BASE_URL}/api/categories/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
@@ -282,7 +284,7 @@ export default function ControlDesk() {
       setCategories(categories.filter(c => c.id !== id));
     } catch (err) {
       console.error(err);
-      alert('Failed to delete category. Please try again.');
+      alert(t('controlDesk.deleteCategoryError'));
     }
   };
 
@@ -314,13 +316,13 @@ export default function ControlDesk() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCategories(categories.map(c => c.id === catFormData.id ? res.data : c));
-        setCatFormSuccess('Category updated successfully!');
+        setCatFormSuccess(t('controlDesk.categoryUpdateSuccess'));
       } else {
         const res = await axios.post(`${API_BASE_URL}/api/categories`, fd, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setCategories([...categories, res.data]);
-        setCatFormSuccess('New category created successfully!');
+        setCatFormSuccess(t('controlDesk.categoryAddSuccess'));
       }
 
       setTimeout(() => {
@@ -331,7 +333,7 @@ export default function ControlDesk() {
       if (err.response && err.response.data && err.response.data.message) {
         setCatFormError(err.response.data.message);
       } else {
-        setCatFormError('Failed to save category details.');
+        setCatFormError(t('controlDesk.categorySaveError'));
       }
     } finally {
       setCatFormLoading(false);
@@ -363,10 +365,10 @@ export default function ControlDesk() {
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-b border-[#D9B56A]/10 pb-6">
               <div>
                 <h2 className="font-['Cinzel'] text-3xl font-normal text-[#D9B56A] tracking-wide">
-                  Manage Menu Categories
+                  {t('controlDesk.manageMenus')}
                 </h2>
                 <p className="text-[13px] text-[#3E2F48] mt-1">
-                  Add, edit, or remove top-level Spiritual Services and Crystal subcategories.
+                  {t('controlDesk.manageMenusDesc')}
                 </p>
               </div>
               
@@ -375,21 +377,21 @@ export default function ControlDesk() {
                 className="flex items-center gap-2 bg-[#D9B56A] text-[#2A1635] px-5 py-3 rounded-lg text-[13px] font-semibold uppercase tracking-[0.5px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer shadow-[0_4px_15px_rgba(217,181,106,0.15)]"
               >
                 <Plus size={16} />
-                <span>Add Category / Menu</span>
+                <span>{t('controlDesk.addCategory')}</span>
               </button>
             </div>
 
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20">
                 <Loader2 className="animate-spin text-[#D9B56A] mb-4" size={40} />
-                <p className="text-[#3E2F48] text-sm">Loading menus...</p>
+                <p className="text-[#3E2F48] text-sm">{t('controlDesk.loadingMenus')}</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans">
                 {/* Spiritual Services Column */}
                 <div className="bg-white border border-[#D9B56A]/10 rounded-xl p-6">
                   <h3 className="font-['Cinzel'] text-lg text-[#D9B56A] border-b border-[#D9B56A]/10 pb-3 mb-4">
-                    Spiritual Services Menus
+                    {t('controlDesk.spiritualMenus')}
                   </h3>
                   <div className="space-y-3">
                     {categories.filter(c => c.type === 'service').map(cat => (
