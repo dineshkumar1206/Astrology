@@ -107,6 +107,9 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
             <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
              Discover the World's First Murugan Card Deck, thoughtfully curated by Saraa Tarot. Blending divine South Indian heritage with intuitive divination, this unique deck connects you to the powerful spiritual energy of Lord Murugan. Gain profound clarity, divine protection, and profound life direction with every sacred card you draw.
             </p>
+            <p className="text-[#000000] font-semibold text-[0.95rem] leading-7 max-w-[800px] mt-4">
+              Note: Additional overseas courier charges apply to all international shipments.
+            </p>
           </div>
           <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">
             <img 

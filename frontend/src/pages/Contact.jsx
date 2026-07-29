@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import ContactForm from './ContactForm';
 
 const heroBg = "https://images.unsplash.com/photo-1632386221545-c1fc23ffcefb?auto=format&fit=crop&w=1920&q=80";
 
@@ -123,15 +122,6 @@ export default function Contact() {
 
         </motion.div>
       </section>
-
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        variants={fadeInUpVariants}
-      >
-        <ContactForm />
-      </motion.div>
 
     </>
   );

@@ -86,13 +86,13 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
         {/* Header Section */}
         <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
-            LEARN THE ANCIENT MYSTIC ART
+            Learn Anytime, Transform Your Journey
           </span>
           <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
             Tarot Card Reading Classes
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
-            Learn the professional art of Tarot. Become a certified practitioner, learn to connect with your intuition, read spreads, and start your own professional practice.
+            Master the art of Tarot reading at your own pace with our professionally designed pre-recorded courses. Whether you're a complete beginner or looking to enhance your existing skills, our step-by-step lessons provide the knowledge and confidence you need. Trusted by students from across South India, our classes offer flexible learning, practical guidance, and lifelong access to help you build a strong foundation in Tarot.
           </p>
         </div>
 

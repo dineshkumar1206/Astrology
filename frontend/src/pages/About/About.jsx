@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import CosmicInsights from './CosmicInsights';
 import Team from './Team';
 
@@ -12,6 +13,46 @@ export default function About() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500;600&display=swap');
       `}</style>
+
+      <section className="relative w-full h-[450px] flex items-center justify-center">
+        <div
+          className="absolute inset-0 bg-cover bg-center z-0"
+          style={{ backgroundImage: "url('https://images.unsplash.com/photo-1632386221545-c1fc23ffcefb?auto=format&fit=crop&w=1920&q=80')" }}
+        ></div>
+        <div className="absolute inset-0 bg-[#2A1635]/80 z-10"></div>
+
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          transition={{ staggerChildren: 0.15 }}
+          className="relative z-20 text-center px-4"
+        >
+          <motion.h1
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } }
+            }}
+            className="font-serif text-[clamp(54px,8vw,84px)] text-[#F4F0EA] m-0 mb-2 font-normal"
+          >
+            About
+          </motion.h1>
+          <motion.p
+            variants={{
+              hidden: { opacity: 0, y: 30 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } }
+            }}
+            className="font-sans text-[14px] text-sara-gold uppercase tracking-[2px] m-0"
+          >
+            Saraa Tarot | The Vision & The Journey
+          </motion.p>
+        </motion.div>
+
+        <div className="absolute bottom-[-1px] left-0 w-full z-30 overflow-hidden leading-none">
+          <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-[80px] block fill-sara-cream">
+            <path d="M0,100 Q720,0 1440,100 V110 H0 Z"></path>
+          </svg>
+        </div>
+      </section>
 
       <section className="bg-[#F8F6FF] text-[#2A1635] py-24 w-full flex items-center relative overflow-hidden box-border">
         
