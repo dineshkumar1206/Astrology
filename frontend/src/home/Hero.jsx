@@ -243,7 +243,7 @@ export default function Hero() {
 
   return (
     <section
-      className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border bg-[linear-gradient(135deg,#F9F5FE_0%,#E3CAFA_100%)]"
+      className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border bg-[radial-gradient(ellipse_80%_100%_at_100%_50%,rgba(161,61,142,0.10)_0%,rgba(161,61,142,0.04)_40%,transparent_70%),linear-gradient(135deg,#FFFFFF_0%,#FDFCFF_40%,#F5EEFF_70%,#EAD6FA_100%)]"
     >
       <div
         aria-hidden="true"
