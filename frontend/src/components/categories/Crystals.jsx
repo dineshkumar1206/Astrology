@@ -191,10 +191,10 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                 Crystals
               </span>
               <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
-              <span className="text-sara-gold">{selectedCategory}</span>
+              <span className="text-[#000000]">{selectedCategory}</span>
             </>
           ) : (
-            <span className="text-sara-gold">Crystals</span>
+            <span className="text-[#000000]">Crystals</span>
           )}
         </div>
 
@@ -203,7 +203,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             SACRED GEOMETRY & ENERGY TOOLS
           </span>
-          <h1 className="text-sara-gold font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
+          <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
             {selectedCategory ? `${selectedCategory} Collection` : 'Crystals'}
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] mb-8">

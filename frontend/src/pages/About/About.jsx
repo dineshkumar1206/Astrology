@@ -105,7 +105,7 @@ export default function About() {
       </section>
       
       <CosmicInsights />
-      <Team />
+      
     </>
   );
 }

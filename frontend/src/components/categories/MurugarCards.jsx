@@ -92,20 +92,20 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
         <div className="mb-10 text-[13px] tracking-[0.5px]">
           <Link to="/" className="text-sara-muted no-underline">Home</Link>
           <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
-          <span className="text-sara-gold">Murugar Cards Reading</span>
+          <span className="text-[#000000]">Murugar Card Desk</span>
         </div>
 
         {/* Header Section */}
         <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)] flex flex-col sm:flex-row items-center gap-8">
           <div className="flex-[1_1_400px]">
             <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
-              DIVINE VEL GUIDANCE
+              Divine Guidance Through Sacred Tamil Wisdom
             </span>
-            <h1 className="text-sara-gold font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
-              Murugar Cards Reading
+            <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
+              Murugar Card Desk
             </h1>
             <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
-              Seek the sacred guidance and remedies of Lord Murugan. Receive pure answers to critical life questions, business directions, and spiritual obstacles.
+             Discover the World's First Murugan Card Deck, thoughtfully curated by Saraa Tarot. Blending divine South Indian heritage with intuitive divination, this unique deck connects you to the powerful spiritual energy of Lord Murugan. Gain profound clarity, divine protection, and profound life direction with every sacred card you draw.
             </p>
           </div>
           <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">

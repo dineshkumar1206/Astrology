@@ -125,7 +125,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                 <span className="text-sara-muted tracking-[2px] text-[12px] font-semibold uppercase">
                   {dynamicCat.type === 'crystal' ? 'Blessed & Programmed Crystals' : 'Divine Spiritual Guidance'}
                 </span>
-                <h1 className="text-sara-gold font-[Cinzel] text-[2.8rem] font-normal my-2 mb-6 uppercase tracking-[1px] leading-[1.2]">
+                <h1 className="text-[#000000] font-[Cinzel] text-[2.8rem] font-normal my-2 mb-6 uppercase tracking-[1px] leading-[1.2]">
                   {dynamicCat.name}
                 </h1>
                 <p className="text-sara-muted text-[1.05rem] leading-[1.7] max-w-[800px] m-0">

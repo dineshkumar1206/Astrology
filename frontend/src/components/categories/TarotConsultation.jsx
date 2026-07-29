@@ -153,7 +153,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
         <div className="mb-10 text-[13px] tracking-[0.5px]">
           <Link to="/" className="text-sara-muted no-underline">Home</Link>
           <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
-          <span className="text-sara-gold">Tarot Reading Private Consultation</span>
+          <span className="text-[#000000]">Tarot Reading Private Consultation</span>
         </div>
 
         {/* Header Section */}
@@ -161,7 +161,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             PERSONALIZED CELESTIAL GUIDANCE
           </span>
-          <h1 className="text-sara-gold font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
+          <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
             Tarot Reading Private Consultation
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
