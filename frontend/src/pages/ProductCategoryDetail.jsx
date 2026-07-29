@@ -4,6 +4,13 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import { useLanguage } from '../context/LanguageContext';
 import ProductDetailModal from '../components/ProductDetailModal';
+import { useTranslatedList, useTranslatedText } from '../utils/translator';
+
+function TranslatedCategoryName({ name, locale }) {
+  const translated = useTranslatedText(name, locale);
+  return <>{translated}</>;
+}
+
 
 import TarotConsultation from '../components/categories/TarotConsultation';
 import SpiritualHealing from '../components/categories/SpiritualHealing';
@@ -14,11 +21,12 @@ import CounselingClasses from '../components/categories/CounselingClasses';
 import KaliPooja from '../components/categories/KaliPooja';
 
 export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpen }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const { category } = useParams();
   const [categories, setCategories] = useState([]);
   const [dynamicCat, setDynamicCat] = useState(null);
   const [products, setProducts] = useState([]);
+  const translatedProducts = useTranslatedList(products, locale);
   const [loading, setLoading] = useState(true);
   const [activeProduct, setActiveProduct] = useState(null);
 
@@ -119,7 +127,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
               <div className="mb-10 text-[13px] tracking-[0.5px]">
                 <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">{t('productCategoryDetail.home')}</Link>
                 <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
-                <span className="text-sara-gold">{dynamicCat.name}</span>
+                <span className="text-sara-gold"><TranslatedCategoryName name={dynamicCat.name} locale={locale} /></span>
               </div>
 
               <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-[linear-gradient(135deg,#FFFFFF_0%,#F5EEFF_60%,rgba(161,61,142,0.08)_100%)] rounded-lg p-10 relative overflow-hidden">
@@ -128,10 +136,10 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                   {dynamicCat.type === 'crystal' ? t('productCategoryDetail.crystalType') : t('productCategoryDetail.divineType')}
                 </span>
                 <h1 className="text-[#000000] font-[Cinzel] text-[2.8rem] font-normal my-2 mb-6 uppercase tracking-[1px] leading-[1.2]">
-                  {dynamicCat.name}
+                  <TranslatedCategoryName name={dynamicCat.name} locale={locale} />
                 </h1>
                 <p className="text-sara-muted text-[1.05rem] leading-[1.7] max-w-[800px] m-0">
-                  {dynamicCat.desc || t('productCategoryDetail.fallbackDesc')}
+                  {dynamicCat.desc ? <TranslatedCategoryName name={dynamicCat.desc} locale={locale} /> : t('productCategoryDetail.fallbackDesc')}
                 </p>
               </div>
 
@@ -142,12 +150,12 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                   </h3>
 
                   <div className="flex flex-col gap-6">
-                    {products.length === 0 ? (
+                    {translatedProducts.length === 0 ? (
                       <div className="text-center py-12 text-sara-muted">
                         No offerings available at the moment. Please check back later.
                       </div>
                     ) : (
-                      products.map((item) => (
+                      translatedProducts.map((item) => (
                         <div
                           key={item.id}
                           onClick={() => setActiveProduct(item)}

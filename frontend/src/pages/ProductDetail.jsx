@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import { useLanguage } from '../context/LanguageContext';
+import { translateProduct } from '../utils/translator';
 
 const FALLBACK_IMAGES = {
   'crystal': '/crystal.jpg',
@@ -26,9 +27,10 @@ const SLUG_MAP = {
 };
 
 export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const { id } = useParams();
   const navigate = useNavigate();
+  const [rawProduct, setRawProduct] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSize, setSelectedSize] = useState(null);
@@ -39,7 +41,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
     const fetchProduct = async () => {
       try {
         const res = await axios.get(`${API_BASE_URL}/api/products/${id}`);
-        setProduct(res.data);
+        setRawProduct(res.data);
         if (res.data.sizes && res.data.sizes.length > 0) {
           setSelectedSize(res.data.sizes[0]);
         }
@@ -51,6 +53,19 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
     };
     fetchProduct();
   }, [id]);
+
+  useEffect(() => {
+    if (!rawProduct) return;
+    setProduct(rawProduct); // Immediate snappy fallback
+
+    let active = true;
+    translateProduct(rawProduct, locale).then((res) => {
+      if (active) setProduct(res);
+    });
+    return () => {
+      active = false;
+    };
+  }, [rawProduct, locale]);
 
   const getImgSrc = () => {
     if (!product) return '/saraa-logo.jpeg';

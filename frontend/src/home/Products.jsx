@@ -5,6 +5,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import ProductDetailModal from '../components/ProductDetailModal';
 import { useLanguage } from '../context/LanguageContext';
+import { translateProduct } from '../utils/translator';
 
 const fadeInUpVariants = {
   hidden: { opacity: 0, y: 30 },
@@ -16,7 +17,7 @@ const fadeInUpVariants = {
 };
 
 const CATEGORY_SECTIONS = [
-  { title: 'Crystals', viewAllPath: '/products/crystals', filterType: 'crystal' },
+  { title: 'Saraa Healing Crystals', viewAllPath: '/products/crystals', filterType: 'crystal' },
   { title: 'Murugar Card Deck', viewAllPath: '/products/murugar-cards', categoryName: 'Murugar Cards' },
   { title: 'Tarot Private Consultation', viewAllPath: '/products/tarot-consultation', categoryName: 'Tarot Private Consultation' },
   { title: 'Spiritual Healing', viewAllPath: '/products/spiritual-healing', categoryName: 'Spiritual Healing' },
@@ -86,8 +87,9 @@ function getProductImage(product, categoryFallbacks) {
 }
 
 export default function Products({ cart = [], setCart, setIsCartOpen }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [allProducts, setAllProducts] = useState([]);
+  const [translatedProducts, setTranslatedProducts] = useState([]);
   const [crystalCategoryNames, setCrystalCategoryNames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeProduct, setActiveProduct] = useState(null);
@@ -117,13 +119,32 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (allProducts.length === 0) return;
+    setTranslatedProducts(allProducts); // Immediately show original text
+
+    let active = true;
+    const translateAll = async () => {
+      const translated = await Promise.all(
+        allProducts.map(p => translateProduct(p, locale))
+      );
+      if (active) {
+        setTranslatedProducts(translated);
+      }
+    };
+    translateAll();
+    return () => {
+      active = false;
+    };
+  }, [allProducts, locale]);
+
   const getProductsForSection = (section) => {
     if (section.filterType === 'crystal') {
-      return allProducts.filter(p =>
+      return translatedProducts.filter(p =>
         p.category && crystalCategoryNames.includes(p.category.toLowerCase())
       );
     }
-    return allProducts.filter(p =>
+    return translatedProducts.filter(p =>
       p.category && p.category.toLowerCase() === (section.categoryName || '').toLowerCase()
     );
   };
@@ -161,6 +182,18 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
     if (setIsCartOpen) {
       setIsCartOpen(true);
     }
+  };
+
+  const translateSectionTitle = (title) => {
+    const lower = title.toLowerCase();
+    if (lower.includes('crystals') || lower.includes('crystal')) return t('crystalsPage.title');
+    if (lower.includes('murugar')) return t('categories.murugar.title');
+    if (lower.includes('private consultation') || lower.includes('tarot consultation')) return t('categories.tarot.title');
+    if (lower.includes('spiritual healing') || lower.includes('healing')) return t('categories.healing.title');
+    if (lower.includes('kali pooja') || lower.includes('pooja')) return t('categories.pooja.title');
+    if (lower.includes('tarot card reading') || lower.includes('tarot reading') || lower.includes('tarot classes')) return t('categories.tarotClasses.title');
+    if (lower.includes('spiritual counseling') || lower.includes('counseling')) return t('categories.counselingClasses.title');
+    return title;
   };
 
   return (
@@ -201,7 +234,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
             >
               <div className="flex items-end justify-between mb-6 border-b border-[rgba(214,178,106,0.15)] pb-4">
                 <h2 className="text-black text-2xl font-light uppercase tracking-[1.5px] m-0 font-serif">
-                  {section.title}
+                  {translateSectionTitle(section.title)}
                 </h2>
                 <Link
                   to={section.viewAllPath}

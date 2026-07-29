@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { useLanguage } from '../../context/LanguageContext';
-
-
+import { useTranslatedList } from '../../utils/translator';
 
 export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [items, setItems] = useState([]);
+  const translatedItems = useTranslatedList(items, locale);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -94,12 +94,12 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
                 <div className="text-center py-12 text-sara-gold">
                   {t('categoryCommon.loading')}
                 </div>
-              ) : items.length === 0 ? (
+              ) : translatedItems.length === 0 ? (
                 <div className="text-center py-12 text-sara-muted">
                   {t('categoryCommon.empty')}
                 </div>
               ) : (
-                items.map((item) => (
+                translatedItems.map((item) => (
                 <div 
                   key={item.id}
                   className="bg-white border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_20px_rgba(42,22,53,0.08)]"

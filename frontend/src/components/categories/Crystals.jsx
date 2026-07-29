@@ -3,6 +3,13 @@ import { Link, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { useLanguage } from '../../context/LanguageContext';
+import { useTranslatedList, useTranslatedText } from '../../utils/translator';
+
+function TranslatedCategoryName({ name, locale }) {
+  const translated = useTranslatedText(name, locale);
+  return <>{translated}</>;
+}
+
 
 const CRYSTAL_IMAGES = [
   '/Raw-Amethyst-Geode.png',
@@ -18,12 +25,13 @@ const CRYSTAL_IMAGES = [
 ];
 
 export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const [searchParams, setSearchParams] = useSearchParams();
   const subcategoryParam = searchParams.get('subcategory');
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [activeItemId, setActiveItemId] = useState(null);
   const [items, setItems] = useState([]);
+  const translatedItems = useTranslatedList(items, locale);
   const [loading, setLoading] = useState(true);
   const [healingPowerChecked, setHealingPowerChecked] = useState(false);
   const [crystalCategories, setCrystalCategories] = useState([]);
@@ -124,7 +132,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const handleOpenPopup = (itemId, e) => {
     e.stopPropagation();
     setActiveItemId(itemId);
-    const item = items.find(i => i.id === itemId);
+    const item = translatedItems.find(i => i.id === itemId);
     if (item && Array.isArray(item.sizes) && item.sizes.length > 0) {
       setSelectedSizes(prev => ({ ...prev, [itemId]: item.sizes[0] }));
     }
@@ -135,10 +143,10 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   };
 
   const filteredItems = selectedCategory
-    ? items.filter(item => item.category && item.category.toLowerCase() === selectedCategory.toLowerCase())
-    : items;
+    ? translatedItems.filter(item => item.category && item.category.toLowerCase() === selectedCategory.toLowerCase())
+    : translatedItems;
 
-  const currentItem = items.find((item) => item.id === activeItemId);
+  const currentItem = translatedItems.find((item) => item.id === activeItemId);
 
   return (
     <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] font-sans pt-16 pb-24 px-4 sm:px-8">
@@ -157,7 +165,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                 {t('crystalsPage.title')}
               </span>
               <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
-              <span className="text-[#000000]">{selectedCategory}</span>
+              <span className="text-[#000000]"><TranslatedCategoryName name={selectedCategory} locale={locale} /></span>
             </>
           ) : (
             <span className="text-[#000000]">{t('crystalsPage.title')}</span>
@@ -170,12 +178,12 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
             {t('crystalsPage.badge')}
           </span>
           <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
-            {selectedCategory ? `${selectedCategory} ${t('crystalsPage.collection')}` : t('crystalsPage.title')}
+            {selectedCategory ? <><TranslatedCategoryName name={selectedCategory} locale={locale} /> {t('crystalsPage.collection')}</> : t('crystalsPage.title')}
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] mb-8">
             {(() => {
               const catData = crystalCategories.find(c => c.name.toLowerCase() === (selectedCategory || '').toLowerCase());
-              return catData ? catData.desc : t('crystalsPage.description');
+              return catData ? <TranslatedCategoryName name={catData.desc} locale={locale} /> : t('crystalsPage.description');
             })()}
           </p>
 
@@ -201,7 +209,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     : 'bg-[rgba(214,178,106,0.05)] text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 px-5 rounded-[20px] text-xs font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-[rgba(214,178,106,0.15)]'
                 }
               >
-                {cat.name}
+                <TranslatedCategoryName name={cat.name} locale={locale} />
               </button>
             ))}
           </div>
