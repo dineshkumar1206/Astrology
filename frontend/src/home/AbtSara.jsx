@@ -34,14 +34,14 @@ export default function AbtSara() {
     <div
       ref={sectionRef}
       id="about"
-      className="relative text-white py-24 px-6 pb-40 overflow-hidden min-h-[700px] bg-[radial-gradient(ellipse_60%_50%_at_25%_80%,rgba(106,53,117,0.20)_0%,rgba(67,32,78,0.08)_40%,transparent_70%),radial-gradient(ellipse_40%_35%_at_80%_30%,rgba(214,178,106,0.06)_0%,transparent_60%),linear-gradient(180deg,#161330_0%,#0B1225_100%)]"
+      className="relative py-24 px-6 pb-40 overflow-hidden min-h-[700px] bg-[radial-gradient(ellipse_60%_50%_at_25%_80%,rgba(161,61,142,0.06)_0%,rgba(91,46,120,0.03)_40%,transparent_70%),radial-gradient(ellipse_40%_35%_at_80%_30%,rgba(214,178,106,0.04)_0%,transparent_60%),linear-gradient(135deg,#FFFFFF_0%,#FDFCFF_40%,#F5EEFF_70%,#EAD6FA_100%)]"
     >
       <div
         className="pointer-events-none absolute inset-0 z-0"
         aria-hidden="true"
       >
-        <div className="absolute -top-[10%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(106,53,117,0.18)_0%,transparent_70%)] blur-[60px] animate-[floatGlowPurple_6s_ease-in-out_infinite]" />
-        <div className="absolute bottom-[5%] left-[10%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.10)_0%,transparent_70%)] blur-[50px] animate-[floatGlowGold_8s_ease-in-out_infinite]" />
+        <div className="absolute -top-[10%] -right-[8%] w-[500px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(161,61,142,0.10)_0%,transparent_70%)] blur-[60px] animate-[floatGlowPurple_6s_ease-in-out_infinite]" />
+        <div className="absolute bottom-[5%] left-[10%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.08)_0%,transparent_70%)] blur-[50px] animate-[floatGlowGold_8s_ease-in-out_infinite]" />
       </div>
 
       <motion.div
@@ -53,14 +53,14 @@ export default function AbtSara() {
       >
         <motion.p
           variants={fadeInUpVariants}
-          className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-sara-gold m-0 mb-2"
+          className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-black m-0 mb-2"
         >
           The Founder
         </motion.p>
 
         <motion.h2
           variants={fadeInUpVariants}
-          className="text-center font-serif text-[clamp(44px,6.5vw,72px)] font-normal tracking-[0.5px] m-0 mb-16 text-white"
+          className="text-center font-serif text-[clamp(44px,6.5vw,72px)] font-normal tracking-[0.5px] m-0 mb-16 text-black"
         >
           The Story of Saraa Tarot
         </motion.h2>
@@ -68,7 +68,7 @@ export default function AbtSara() {
         <motion.div
           style={{ y: moonY, rotate: moonRotate }}
           whileHover={{ scale: 1.08 }}
-          className="absolute right-4 top-[80px] lg:right-10 lg:top-[100px] w-[75px] h-[75px] md:w-[90px] md:h-[90px] overflow-hidden rounded-full border border-[rgba(214,178,106,0.25)] shadow-[0_15px_40px_rgba(106,53,117,0.3)] bg-sara-panel z-20 hidden md:block"
+          className="absolute right-4 top-[80px] lg:right-10 lg:top-[100px] w-[75px] h-[75px] md:w-[90px] md:h-[90px] overflow-hidden rounded-full border border-[rgba(214,178,106,0.25)] shadow-[0_15px_40px_rgba(161,61,142,0.15)] bg-white z-20 hidden md:block"
         >
           <img
             src={IMAGES.moonCircle}
@@ -82,7 +82,7 @@ export default function AbtSara() {
           <motion.div
             variants={fadeInUpVariants}
             whileHover={{ scale: 1.015, transition: { duration: 0.4 } }}
-            className="w-full aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(0,0,0,0.3)] bg-sara-panel"
+            className="w-full aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(161,61,142,0.10)] bg-white"
           >
             <img
               src={IMAGES.mainPortrait}
@@ -95,10 +95,10 @@ export default function AbtSara() {
             variants={fadeInUpVariants}
             className="flex flex-col justify-center py-5"
           >
-            <p className="font-sans font-light text-[15px] leading-[1.8] text-sara-muted m-0 mb-6">
+            <p className="font-sans font-light text-[15px] leading-[1.8] text-black m-0 mb-6">
               Saraa's journey into the mystical realm of Tarot and spiritual healing began as a deeply personal calling to help others find alignment. Guided by decades of study and intuitive practice, she founded Saraa Tarot to bridge the gap between the material world and divine wisdom.
             </p>
-            <p className="font-sans font-light text-[15px] leading-[1.8] text-sara-muted m-0 mb-6">
+            <p className="font-sans font-light text-[15px] leading-[1.8] text-black m-0 mb-6">
               Through personalized consultations and spiritual classes, Saraa provides a compassionate, empowering space. Every reading and session is crafted to decode life's complexities and guide your spirit toward absolute clarity.
             </p>
 
@@ -119,7 +119,7 @@ export default function AbtSara() {
             <motion.div
               style={{ y: cardSpreadY }}
               whileHover={{ scale: 1.02 }}
-              className="w-[95%] mx-auto aspect-[6/5] min-h-[360px] overflow-hidden rounded-2xl rounded-br-[80px] border border-[rgba(214,178,106,0.2)] shadow-[0_20px_45px_rgba(0,0,0,0.3)] bg-sara-panel"
+              className="w-[95%] mx-auto aspect-[6/5] min-h-[360px] overflow-hidden rounded-2xl rounded-br-[80px] border border-[rgba(214,178,106,0.2)] shadow-[0_20px_45px_rgba(161,61,142,0.10)] bg-white"
             >
               <img
                 src={IMAGES.cardSpread}

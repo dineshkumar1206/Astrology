@@ -26,7 +26,7 @@ export default function Contact() {
         <div
           className="absolute inset-0 bg-cover bg-center z-0 bg-[url('https://images.unsplash.com/photo-1632386221545-c1fc23ffcefb?auto=format&fit=crop&w=1920&q=80')]"
         ></div>
-        <div className="absolute inset-0 bg-sara-purple/75 z-10"></div>
+        <div className="absolute inset-0 bg-[#2A1635]/80 z-10"></div>
 
         <motion.div
           initial="hidden"
@@ -70,13 +70,13 @@ export default function Contact() {
               Get in Touch with Cosmic Insights
             </motion.p>
 
-            <motion.h2 variants={fadeInUpVariants} className="m-0 mb-10 font-serif text-[clamp(36px,4.5vw,48px)] font-normal leading-[1.2] text-sara-purple">
+            <motion.h2 variants={fadeInUpVariants} className="m-0 mb-10 font-serif text-[clamp(36px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
               Reach Out for Personalized Guidance Today
             </motion.h2>
 
             <motion.div variants={fadeInUpVariants} className="mb-10">
               {accordionItems.map((item, index) => (
-                <div key={index} className="flex items-center py-5 border-b border-sara-gold/20 font-sans text-[15px] text-sara-purple cursor-pointer transition-colors duration-300 hover:text-sara-gold">
+                <div key={index} className="flex items-center py-5 border-b border-sara-gold/20 font-sans text-[15px] text-[#2A1635] cursor-pointer transition-colors duration-300 hover:text-sara-gold">
                   <span className="mr-4 text-sara-gold text-[12px]">▼</span>
                   {item}
                 </div>
@@ -86,7 +86,7 @@ export default function Contact() {
             <motion.div variants={fadeInUpVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-10 font-sans">
               <div>
                 <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">Office Address</h4>
-                <p className="text-[#4A4458] text-[14px] leading-relaxed m-0 font-light">
+                <p className="text-[#3E2F48] text-[14px] leading-relaxed m-0 font-light">
                   SARA HEALING CENTRE<br />
                   Shri sathya nagar, Othivakkam,<br />
                   Guduvanchery, Chengalpattu
@@ -94,14 +94,14 @@ export default function Contact() {
               </div>
               <div>
                 <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">Get in Touch</h4>
-                <p className="text-[#4A4458] text-[14px] leading-relaxed m-0 font-light">
+                <p className="text-[#3E2F48] text-[14px] leading-relaxed m-0 font-light">
                   <span className="font-semibold text-sara-gold">Phone:</span> +91 96551 99507<br />
                   <span className="font-semibold text-sara-gold">Email:</span> tamiltarotmagic@gmail.com
                 </p>
               </div>
             </motion.div>
 
-            <motion.button variants={fadeInUpVariants} className="bg-transparent text-sara-gold border border-sara-gold px-8 py-3 font-sans text-[12px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 inline-block hover:bg-sara-gold hover:text-sara-purple">
+            <motion.button variants={fadeInUpVariants} className="bg-transparent text-sara-gold border border-sara-gold px-8 py-3 font-sans text-[12px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 inline-block hover:bg-sara-gold hover:text-[#2A1635]">
               Ask for a Quote
             </motion.button>
           </div>
@@ -110,7 +110,7 @@ export default function Contact() {
             variants={fadeInUpVariants}
             className="flex-1 w-full lg:min-w-[500px] min-h-[400px] md:min-h-[450px] relative z-10"
           >
-            <div className="w-full h-full min-h-[400px] md:min-h-[450px] bg-sara-white border border-sara-gold/20 rounded-lg overflow-hidden shadow-[0_4px_20px_rgba(29,11,46,0.08)]">
+            <div className="w-full h-full min-h-[400px] md:min-h-[450px] bg-white border border-sara-gold/20 rounded-lg overflow-hidden shadow-[0_4px_20px_rgba(29,11,46,0.08)]">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.871032155608!2d80.05739097585098!3d12.825740487476839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52f70d6eb8bcbb%3A0x7d6c6e7a2b9a7102!2sGuduvanchery%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1708450123456!5m2!1sen!2sin"
                 className="w-full h-full border-0"

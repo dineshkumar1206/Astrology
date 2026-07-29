@@ -343,7 +343,7 @@ export default function ControlDesk() {
   );
 
   return (
-    <div className="min-h-screen bg-[#090514] text-[#F4F0EA] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] flex flex-col font-sans">
       
       {/* ─── NAVBAR PANEL ─── */}
       <AdminNavbar 
@@ -365,14 +365,14 @@ export default function ControlDesk() {
                 <h2 className="font-['Cinzel'] text-3xl font-normal text-[#D9B56A] tracking-wide">
                   Manage Menu Categories
                 </h2>
-                <p className="text-[13px] text-[#B7AFC7] mt-1">
+                <p className="text-[13px] text-[#3E2F48] mt-1">
                   Add, edit, or remove top-level Spiritual Services and Crystal subcategories.
                 </p>
               </div>
               
               <button
                 onClick={openAddCategoryModal}
-                className="flex items-center gap-2 bg-[#D9B56A] text-[#0A0713] px-5 py-3 rounded-lg text-[13px] font-semibold uppercase tracking-[0.5px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer shadow-[0_4px_15px_rgba(217,181,106,0.15)]"
+                className="flex items-center gap-2 bg-[#D9B56A] text-[#2A1635] px-5 py-3 rounded-lg text-[13px] font-semibold uppercase tracking-[0.5px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer shadow-[0_4px_15px_rgba(217,181,106,0.15)]"
               >
                 <Plus size={16} />
                 <span>Add Category / Menu</span>
@@ -382,21 +382,21 @@ export default function ControlDesk() {
             {loading ? (
               <div className="flex flex-col items-center justify-center py-20">
                 <Loader2 className="animate-spin text-[#D9B56A] mb-4" size={40} />
-                <p className="text-[#B7AFC7] text-sm">Loading menus...</p>
+                <p className="text-[#3E2F48] text-sm">Loading menus...</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-sans">
                 {/* Spiritual Services Column */}
-                <div className="bg-[#130f24]/50 border border-[#D9B56A]/10 rounded-xl p-6">
+                <div className="bg-white border border-[#D9B56A]/10 rounded-xl p-6">
                   <h3 className="font-['Cinzel'] text-lg text-[#D9B56A] border-b border-[#D9B56A]/10 pb-3 mb-4">
                     Spiritual Services Menus
                   </h3>
                   <div className="space-y-3">
                     {categories.filter(c => c.type === 'service').map(cat => (
-                      <div key={cat.id} className="flex justify-between items-center bg-[#130f24] border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all">
+                      <div key={cat.id} className="flex justify-between items-center bg-white border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all">
                         <div>
-                          <h4 className="font-semibold text-[14px] text-white">{cat.name}</h4>
-                          <p className="text-[11px] text-[#B7AFC7] mt-0.5 line-clamp-1 max-w-[300px]">{cat.desc || 'No description provided.'}</p>
+                          <h4 className="font-semibold text-[14px] text-[#2A1635]">{cat.name}</h4>
+                          <p className="text-[11px] text-[#3E2F48] mt-0.5 line-clamp-1 max-w-[300px]">{cat.desc || 'No description provided.'}</p>
                           <span className="inline-block mt-2 text-[9px] font-bold uppercase tracking-wider bg-[#D9B56A]/10 text-[#D9B56A] px-2 py-0.5 rounded">
                             Slug: {cat.slug}
                           </span>
@@ -404,7 +404,7 @@ export default function ControlDesk() {
                         <div className="flex gap-2">
                           <button 
                             onClick={() => openEditCategoryModal(cat)}
-                            className="p-2 text-[#B7AFC7] hover:text-[#D9B56A] hover:bg-[#D9B56A]/5 rounded transition-all cursor-pointer"
+                            className="p-2 text-[#3E2F48] hover:text-[#D9B56A] hover:bg-[#D9B56A]/5 rounded transition-all cursor-pointer"
                             title="Edit Menu"
                           >
                             <Pencil size={15} />
@@ -423,26 +423,26 @@ export default function ControlDesk() {
                 </div>
 
                 {/* Crystals Subcategories Column */}
-                <div className="bg-[#130f24]/50 border border-[#D9B56A]/10 rounded-xl p-6">
+                <div className="bg-white border border-[#D9B56A]/10 rounded-xl p-6">
                   <h3 className="font-['Cinzel'] text-lg text-[#D9B56A] border-b border-[#D9B56A]/10 pb-3 mb-4">
                     Crystals Collection Menus
                   </h3>
                   <div className="space-y-3">
                     {categories.filter(c => c.type === 'crystal').map(cat => (
-                      <div key={cat.id} className="flex justify-between items-center bg-[#130f24] border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all">
+                      <div key={cat.id} className="flex justify-between items-center bg-white border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all">
                         <div className="flex gap-3 items-center">
                           {cat.image && (
                             <img src={cat.image} alt={cat.name} className="w-10 h-10 object-cover rounded border border-[#D9B56A]/20" />
                           )}
                           <div>
-                            <h4 className="font-semibold text-[14px] text-white">{cat.name}</h4>
-                            <p className="text-[11px] text-[#B7AFC7] mt-0.5 line-clamp-1 max-w-[250px]">{cat.desc || 'No description provided.'}</p>
+                            <h4 className="font-semibold text-[14px] text-[#2A1635]">{cat.name}</h4>
+                            <p className="text-[11px] text-[#3E2F48] mt-0.5 line-clamp-1 max-w-[250px]">{cat.desc || 'No description provided.'}</p>
                           </div>
                         </div>
                         <div className="flex gap-2">
                           <button 
                             onClick={() => openEditCategoryModal(cat)}
-                            className="p-2 text-[#B7AFC7] hover:text-[#D9B56A] hover:bg-[#D9B56A]/5 rounded transition-all cursor-pointer"
+                            className="p-2 text-[#3E2F48] hover:text-[#D9B56A] hover:bg-[#D9B56A]/5 rounded transition-all cursor-pointer"
                             title="Edit Menu"
                           >
                             <Pencil size={15} />
@@ -471,14 +471,14 @@ export default function ControlDesk() {
                 <h2 className="font-['Cinzel'] text-3xl font-normal text-[#D9B56A] tracking-wide">
                   {activeCategory} Collection
                 </h2>
-                <p className="text-[13px] text-[#B7AFC7] mt-1">
+                <p className="text-[13px] text-[#3E2F48] mt-1">
                   Manage listings published under the {activeCategory} category.
                 </p>
               </div>
               
               <button
                 onClick={openAddModal}
-                className="flex items-center gap-2 bg-[#D9B56A] text-[#0A0713] px-5 py-3 rounded-lg text-[13px] font-semibold uppercase tracking-[0.5px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer shadow-[0_4px_15px_rgba(217,181,106,0.15)]"
+                className="flex items-center gap-2 bg-[#D9B56A] text-[#2A1635] px-5 py-3 rounded-lg text-[13px] font-semibold uppercase tracking-[0.5px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer shadow-[0_4px_15px_rgba(217,181,106,0.15)]"
               >
                 <Plus size={16} />
                 <span>Add Product / Item</span>
@@ -489,7 +489,7 @@ export default function ControlDesk() {
             {loading && (
               <div className="flex flex-col items-center justify-center py-20">
                 <Loader2 className="animate-spin text-[#D9B56A] mb-4" size={40} />
-                <p className="text-[#B7AFC7] text-sm font-sans">Loading listings...</p>
+                <p className="text-[#3E2F48] text-sm font-sans">Loading listings...</p>
               </div>
             )}
 
@@ -505,10 +505,10 @@ export default function ControlDesk() {
               <>
                 {filteredProducts.length === 0 ? (
                   <div className="text-center py-20 border border-dashed border-[#D9B56A]/20 rounded-xl font-sans">
-                    <p className="text-[#B7AFC7] text-[15px]">No products found in the {activeCategory} category.</p>
+                    <p className="text-[#3E2F48] text-[15px]">No products found in the {activeCategory} category.</p>
                     <button
                       onClick={openAddModal}
-                      className="text-[#D9B56A] underline mt-2 text-sm font-semibold hover:text-white"
+                      className="text-[#D9B56A] underline mt-2 text-sm font-semibold hover:text-[#2A1635]"
                     >
                       Create first listing for {activeCategory}
                     </button>
@@ -518,10 +518,10 @@ export default function ControlDesk() {
                     {filteredProducts.map((product) => (
                       <div 
                         key={product.id}
-                        className="bg-[#130f24] border border-[#D9B56A]/15 rounded-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#D9B56A]/40"
+                        className="bg-white border border-[#D9B56A]/15 rounded-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#D9B56A]/40"
                       >
                         {/* Card Image */}
-                        <div className="w-full h-[160px] aspect-video overflow-hidden relative bg-[#0A0713] flex items-center justify-center">
+                        <div className="w-full h-[160px] aspect-video overflow-hidden relative bg-[#F5F0FF] flex items-center justify-center">
                           {isCrystalCategory(product.category) || isKaliPoojaCategory(product.category) ? (
                             product.image ? (
                               <img 
@@ -539,7 +539,7 @@ export default function ControlDesk() {
                             </div>
                           )}
                           
-                          <div className="absolute top-3 right-3 bg-[#0A0713]/80 border border-[#D9B56A]/20 px-2.5 py-1 rounded text-[10px] text-[#D9B56A] font-bold uppercase tracking-wider backdrop-blur-sm">
+                          <div className="absolute top-3 right-3 bg-[#F5F0FF] border border-[#D9B56A]/20 px-2.5 py-1 rounded text-[10px] text-[#D9B56A] font-bold uppercase tracking-wider backdrop-blur-sm">
                             ₹{product.price}
                           </div>
                         </div>
@@ -548,14 +548,14 @@ export default function ControlDesk() {
                         <div className="p-5 flex-grow flex flex-col justify-between">
                           <div>
                             <div className="flex justify-between items-start gap-2 mb-1.5">
-                              <h3 className="font-semibold text-base text-white tracking-wide leading-tight">
+                              <h3 className="font-semibold text-base text-[#2A1635] tracking-wide leading-tight">
                                 {product.name}
                               </h3>
                             </div>
                             <p className="text-[11px] text-[#D9B56A] font-bold uppercase tracking-wider mb-2.5">
                               {product.type}
                             </p>
-                            <p className="text-xs text-[#B7AFC7] leading-relaxed mb-4 line-clamp-3">
+                            <p className="text-xs text-[#3E2F48] leading-relaxed mb-4 line-clamp-3">
                               {product.desc || 'No description provided.'}
                             </p>
 
@@ -565,7 +565,7 @@ export default function ControlDesk() {
                                 <span className="text-[9px] text-[#D9B56A] font-bold uppercase tracking-widest block mb-1">Inclusions:</span>
                                 <ul className="space-y-1">
                                   {product.inclusions.map((inc, i) => (
-                                    <li key={i} className="text-[11px] text-[#B7AFC7] flex items-center gap-1.5">
+                                    <li key={i} className="text-[11px] text-[#3E2F48] flex items-center gap-1.5">
                                       <span className="w-1 h-1 bg-[#D9B56A] rounded-full shrink-0" />
                                       <span className="truncate">{inc}</span>
                                     </li>
@@ -580,7 +580,7 @@ export default function ControlDesk() {
                                 <span className="text-[9px] text-[#D9B56A] font-bold uppercase tracking-widest block mb-1">Sizes:</span>
                                 <div className="flex flex-wrap gap-1.5">
                                   {product.sizes.map((size, i) => (
-                                    <span key={i} className="text-[10px] text-[#B7AFC7] bg-[#D9B56A]/10 border border-[#D9B56A]/15 px-2 py-0.5 rounded">
+                                    <span key={i} className="text-[10px] text-[#3E2F48] bg-[#D9B56A]/10 border border-[#D9B56A]/15 px-2 py-0.5 rounded">
                                       {size}
                                     </span>
                                   ))}
@@ -621,7 +621,7 @@ export default function ControlDesk() {
       {/* ─── PRODUCT ADD / EDIT MODAL ─── */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 overflow-y-auto backdrop-blur-sm">
-          <div className="bg-[#130f24] border border-[#D9B56A]/30 w-full max-w-lg rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-white border border-[#D9B56A]/30 w-full max-w-lg rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[90vh]">
             {/* Modal Header */}
             <div className="px-6 py-4 border-b border-[#D9B56A]/10 flex justify-between items-center">
               <h3 className="font-['Cinzel'] text-lg font-normal text-[#D9B56A] uppercase tracking-wider">
@@ -629,7 +629,7 @@ export default function ControlDesk() {
               </h3>
               <button 
                 onClick={() => setShowModal(false)}
-                className="text-[#B7AFC7] hover:text-white text-lg font-semibold cursor-pointer"
+                className="text-[#3E2F48] hover:text-[#2A1635] text-lg font-semibold cursor-pointer"
               >
                 ✕
               </button>
@@ -656,7 +656,7 @@ export default function ControlDesk() {
                 
                 {/* Name */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     {isCrystalCategory(formData.category) ? 'Product Name *' : 'Service Title / Name *'}
                   </label>
                   <input
@@ -666,14 +666,14 @@ export default function ControlDesk() {
                     onChange={handleInputChange}
                     placeholder={isCrystalCategory(formData.category) ? 'e.g. Dhanyog Crystal' : 'e.g. Relationship Healing Session'}
                     required
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                   />
                 </div>
 
                 {/* Price & Type */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                       Price (INR) *
                     </label>
                     <input
@@ -683,12 +683,12 @@ export default function ControlDesk() {
                       onChange={handleInputChange}
                       placeholder="e.g. 1800"
                       required
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                     />
                   </div>
 
                   <div>
-                    <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                       {isCrystalCategory(formData.category) ? 'Product Type' : 'Duration / Session Type *'}
                     </label>
                     <input
@@ -698,24 +698,24 @@ export default function ControlDesk() {
                       onChange={handleInputChange}
                       required={!isCrystalCategory(formData.category)}
                       placeholder={isCrystalCategory(formData.category) ? 'e.g. Blessed & Energized' : 'e.g. Duration: 40 minutes'}
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                     />
                   </div>
                 </div>
 
                 {/* Category selector */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Category Menu Selection *
                   </label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                   >
                     {categories.map(cat => (
-                      <option key={cat.id} value={cat.name} className="bg-[#130f24] text-white">
+                      <option key={cat.id} value={cat.name} className="bg-white text-[#2A1635]">
                         {cat.name} ({cat.type})
                       </option>
                     ))}
@@ -725,7 +725,7 @@ export default function ControlDesk() {
                 {/* Image Upload Area */}
                 {(isCrystalCategory(formData.category) || isKaliPoojaCategory(formData.category) || isMurugarCategory(formData.category)) && (
                   <div>
-                    <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                       Item Image
                     </label>
                     
@@ -734,7 +734,7 @@ export default function ControlDesk() {
                       borderRadius: '8px',
                       padding: '1.5rem',
                       textAlign: 'center',
-                      backgroundColor: 'rgba(10, 7, 19, 0.4)',
+                      backgroundColor: 'rgba(245, 240, 255, 0.8)',
                       cursor: 'pointer',
                       position: 'relative',
                       transition: 'all 0.2s ease',
@@ -783,7 +783,7 @@ export default function ControlDesk() {
                           <span className="text-[10px] text-gray-500 mt-1">Click or drag to replace image</span>
                         </div>
                       ) : (
-                        <div className="flex flex-col items-center py-2 text-[#B7AFC7]">
+                        <div className="flex flex-col items-center py-2 text-[#3E2F48]">
                           <span className="text-[13px] font-medium">Drag file here or click to upload</span>
                           <span className="text-[10px] text-gray-500 mt-0.5">Supports PNG, JPG, JPEG (Max 5MB)</span>
                         </div>
@@ -794,7 +794,7 @@ export default function ControlDesk() {
 
                 {/* Description */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Item Description
                   </label>
                   <textarea
@@ -803,14 +803,14 @@ export default function ControlDesk() {
                     onChange={handleInputChange}
                     rows="3"
                     placeholder="Provide a detailed description of the product or healing service..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200 resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200 resize-none"
                   />
                 </div>
 
                 {/* Inclusions (Crystals Only) */}
                 {isCrystalCategory(formData.category) && (
                   <div>
-                    <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                       Inclusions (one item per line)
                     </label>
                     <textarea
@@ -819,7 +819,7 @@ export default function ControlDesk() {
                       onChange={handleInputChange}
                       rows="3"
                       placeholder="e.g.&#10;Spiritually cleansed and energized&#10;Sacred prasadham included"
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200 resize-none"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200 resize-none"
                     />
                   </div>
                 )}
@@ -827,7 +827,7 @@ export default function ControlDesk() {
                 {/* Sizes (Crystals Only) */}
                 {isCrystalCategory(formData.category) && (
                   <div>
-                    <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                       Available Sizes (one size per line)
                     </label>
                     <textarea
@@ -836,7 +836,7 @@ export default function ControlDesk() {
                       onChange={handleInputChange}
                       rows="3"
                       placeholder="e.g.&#10;Small&#10;Medium&#10;Large"
-                      className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200 resize-none"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200 resize-none"
                     />
                   </div>
                 )}
@@ -846,7 +846,7 @@ export default function ControlDesk() {
                   <button
                     type="submit"
                     disabled={formLoading}
-                    className="w-full flex items-center justify-center gap-2 bg-[#D9B56A] text-[#0A0713] py-3 rounded-lg text-xs font-bold uppercase tracking-[1px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 bg-[#D9B56A] text-[#2A1635] py-3 rounded-lg text-xs font-bold uppercase tracking-[1px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {formLoading ? (
                       <>
@@ -868,14 +868,14 @@ export default function ControlDesk() {
       {/* ─── CATEGORY ADD / EDIT MODAL ─── */}
       {showCategoryModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 overflow-y-auto backdrop-blur-sm">
-          <div className="bg-[#130f24] border border-[#D9B56A]/30 w-full max-w-lg rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[90vh]">
+          <div className="bg-white border border-[#D9B56A]/30 w-full max-w-lg rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.8)] overflow-hidden flex flex-col max-h-[90vh]">
             <div className="px-6 py-4 border-b border-[#D9B56A]/10 flex justify-between items-center">
               <h3 className="font-['Cinzel'] text-lg font-normal text-[#D9B56A] uppercase tracking-wider">
                 {catFormData.id ? 'Edit Menu Category' : 'Add Menu Category'}
               </h3>
               <button 
                 onClick={() => setShowCategoryModal(false)}
-                className="text-[#B7AFC7] hover:text-white text-lg font-semibold cursor-pointer"
+                className="text-[#3E2F48] hover:text-[#2A1635] text-lg font-semibold cursor-pointer"
               >
                 ✕
               </button>
@@ -900,7 +900,7 @@ export default function ControlDesk() {
                 
                 {/* Menu Name */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Menu Name *
                   </label>
                   <input
@@ -910,29 +910,29 @@ export default function ControlDesk() {
                     onChange={handleCatInputChange}
                     placeholder="e.g. Anklets, Tarot Card Reading, Aura Healing"
                     required
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                   />
                 </div>
 
                 {/* Menu Type */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Menu Section / Type *
                   </label>
                   <select
                     name="type"
                     value={catFormData.type}
                     onChange={handleCatInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                   >
-                    <option value="service" className="bg-[#130f24] text-white">Spiritual Service (Main Navbar dropdown list)</option>
-                    <option value="crystal" className="bg-[#130f24] text-white">Crystal Category (Crystals page subcategories list)</option>
+                    <option value="service" className="bg-white text-[#2A1635]">Spiritual Service (Main Navbar dropdown list)</option>
+                    <option value="crystal" className="bg-white text-[#2A1635]">Crystal Category (Crystals page subcategories list)</option>
                   </select>
                 </div>
 
                 {/* Image Upload Area (Optional, useful for crystals) */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Category Icon / Image (Optional)
                   </label>
                   
@@ -941,7 +941,7 @@ export default function ControlDesk() {
                     borderRadius: '8px',
                     padding: '1.5rem',
                     textAlign: 'center',
-                    backgroundColor: 'rgba(10, 7, 19, 0.4)',
+                    backgroundColor: 'rgba(245, 240, 255, 0.8)',
                     cursor: 'pointer',
                     position: 'relative',
                     transition: 'all 0.2s ease',
@@ -988,7 +988,7 @@ export default function ControlDesk() {
                         <span className="text-xs text-gray-400">Current Category Image</span>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center py-2 text-[#B7AFC7]">
+                      <div className="flex flex-col items-center py-2 text-[#3E2F48]">
                         <span className="text-[12px] font-medium">Click to upload icon image</span>
                       </div>
                     )}
@@ -997,7 +997,7 @@ export default function ControlDesk() {
 
                 {/* Description */}
                 <div>
-                  <label className="block text-[11px] text-[#B7AFC7] uppercase tracking-[1px] mb-1 font-medium">
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Menu/Category Description
                   </label>
                   <textarea
@@ -1006,7 +1006,7 @@ export default function ControlDesk() {
                     onChange={handleCatInputChange}
                     rows="3"
                     placeholder="Short description displayed on page headings..."
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#0A0713]/60 border border-[#D9B56A]/15 text-white placeholder-gray-500 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-[#0A0713]/90 transition-all duration-200 resize-none"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200 resize-none"
                   />
                 </div>
 
@@ -1015,7 +1015,7 @@ export default function ControlDesk() {
                   <button
                     type="submit"
                     disabled={catFormLoading}
-                    className="w-full flex items-center justify-center gap-2 bg-[#D9B56A] text-[#0A0713] py-3 rounded-lg text-xs font-bold uppercase tracking-[1px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 bg-[#D9B56A] text-[#2A1635] py-3 rounded-lg text-xs font-bold uppercase tracking-[1px] hover:bg-[#F4F0EA] transition-colors duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {catFormLoading ? (
                       <>

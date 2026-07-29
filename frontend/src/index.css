@@ -21,10 +21,13 @@ html {
 }
 
 @theme {
-  --color-sara-dark: #0B1225;
-  --color-sara-darkDeep: #161330;
+  --font-sans: 'Poppins', sans-serif;
+  --font-serif: 'Playfair Display', serif;
+
+  --color-sara-dark: #F8F6FF;
+  --color-sara-darkDeep: #FFFFFF;
   --color-sara-darkFooter: #080A18;
-  --color-sara-panel: #222042;
+  --color-sara-panel: #FFFFFF;
   --color-sara-gold: #D6B26A;
   --color-sara-goldSoft: #E8C985;
   --color-sara-cream: #F8F2E8;
@@ -33,7 +36,15 @@ html {
   --color-sara-purple: #43204E;
   --color-sara-accentPurple: #6A3575;
   --color-sara-mysticBlue: #1C5D8B;
-  --color-sara-textDark: #4F4F4F;
-  --color-sara-muted: #CFCFCF;
-  --color-sara-white: #FFFFFF;
+  --color-sara-textDark: #2A1635;
+  --color-sara-muted: #3E2F48;
+  --color-sara-white: #2A1635;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: 'Playfair Display', serif !important;
 }

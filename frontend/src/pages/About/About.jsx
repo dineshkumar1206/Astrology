@@ -13,7 +13,7 @@ export default function About() {
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500;600&display=swap');
       `}</style>
 
-      <section className="bg-[#120B1F] text-[#F4F0EA] py-24 w-full flex items-center relative overflow-hidden box-border">
+      <section className="bg-[#F8F6FF] text-[#2A1635] py-24 w-full flex items-center relative overflow-hidden box-border">
         
         <div className="w-full max-w-[1320px] mx-auto flex flex-wrap items-center gap-[4.5rem] px-[6vw]">
           
@@ -26,12 +26,12 @@ export default function About() {
             </p>
 
             {/* Main Title Header */}
-            <h2 className="m-0 mb-6 font-['Playfair_Display'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#F4F0EA]">
+            <h2 className="m-0 mb-6 font-['Playfair_Display'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
               Guiding Your Spirit Toward Absolute Clarity
             </h2>
 
             {/* Description Copy */}
-            <p className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#B7AFC7]">
+            <p className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
               My journey into the esoteric arts began as a profound personal calling. I founded Saraa Tarot with a singular purpose: to bridge the gap between the material world and universal wisdom. By drawing on decades of intuitive practice, I am dedicated to helping you decode life's complexities and step confidently into your true alignment.
             </p>
 
@@ -55,7 +55,7 @@ export default function About() {
                 <h4 className="m-0 mb-2 font-['Playfair_Display'] text-[20px] font-normal">
                   Intuitive Mastery
                 </h4>
-                <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#B7AFC7]">
+                <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#3E2F48]">
                   Harnessing deep empathic abilities to read the energies shaping your current path.
                 </p>
               </div>
@@ -74,7 +74,7 @@ export default function About() {
                 <h4 className="m-0 mb-2 font-['Playfair_Display'] text-[20px] font-normal">
                   Empathetic Healing
                 </h4>
-                <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#B7AFC7]">
+                <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#3E2F48]">
                   Creating a safe space for vulnerability, transformation, and profound emotional release.
                 </p>
               </div>

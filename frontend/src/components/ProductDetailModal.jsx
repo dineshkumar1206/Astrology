@@ -42,11 +42,11 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
   return (
     <div
       onClick={onClose}
-      className="fixed inset-0 bg-[rgba(11,18,37,0.85)] backdrop-blur-[6px] flex items-center justify-center z-[2000] p-4"
+      className="fixed inset-0 bg-[rgba(0,0,0,0.4)] backdrop-blur-[6px] flex items-center justify-center z-[2000] p-4"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="bg-sara-panel border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+        className="bg-white border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(42,22,53,0.12)]"
       >
         {/* Close */}
         <button
@@ -76,7 +76,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               <span className="text-sara-gold uppercase text-[0.8rem] tracking-[2px] font-semibold">
                 {product.type}
               </span>
-              <h2 className="text-sara-white text-[1.8rem] font-light mt-2 mb-3 leading-snug">
+              <h2 className="text-[#2A1635] text-[1.8rem] font-light mt-2 mb-3 leading-snug">
                 {product.name}
               </h2>
               <div className="text-sara-gold text-[1.75rem] font-semibold mb-5">
@@ -86,7 +86,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               {/* Sizes */}
               {product.sizes && product.sizes.length > 0 && (
                 <div className="mb-5">
-                  <div className="text-[11px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1.5px] font-semibold mb-2">
+                  <div className="text-[11px] text-[#3E2F48] uppercase tracking-[1.5px] font-semibold mb-2">
                     Select Size
                   </div>
                   <div className="flex flex-wrap gap-2">
@@ -96,8 +96,8 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
                         onClick={() => setSelectedSize(size)}
                         className={
                           selectedSize === size
-                            ? 'bg-sara-gold text-sara-dark border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
-                            : 'bg-sara-darkDeep text-sara-muted border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                            ? 'bg-sara-gold text-sara-textDark border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                            : 'bg-[#F5F0FF] text-[#3E2F48] border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
                         }
                       >
                         {size}
@@ -109,20 +109,20 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
 
               {/* Quantity */}
               <div className="mb-5">
-                <div className="text-[11px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1.5px] font-semibold mb-2">
+                <div className="text-[11px] text-[#3E2F48] uppercase tracking-[1.5px] font-semibold mb-2">
                   Quantity
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 rounded border border-[rgba(214,178,106,0.3)] bg-sara-darkDeep text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
+                    className="w-8 h-8 rounded border border-[rgba(214,178,106,0.3)] bg-[#F5F0FF] text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
                   >
                     -
                   </button>
-                  <span className="text-sara-white text-sm font-medium w-8 text-center">{quantity}</span>
+                  <span className="text-[#2A1635] text-sm font-medium w-8 text-center">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 rounded border border-[rgba(214,178,106,0.3)] bg-sara-darkDeep text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
+                    className="w-8 h-8 rounded border border-[rgba(214,178,106,0.3)] bg-[#F5F0FF] text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
                   >
                     +
                   </button>
@@ -155,7 +155,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               className={`border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-all ${
                 added
                   ? 'bg-green-600 text-white'
-                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark hover:opacity-90'
+                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark hover:opacity-90'
               }`}
             >
               {added ? 'Added to Cart' : 'Add To Cart'}

@@ -19,7 +19,7 @@ export default function Footer() {
             <h4 className="text-sara-gold text-[15px] uppercase tracking-[1px] font-semibold mb-6 border-b border-[rgba(214,178,106,0.1)] pb-2">
               Address
             </h4>
-            <ul className="list-none p-0 m-0 text-sm text-sara-muted leading-8 max-md:flex max-md:flex-col max-md:items-center">
+            <ul className="list-none p-0 m-0 text-sm text-[#CFCFCF] leading-8 max-md:flex max-md:flex-col max-md:items-center">
               <li className="mb-2"><span className="text-sara-gold font-medium">Centre:</span> SARA HEALING CENTRE</li>
               <li className="mb-2"><span className="text-sara-gold font-medium">Address:</span> Shri sathya nagar, Othivakkam</li>
               <li className="mb-2"><span className="text-sara-gold font-medium">Location:</span> Guduvanchery, Chengalpattu</li>
@@ -30,7 +30,7 @@ export default function Footer() {
             <div className="font-serif text-[2.5rem] text-sara-gold tracking-[3px] uppercase font-light mb-4">
               Saraa Tarot
             </div>
-            <p className="text-[13px] leading-7 text-sara-muted max-w-[440px] mx-auto mb-8">
+            <p className="text-[13px] leading-7 text-[#CFCFCF] max-w-[440px] mx-auto mb-8">
               Unlock the secrets of the cosmos and transform your life today! Connect with me for personalized consultations that reveal your unique strengths and help you navigate challenges with confidence.
             </p>
             <div className="flex gap-6 justify-center">
@@ -56,7 +56,7 @@ export default function Footer() {
             <h4 className="text-sara-gold text-[15px] uppercase tracking-[1px] font-semibold mb-6 border-b border-[rgba(214,178,106,0.1)] pb-2">
               Info
             </h4>
-            <ul className="list-none p-0 m-0 text-sm text-sara-muted leading-8 max-md:flex max-md:flex-col max-md:items-center">
+            <ul className="list-none p-0 m-0 text-sm text-[#CFCFCF] leading-8 max-md:flex max-md:flex-col max-md:items-center">
               <li className="mb-2"><span className="text-sara-gold font-medium">Email:</span> tamiltarotmagic@gmail.com</li>
               <li className="mb-2"><span className="text-sara-gold font-medium">Phone:</span> +91 96551 99507</li>
             </ul>
@@ -64,7 +64,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-[rgba(214,178,106,0.15)] pt-8 flex justify-center items-center flex-wrap gap-6 max-md:flex-col max-md:text-center">
-          <div className="flex gap-4 text-[13px] text-sara-muted font-serif italic">
+          <div className="flex gap-4 text-[13px] text-[#CFCFCF] font-serif italic">
             <span>Card Reading</span>
             <span>•</span>
             <span>Chakra Balancing</span>

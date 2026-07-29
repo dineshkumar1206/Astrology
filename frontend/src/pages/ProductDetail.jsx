@@ -108,7 +108,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-sara-dark flex items-center justify-center pt-16">
+        <div className="min-h-screen bg-[#F8F6FF] flex items-center justify-center pt-16">
         <div className="text-sara-gold text-sm tracking-wider">Loading product...</div>
       </div>
     );
@@ -116,7 +116,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-sara-dark flex flex-col items-center justify-center pt-16 gap-4">
+      <div className="min-h-screen bg-[#F8F6FF] flex flex-col items-center justify-center pt-16 gap-4">
         <div className="text-sara-muted text-lg">Product not found</div>
         <Link to="/" className="text-sara-gold text-sm uppercase tracking-wider no-underline hover:underline">
           Return Home
@@ -126,15 +126,15 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
   }
 
   return (
-    <div className="min-h-screen bg-sara-dark text-sara-white font-sans pt-16 pb-24">
+    <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] font-sans pt-16 pb-24">
       {/* Header gradient */}
-      <div className="bg-[radial-gradient(ellipse_at_center,rgba(67,32,78,0.2)_0%,transparent_70%)] bg-sara-darkDeep border-b border-[rgba(214,178,106,0.1)]">
+      <div className="bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)] bg-white border-b border-[rgba(214,178,106,0.1)]">
         <div className="max-w-[1200px] mx-auto px-4 sm:px-8 pt-8 pb-6">
           <div className="mb-6 text-[13px] tracking-[0.5px]">
             <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">Home</Link>
-            <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
+            <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
             <Link to={getCategorySlug()} className="text-sara-muted no-underline hover:text-sara-gold transition-colors">{product.category}</Link>
-            <span className="text-[rgba(207,207,207,0.3)] mx-2">/</span>
+            <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
             <span className="text-sara-gold">{product.name}</span>
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
         >
           {/* Image */}
           <div className="flex-[1_1_450px]">
-            <div className="relative rounded-lg overflow-hidden border border-[rgba(214,178,106,0.15)] bg-sara-panel">
+            <div className="relative rounded-lg overflow-hidden border border-[rgba(214,178,106,0.15)] bg-white">
               <img
                 src={getImgSrc()}
                 alt={product.name}
@@ -159,7 +159,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                   e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';
                 }}
               />
-              <div className="absolute top-4 right-4 bg-[rgba(34,32,66,0.9)] border border-[rgba(214,178,106,0.3)] px-3 py-1.5 rounded text-[11px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
+              <div className="absolute top-4 right-4 bg-[rgba(255,255,255,0.9)] border border-[rgba(214,178,106,0.3)] px-3 py-1.5 rounded text-[11px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
                 {product.type}
               </div>
             </div>
@@ -170,7 +170,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             <span className="text-sara-gold text-[11px] uppercase tracking-[2px] font-semibold mb-2">
               {product.category}
             </span>
-            <h1 className="text-sara-white font-serif text-[2rem] sm:text-[2.5rem] font-normal leading-tight mb-4">
+            <h1 className="text-[#2A1635] font-serif text-[2rem] sm:text-[2.5rem] font-normal leading-tight mb-4">
               {product.name}
             </h1>
             <p className="text-sara-muted text-[0.95rem] leading-7 mb-6">
@@ -194,7 +194,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                       onClick={() => setSelectedSize(size)}
                       className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider border transition-all duration-200 cursor-pointer ${
                         selectedSize === size
-                          ? 'bg-sara-gold text-sara-dark border-sara-gold'
+                          ? 'bg-sara-gold text-sara-textDark border-sara-gold'
                           : 'bg-transparent text-sara-muted border-[rgba(214,178,106,0.2)] hover:border-sara-gold hover:text-sara-gold'
                       }`}
                     >
@@ -217,7 +217,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                 >
                   -
                 </button>
-                <span className="text-sara-white text-sm font-medium w-8 text-center">{quantity}</span>
+                <span className="text-[#2A1635] text-sm font-medium w-8 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
                   className="w-9 h-9 rounded border border-[rgba(214,178,106,0.2)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
@@ -233,7 +233,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
               className={`w-full py-3.5 rounded text-xs font-bold uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mb-6 ${
                 addedToCart
                   ? 'bg-green-600 text-white border-green-600'
-                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark border-none hover:shadow-[0_4px_20px_rgba(214,178,106,0.3)] hover:-translate-y-0.5'
+                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none hover:shadow-[0_4px_20px_rgba(214,178,106,0.3)] hover:-translate-y-0.5'
               }`}
             >
               {addedToCart ? 'Added to Cart' : 'Add To Cart'}

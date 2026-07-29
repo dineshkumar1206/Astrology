@@ -88,7 +88,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   }
 
   return (
-    <nav className="sticky top-0 z-[1000] w-full box-border bg-sara-dark border-b border-[rgba(223,186,107,0.15)]">
+    <nav className="sticky top-0 z-[1000] w-full box-border bg-[#0B1225] border-b border-[rgba(223,186,107,0.15)]">
       <div className="max-w-[1240px] mx-auto px-8 py-2 flex justify-between items-center box-border">
         {/* Brand Logo Identity */}
         <Link to="/" className="flex items-center cursor-pointer no-underline">
@@ -105,7 +105,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <Link 
                 to="/" 
-                className="text-sara-white no-underline transition-colors duration-300 hover:text-sara-gold"
+                className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 Home
               </Link>
@@ -118,7 +118,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               className="relative py-6 cursor-pointer"
             >
               <span 
-                className={`flex items-center gap-1.5 transition-colors duration-300 ${isDropdownOpen ? 'text-sara-gold' : 'text-sara-white'}`}
+                className={`flex items-center gap-1.5 transition-colors duration-300 ${isDropdownOpen ? 'text-sara-gold' : 'text-white'}`}
               >
                 Spiritual Services
                 <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
@@ -133,7 +133,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                     <Link
                       key={subItem.path}
                       to={subItem.path}
-                      className="px-6 py-3 text-sara-white no-underline text-[11px] uppercase tracking-[1px] transition-colors duration-200 text-left hover:bg-[rgba(223,186,107,0.1)] hover:text-sara-gold"
+                      className="px-6 py-3 text-white no-underline text-[11px] uppercase tracking-[1px] transition-colors duration-200 text-left hover:bg-[rgba(223,186,107,0.1)] hover:text-sara-gold"
                       onClick={() => setIsDropdownOpen(false)}
                     >
                       {subItem.label}
@@ -146,7 +146,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <Link 
                 to="/about" 
-                className="text-sara-white no-underline transition-colors duration-300 hover:text-sara-gold"
+                className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 About
               </Link>
@@ -155,7 +155,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <Link 
                 to="/contact" 
-                className="text-sara-white no-underline transition-colors duration-300 hover:text-sara-gold"
+                className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 Contact
               </Link>
@@ -166,12 +166,12 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {/* Login/Logout Action */}
             {user ? (
               <div className="flex items-center gap-5">
-                <span className="text-sara-white font-sans text-xs font-medium uppercase tracking-[0.5px]">
+                <span className="text-white font-sans text-xs font-medium uppercase tracking-[0.5px]">
                   Hi, {user.name.split(' ')[0]}
                 </span>
                 <Link
                   to="/dashboard"
-                  className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-sara-white"
+                  className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
                 >
                   Dashboard
                 </Link>
@@ -185,7 +185,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                className="bg-sara-gold text-sara-dark border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white"
+                className="bg-sara-gold text-[#0B1225] border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white"
               >
                 Login
               </button>
@@ -198,7 +198,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             >
               <CartIcon />
               <span>Cart</span>
-              <span className="bg-sara-gold text-sara-dark rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
+              <span className="bg-sara-gold text-[#0B1225] rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                 {totalItems}
               </span>
             </button>
@@ -212,7 +212,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             className="bg-transparent text-sara-gold border-none cursor-pointer flex items-center relative p-2"
           >
             <CartIcon />
-            <span className="absolute -top-0.5 -right-0.5 bg-sara-gold text-sara-dark rounded-full w-4 h-4 flex items-center justify-center text-[9px] font-bold">
+            <span className="absolute -top-0.5 -right-0.5 bg-sara-gold text-[#0B1225] rounded-full w-4 h-4 flex items-center justify-center text-[9px] font-bold">
               {totalItems}
             </span>
           </button>
@@ -236,7 +236,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <Link 
                 to="/"
                 onClick={() => setIsOpen(false)}
-                className="text-sara-white no-underline font-sans text-sm uppercase tracking-[1px] block"
+                className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
                 Home
               </Link>
@@ -246,7 +246,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <button 
                 onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
-                className="w-full bg-none border-none p-0 text-sara-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left"
+                className="w-full bg-none border-none p-0 text-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left"
               >
                 <span>Spiritual Services</span>
                 <svg 
@@ -286,7 +286,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <Link 
                 to="/about"
                 onClick={() => setIsOpen(false)}
-                className="text-sara-white no-underline font-sans text-sm uppercase tracking-[1px] block"
+                className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
                 About
               </Link>
@@ -296,7 +296,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <Link 
                 to="/contact"
                 onClick={() => setIsOpen(false)}
-                className="text-sara-white no-underline font-sans text-sm uppercase tracking-[1px] block"
+                className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
               >
                 Contact
               </Link>
@@ -305,7 +305,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {user ? (
               <>
                 <li className="mt-2 text-center">
-                  <span className="text-sara-white font-sans text-[13px] font-medium uppercase tracking-[0.5px]">
+                  <span className="text-white font-sans text-[13px] font-medium uppercase tracking-[0.5px]">
                     Hi, {user.name}
                   </span>
                 </li>
@@ -331,7 +331,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <li>
                 <button 
                   onClick={() => { setIsOpen(false); navigate('/login'); }}
-                  className="w-full bg-sara-gold text-sara-dark border-0 py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
+                  className="w-full bg-sara-gold text-[#0B1225] border-0 py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                 >
                   Login
                 </button>
@@ -345,7 +345,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               >
                 <CartIcon />
                 <span>Cart</span>
-                <span className="bg-sara-gold text-sara-dark rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
+                <span className="bg-sara-gold text-[#0B1225] rounded-full w-[18px] h-[18px] flex items-center justify-center text-[10px] font-bold">
                   {totalItems}
                 </span>
               </button>
@@ -364,7 +364,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
           />
 
           {/* Drawer Panel Container */}
-          <div className="fixed top-0 right-0 w-full max-w-[420px] h-screen bg-[#130f24] border-l border-[rgba(223,186,107,0.2)] shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-[2001] flex flex-col font-sans text-sara-white box-border">
+          <div className="fixed top-0 right-0 w-full max-w-[420px] h-screen bg-[#130f24] border-l border-[rgba(223,186,107,0.2)] shadow-[-10px_0_30px_rgba(0,0,0,0.5)] z-[2001] flex flex-col font-sans text-white box-border">
             {/* Drawer Header */}
             <div className="flex justify-between items-center p-6 border-b border-[rgba(223,186,107,0.15)]">
               <div className="flex items-center gap-3">
@@ -402,7 +402,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                         className="w-[60px] h-[60px] object-cover rounded border border-[rgba(223,186,107,0.1)]" 
                       />
                       <div>
-                        <h4 className="m-0 mb-1 text-sm font-medium text-sara-white">{item.name}</h4>
+                        <h4 className="m-0 mb-1 text-sm font-medium text-white">{item.name}</h4>
                         <p className="m-0 text-[13px] text-sara-gold font-semibold">
                           ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                         </p>
@@ -442,7 +442,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                     setIsCartOpen(false);
                     navigate('/checkout');
                   }}
-                  className="w-full bg-sara-gold text-sara-dark border-0 rounded p-4 text-sm font-bold uppercase tracking-[1px] cursor-pointer flex justify-between items-center box-border transition-opacity duration-200 hover:opacity-90"
+                  className="w-full bg-sara-gold text-[#0B1225] border-0 rounded p-4 text-sm font-bold uppercase tracking-[1px] cursor-pointer flex justify-between items-center box-border transition-opacity duration-200 hover:opacity-90"
                 >
                   <span>Proceed to Checkout</span>
                   <span>₹{grandTotal.toLocaleString('en-IN')} ➔</span>

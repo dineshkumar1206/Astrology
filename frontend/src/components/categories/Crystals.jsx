@@ -175,7 +175,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const currentItem = items.find((item) => item.id === activeItemId);
 
   return (
-    <div className="min-h-screen bg-sara-dark text-sara-white font-sans pt-16 pb-24 px-4 sm:px-8">
+    <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] font-sans pt-16 pb-24 px-4 sm:px-8">
       <div className="max-w-[1200px] mx-auto">
         
         {/* Breadcrumbs */}
@@ -199,7 +199,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         </div>
 
         {/* Header Section */}
-        <div className="mb-12 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-sara-darkDeep -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(67,32,78,0.2)_0%,transparent_70%)]">
+        <div className="mb-12 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             SACRED GEOMETRY & ENERGY TOOLS
           </span>
@@ -280,7 +280,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     <div 
                       key={item.id}
                       onClick={(e) => handleOpenPopup(item.id, e)}
-                      className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between hover:border-sara-gold hover:-translate-y-1"
+                      className="bg-white border border-[rgba(214,178,106,0.15)] rounded overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between hover:border-sara-gold hover:-translate-y-1"
                     >
                       {/* Card Image */}
                       {item.image && (
@@ -294,7 +294,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                e.target.src = '/saraa-logo.jpeg';
                              }}
                            />
-                           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-sara-panel to-transparent" />
+                           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-white to-transparent" />
                         </div>
                       )}
                       
@@ -304,7 +304,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                           <div className="text-sara-gold text-[10px] uppercase tracking-[1px] font-semibold mb-1">
                             {item.type}
                           </div>
-                          <h4 className="text-sara-white text-[1.15rem] mb-2 font-medium leading-snug">
+                          <h4 className="text-[#2A1635] text-[1.15rem] mb-2 font-medium leading-snug">
                             {item.name}
                           </h4>
                           <p className="text-sara-muted text-[0.85rem] leading-5 mb-4">
@@ -347,7 +347,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                           <div className="flex gap-3 mt-3">
                             <button 
                               onClick={(e) => handleOpenPopup(item.id, e)}
-                              className="flex-1 bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-dark"
+                              className="flex-1 bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-textDark"
                             >
                               Details
                             </button>
@@ -356,7 +356,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                 e.stopPropagation();
                                 handleAddToCart(item);
                               }}
-                              className="flex-1 bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-dark"
+                              className="flex-1 bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-textDark"
                             >
                               Add To Cart
                             </button>
@@ -382,7 +382,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
           {/* Modal Container */}
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-sara-panel border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+            className="bg-white border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
           >
             {/* Close Button */}
             <button 
@@ -412,7 +412,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   <span className="text-sara-gold uppercase text-[0.8rem] tracking-[2px] font-semibold">
                     {currentItem.type}
                   </span>
-                  <h2 className="text-sara-white text-[1.8rem] font-light mt-2 mb-3 leading-snug">
+                  <h2 className="text-[#2A1635] text-[1.8rem] font-light mt-2 mb-3 leading-snug">
                     {currentItem.name}
                   </h2>
                   <div className="text-sara-gold text-[1.75rem] font-semibold mb-5">

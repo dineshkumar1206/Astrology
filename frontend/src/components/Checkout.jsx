@@ -46,13 +46,13 @@ export default function Checkout({ cartItems = [], setCartItems }) {
     const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(messageText)}`;
 
     return (
-      <div className="bg-sara-dark min-h-[85vh] flex justify-center items-center text-sara-white font-sans p-8">
-        <div className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded-lg px-12 py-12 max-w-[500px] w-full text-center shadow-[0_15px_30px_rgba(0,0,0,0.3)]">
+      <div className="bg-[#F8F6FF] min-h-[85vh] flex justify-center items-center text-[#2A1635] font-sans p-8">
+        <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-lg px-12 py-12 max-w-[500px] w-full text-center shadow-[0_15px_30px_rgba(42,22,53,0.08)]">
           <div className="text-[4.5rem] text-sara-gold mb-4">✓</div>
           <h2 className="text-[1.8rem] font-normal text-sara-gold mb-5 uppercase tracking-[1px]">
             Booking Received
           </h2>
-          <p className="text-sara-white text-[15px] leading-relaxed mb-10">
+          <p className="text-[#2A1635] text-[15px] leading-relaxed mb-10">
             Your booking request has been registered. Please send the payment confirmation screenshot on WhatsApp or message to activate your ritual sankalpam.
           </p>
 
@@ -82,7 +82,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   }
 
   return (
-    <div className="bg-sara-dark min-h-[90vh] text-sara-white font-sans py-12 px-8">
+    <div className="bg-[#F8F6FF] min-h-[90vh] text-[#2A1635] font-sans py-12 px-8">
       <div className="max-w-[1100px] mx-auto">
 
         <button
@@ -98,7 +98,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
 
         <div className="grid grid-cols-2 gap-12 max-lg:grid-cols-1 max-lg:gap-10">
 
-          <div className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+          <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">
             <h3 className="text-lg font-medium mb-6 text-sara-gold uppercase tracking-[0.5px]">
               Select Payment Method
             </h3>
@@ -119,7 +119,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
                   <p className="text-[13px] text-sara-muted mb-6 uppercase tracking-[0.5px]">
                     Scan QR code with your UPI App to make payment
                   </p>
-                  <div className="w-[200px] h-[200px] mx-auto mb-6 bg-sara-darkDeep rounded-lg p-3 flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+                  <div className="w-[200px] h-[200px] mx-auto mb-6 bg-white rounded-lg p-3 flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
                     {cartItems.length > 0 ? (
                       <img
                         src={qrImageUrl}
@@ -142,7 +142,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
               <button
                 type="submit"
                 disabled={isProcessing || cartItems.length === 0}
-                className={`w-full bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark border-none rounded py-[1.1rem] text-[15px] font-bold uppercase tracking-[1px] flex justify-center items-center gap-[10px] transition-opacity ${
+                className={`w-full bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none rounded py-[1.1rem] text-[15px] font-bold uppercase tracking-[1px] flex justify-center items-center gap-[10px] transition-opacity ${
                   isProcessing || cartItems.length === 0 ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:opacity-90'
                 }`}
               >
@@ -153,7 +153,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
             </form>
           </div>
 
-          <div className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+          <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">
             <h3 className="text-lg font-medium mb-6 text-sara-gold uppercase tracking-[0.5px]">
               Order Summary
             </h3>
@@ -163,7 +163,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
                 <p className="text-sara-muted text-[14px] text-center py-8">No items in checkout.</p>
               ) : (
                 cartItems.map((item) => (
-                  <div key={item.id} className="flex gap-4 items-center justify-between mb-5 border-b border-[rgba(255,255,255,0.05)] pb-5">
+                  <div key={item.id} className="flex gap-4 items-center justify-between mb-5 border-b border-[rgba(42,22,53,0.06)] pb-5">
                     <div className="flex gap-4 items-center">
                       <img
                         src={item.image || "/placeholder-item.jpg"}
@@ -172,7 +172,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
                       />
 
                       <div>
-                        <h4 className="m-0 mb-1 text-[13px] font-medium text-sara-white">{item.name}</h4>
+                        <h4 className="m-0 mb-1 text-[13px] font-medium text-[#2A1635]">{item.name}</h4>
                         <p className="m-0 text-[13px] text-sara-gold font-semibold">
                           ₹{(item.price * item.quantity).toLocaleString('en-IN')}
                         </p>
@@ -196,7 +196,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
               <div className="border-t border-[rgba(214,178,106,0.15)] pt-6">
                 <div className="flex justify-between text-[13px] mb-3">
                   <span className="text-sara-muted">Items Total</span>
-                  <span className="text-sara-white">₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
+                  <span className="text-[#2A1635]">₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="flex justify-between text-[16px] font-semibold border-t border-dashed border-[rgba(214,178,106,0.2)] pt-4 text-sara-gold">

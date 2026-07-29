@@ -33,7 +33,7 @@ export default function CosmicInsights() {
   ];
 
   return (
-    <section className="relative bg-[#0A0713] text-[#F4F0EA] py-36 w-full overflow-hidden box-border">
+    <section className="relative bg-[#F8F6FF] text-[#2A1635] py-36 w-full overflow-hidden box-border">
       
       {/* Required for the fonts to load if not already in your index.html */}
       <style>{`
@@ -42,7 +42,7 @@ export default function CosmicInsights() {
 
       {/* Top Curve SVG Divider */}
       <div className="absolute top-[-1px] left-0 w-full z-10 overflow-hidden leading-none">
-        <svg viewBox="0 0 1440 100" className="w-full h-[100px] block fill-[#120B1F]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <svg viewBox="0 0 1440 100" className="w-full h-[100px] block fill-[#F8F6FF]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M0,0 Q720,100 1440,0 V-10 H0 Z"></path>
         </svg>
       </div>
@@ -65,7 +65,7 @@ export default function CosmicInsights() {
         <p className="m-0 mb-2 font-serif italic text-[18px] text-[#D9B56A]">
           Exploring Cosmic Wisdom
         </p>
-        <h2 className="m-0 font-serif text-[clamp(36px,4.5vw,54px)] font-normal text-[#F4F0EA]">
+        <h2 className="m-0 font-serif text-[clamp(36px,4.5vw,54px)] font-normal text-[#2A1635]">
           Insights from the Cosmic Oracle
         </h2>
       </div>
@@ -83,17 +83,17 @@ export default function CosmicInsights() {
               />
             </div>
 
-            <h3 className="m-0 mb-4 font-serif text-[22px] font-normal text-[#F4F0EA]">
+            <h3 className="m-0 mb-4 font-serif text-[22px] font-normal text-[#2A1635]">
               {card.title}
             </h3>
 
-            <p className="m-0 mb-4 font-sans font-light text-[14px] leading-[1.7] text-[#B7AFC7]">
+            <p className="m-0 mb-4 font-sans font-light text-[14px] leading-[1.7] text-[#3E2F48]">
               {card.desc}
             </p>
 
             <a 
               href={`#${card.title.toLowerCase().replace(' ', '-')}`} 
-              className="font-sans font-medium text-[13px] text-[#F4F0EA] no-underline uppercase tracking-[1px] mt-auto pt-4 transition-colors duration-300 inline-block group-hover:text-[#D9B56A]"
+              className="font-sans font-medium text-[13px] text-[#2A1635] no-underline uppercase tracking-[1px] mt-auto pt-4 transition-colors duration-300 inline-block group-hover:text-[#D9B56A]"
             >
               Read More
             </a>
@@ -104,7 +104,7 @@ export default function CosmicInsights() {
 
       {/* Bottom Curve SVG Divider */}
       <div className="absolute bottom-[-1px] left-0 w-full z-10 overflow-hidden leading-none rotate-180">
-        <svg viewBox="0 0 1440 100" className="w-full h-[100px] block fill-[#120B1F]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <svg viewBox="0 0 1440 100" className="w-full h-[100px] block fill-[#F8F6FF]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
           <path d="M0,0 Q720,100 1440,0 V-10 H0 Z"></path>
         </svg>
       </div>

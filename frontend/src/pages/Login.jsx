@@ -42,20 +42,11 @@ export default function Login() {
   };
 
   return (
-    <div className="relative min-h-[85vh] flex items-center justify-center overflow-hidden px-4 py-16 bg-sara-dark">
-
-      <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[radial-gradient(circle_at_center,rgba(106,53,117,0.12)_0%,transparent_70%)] blur-3xl pointer-events-none"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute top-[10%] right-[10%] w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle_at_center,rgba(214,178,106,0.06)_0%,transparent_70%)] blur-2xl pointer-events-none"
-        aria-hidden="true"
-      />
+    <div className="relative min-h-[85vh] flex items-center justify-center overflow-hidden px-4 py-16 bg-[#F8F6FF]">
 
       <form
         onSubmit={handleSubmit}
-        className="relative z-10 w-full max-w-[420px] backdrop-blur-xl rounded-2xl p-8 md:p-10 transition-all duration-500 bg-[rgba(34,32,66,0.8)] border border-[rgba(214,178,106,0.15)] shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+        className="relative z-10 w-full max-w-[420px] backdrop-blur-xl rounded-2xl p-8 md:p-10 transition-all duration-500 bg-white border border-[rgba(214,178,106,0.15)] shadow-[0_20px_50px_rgba(42,22,53,0.08)]"
       >
         <div className="text-center mb-8">
           <span className="text-[12px] font-medium tracking-[3px] uppercase font-sans text-sara-muted">
@@ -79,7 +70,7 @@ export default function Login() {
           <input
             type="email"
             placeholder="name@example.com"
-            className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] bg-sara-darkDeep text-sara-white"
+            className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] bg-white text-[#2A1635]"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -96,7 +87,7 @@ export default function Login() {
             <input
               type={showPassword ? 'text' : 'password'}
               placeholder="••••••••"
-              className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] pr-12 bg-sara-darkDeep text-sara-white"
+              className="w-full px-4 py-3 rounded-lg border border-[rgba(214,178,106,0.15)] focus:outline-none focus:border-sara-gold transition-all duration-300 text-[14px] pr-12 bg-white text-[#2A1635]"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -113,7 +104,7 @@ export default function Login() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3.5 rounded-lg font-semibold font-sans uppercase tracking-[1px] text-[13px] transition-all duration-300 hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark shadow-[0_10px_25px_rgba(214,178,106,0.2)]"
+          className="w-full py-3.5 rounded-lg font-semibold font-sans uppercase tracking-[1px] text-[13px] transition-all duration-300 hover:scale-[1.01] active:scale-95 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60 bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark shadow-[0_10px_25px_rgba(214,178,106,0.2)]"
         >
           {loading ? (
             <>

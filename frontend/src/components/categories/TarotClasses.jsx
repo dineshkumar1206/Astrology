@@ -73,7 +73,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
   };
 
   return (
-    <div className="min-h-screen bg-sara-dark text-sara-white font-sans pt-16 pb-24 px-4 sm:px-8">
+    <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] font-sans pt-16 pb-24 px-4 sm:px-8">
       <div className="max-w-[1200px] mx-auto">
         
         {/* Breadcrumbs */}
@@ -84,7 +84,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
         </div>
 
         {/* Header Section */}
-        <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-sara-darkDeep -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(67,32,78,0.2)_0%,transparent_70%)]">
+        <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             LEARN THE ANCIENT MYSTIC ART
           </span>
@@ -117,13 +117,13 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
                 items.map((item) => (
                 <div 
                   key={item.id}
-                  className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_20px_rgba(0,0,0,0.2)]"
+                  className="bg-white border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_20px_rgba(42,22,53,0.08)]"
                 >
                   <div className="flex-[1_1_280px]">
                     <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
                       {item.type}
                     </div>
-                    <h4 className="text-sara-white text-[1.35rem] mt-1 mb-2 font-medium">
+                    <h4 className="text-[#2A1635] text-[1.35rem] mt-1 mb-2 font-medium">
                       {item.name}
                     </h4>
                     <p className="text-sara-muted text-[0.9rem] leading-5 m-0">
@@ -137,7 +137,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
                     </div>
                     <button
                       onClick={() => handleAddToCart(item)}
-                      className="bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full hover:bg-sara-gold hover:text-sara-dark"
+                      className="bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full hover:bg-sara-gold hover:text-sara-textDark"
                     >
                       Book & Add
                     </button>
@@ -150,7 +150,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
 
           {/* Guidelines Sidebar Column */}
           <div className="flex-[1_1_300px]">
-            <div className="bg-sara-panel border border-[rgba(214,178,106,0.25)] rounded-md p-8 sticky top-[120px] bg-gradient-to-b from-[rgba(214,178,106,0.02)] to-transparent">
+            <div className="bg-white border border-[rgba(214,178,106,0.25)] rounded-md p-8 sticky top-[120px] bg-gradient-to-b from-[rgba(214,178,106,0.02)] to-transparent">
               <h4 className="text-sara-gold font-serif text-[1.25rem] mb-5 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1px] uppercase">
                 Important Notes
               </h4>

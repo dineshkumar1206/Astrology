@@ -102,7 +102,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
     default:
       if (loading) {
         return (
-          <div className="bg-sara-dark min-h-screen flex justify-center items-center text-sara-gold">
+          <div className="bg-[#F8F6FF] min-h-screen flex justify-center items-center text-sara-gold">
             <p className="font-[Cinzel] text-[1.5rem] tracking-[1px]">Loading Collection...</p>
           </div>
         );
@@ -111,17 +111,17 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
       if (dynamicCat) {
         return (
           <>
-          <div className="bg-sara-dark min-h-screen text-sara-white font-sans pt-16 pb-24 px-8 max-lg:py-8 max-lg:px-4">
+          <div className="bg-[#F8F6FF] min-h-screen text-[#2A1635] font-sans pt-16 pb-24 px-8 max-lg:py-8 max-lg:px-4">
             <div className="max-w-[1200px] mx-auto">
 
               <div className="mb-10 text-[13px] tracking-[0.5px]">
                 <Link to="/" className="text-sara-muted no-underline hover:text-sara-gold transition-colors">Home</Link>
-                <span className="text-[rgba(255,255,255,0.3)] mx-2">/</span>
+                <span className="text-[rgba(42,22,53,0.2)] mx-2">/</span>
                 <span className="text-sara-gold">{dynamicCat.name}</span>
               </div>
 
-              <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-[linear-gradient(135deg,#161330_0%,#161330_60%,rgba(106,53,117,0.15)_100%)] rounded-lg p-10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(106,53,117,0.2)_0%,transparent_70%)] pointer-events-none" />
+              <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-[linear-gradient(135deg,#FFFFFF_0%,#F5EEFF_60%,rgba(161,61,142,0.08)_100%)] rounded-lg p-10 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(161,61,142,0.08)_0%,transparent_70%)] pointer-events-none" />
                 <span className="text-sara-muted tracking-[2px] text-[12px] font-semibold uppercase">
                   {dynamicCat.type === 'crystal' ? 'Blessed & Programmed Crystals' : 'Divine Spiritual Guidance'}
                 </span>
@@ -149,10 +149,10 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                         <div
                           key={item.id}
                           onClick={() => setActiveProduct(item)}
-                          className="bg-sara-panel border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] cursor-pointer"
+                          className="bg-white border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] cursor-pointer"
                         >
                           {item.image && (
-                            <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.15)] bg-sara-darkDeep flex-shrink-0">
+                            <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.15)] bg-[#F5F0FF] flex-shrink-0">
                               <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                             </div>
                           )}
@@ -160,7 +160,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                             <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
                               {item.type}
                             </div>
-                            <h4 className="text-sara-white text-[1.35rem] my-1 mb-2 font-medium">
+                            <h4 className="text-[#2A1635] text-[1.35rem] my-1 mb-2 font-medium">
                               {item.name}
                             </h4>
                             <p className="text-sara-muted text-[0.9rem] leading-[1.5] m-0">
@@ -174,7 +174,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                             </div>
                             <button
                               onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                              className="bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-[0.6rem] px-6 rounded text-[12px] font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold"
+                              className="bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-[0.6rem] px-6 rounded text-[12px] font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-sara-gold hover:text-sara-textDark hover:border-sara-gold"
                             >
                               Add To Cart
                             </button>
@@ -202,9 +202,9 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
       }
 
       return (
-        <div className="bg-sara-dark min-h-[80vh] flex flex-col items-center justify-center text-sara-white font-sans">
+        <div className="bg-[#F8F6FF] min-h-[80vh] flex flex-col items-center justify-center text-[#2A1635] font-sans">
           <h2 className="text-sara-gold font-[Cinzel] text-[2rem] mb-4">Category Not Found</h2>
-          <Link to="/" className="text-sara-gold no-underline border border-sara-gold py-3 px-6 rounded hover:bg-sara-gold hover:text-sara-dark transition-colors">Back to Home</Link>
+          <Link to="/" className="text-sara-gold no-underline border border-sara-gold py-3 px-6 rounded hover:bg-sara-gold hover:text-sara-textDark transition-colors">Back to Home</Link>
         </div>
       );
   }

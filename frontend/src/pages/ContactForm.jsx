@@ -60,12 +60,12 @@ export default function ContactForm() {
   return (
     <section className="py-24 w-full box-border px-4 bg-gradient-to-b from-[#FDFBF7] to-sara-cream">
 
-      <div className="max-w-3xl mx-auto p-8 md:p-12 bg-sara-white border border-sara-gold/15 shadow-[0_4px_20px_rgba(29,11,46,0.08)] rounded-sm">
+      <div className="max-w-3xl mx-auto p-8 md:p-12 bg-white border border-sara-gold/15 shadow-[0_4px_20px_rgba(29,11,46,0.08)] rounded-sm">
         <div className="text-center mb-12">
-          <h3 className="m-0 mb-2 font-serif text-3xl text-sara-purple font-normal">
+          <h3 className="m-0 mb-2 font-serif text-3xl text-[#2A1635] font-normal">
             Send a Message
           </h3>
-          <p className="m-0 font-sans text-[#4A4458] text-sm font-light">
+          <p className="m-0 font-sans text-[#3E2F48] text-sm font-light">
             Fill out the form below and we will get back to you shortly.
           </p>
         </div>
@@ -90,7 +90,7 @@ export default function ContactForm() {
                   value={formData.name}
                   onChange={handleChange}
                   disabled={loading}
-                  className="w-full bg-transparent border-0 border-b border-[#4A4458]/30 text-sara-purple font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#6B5F7E] placeholder:font-light disabled:opacity-50"
+                  className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light disabled:opacity-50"
                   placeholder="Your Name"
                   required
                 />
@@ -104,7 +104,7 @@ export default function ContactForm() {
                   value={formData.email}
                   onChange={handleChange}
                   disabled={loading}
-                  className="w-full bg-transparent border-0 border-b border-[#4A4458]/30 text-sara-purple font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#6B5F7E] placeholder:font-light disabled:opacity-50"
+                  className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light disabled:opacity-50"
                   placeholder="Your Email"
                   required
                 />
@@ -119,7 +119,7 @@ export default function ContactForm() {
               value={formData.subject}
               onChange={handleChange}
               disabled={loading}
-              className="w-full bg-transparent border-0 border-b border-[#4A4458]/30 text-sara-purple font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#6B5F7E] placeholder:font-light disabled:opacity-50"
+              className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light disabled:opacity-50"
               placeholder="Subject / Service Requested"
               required
             />
@@ -131,7 +131,7 @@ export default function ContactForm() {
               value={formData.message}
               onChange={handleChange}
               disabled={loading}
-              className="w-full bg-transparent border-0 border-b border-[#4A4458]/30 text-sara-purple font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#6B5F7E] placeholder:font-light resize-none disabled:opacity-50"
+              className="w-full bg-transparent border-0 border-b border-[#3E2F48]/30 text-[#2A1635] font-sans text-[15px] py-3 outline-none transition-colors duration-300 focus:border-sara-gold placeholder:text-[#3E2F48]/50 placeholder:font-light resize-none disabled:opacity-50"
               placeholder="Your Message"
               rows="4"
               required
@@ -141,7 +141,7 @@ export default function ContactForm() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full mt-4 bg-sara-gold text-sara-purple py-4 md:py-5 font-sans text-[13px] font-semibold uppercase tracking-[2px] cursor-pointer transition-all duration-300 hover:bg-sara-goldSoft hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full mt-4 bg-sara-gold text-[#2A1635] py-4 md:py-5 font-sans text-[13px] font-semibold uppercase tracking-[2px] cursor-pointer transition-all duration-300 hover:bg-sara-goldSoft hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {loading ? 'Sending...' : 'Send Message'}
           </button>

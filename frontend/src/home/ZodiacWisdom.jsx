@@ -152,7 +152,7 @@ export default function ZodiacWisdom() {
           bottom: -2px;
           left: 50%;
           transform: translateX(-50%);
-          background-color: ${COLORS.inkDeep};
+          background-color: #2A1635;
           transition: width 0.3s ease;
         }
         .zw-card:hover .zw-learn-more::after {
@@ -229,10 +229,10 @@ export default function ZodiacWisdom() {
 /* ---------------------------------- styles ---------------------------------- */
 const styles = {
   section: {
-    backgroundColor: COLORS.inkDeep, // Extremely dark background
+    backgroundColor: '#F8F6FF',
     padding: '100px 4vw 140px',
     minHeight: '100vh',
-    color: COLORS.cream,
+    color: '#2A1635',
     overflow: 'hidden',
   },
   container: {
@@ -256,7 +256,7 @@ const styles = {
     fontWeight: 400,
     lineHeight: 1.1,
     textTransform: 'uppercase',
-    color: COLORS.cream,
+    color: '#2A1635',
     letterSpacing: '-1px',
     margin: 0,
   },
@@ -276,7 +276,7 @@ const styles = {
     gap: '24px',
   },
   card: {
-    backgroundColor: COLORS.cream,
+    backgroundColor: '#FFFFFF',
     borderRadius: '20px',
     padding: '16px', // Padding holds the gradient box inward
     display: 'flex',
@@ -291,7 +291,7 @@ const styles = {
     fontFamily: "'Playfair Display', Georgia, serif",
     fontSize: '44px',
     fontWeight: 400,
-    color: COLORS.inkDeep, // Dark text on cream background
+    color: '#2A1635',
     margin: '0 0 4px 0',
     letterSpacing: '-0.5px',
   },
@@ -301,7 +301,7 @@ const styles = {
     fontWeight: 500,
     letterSpacing: '1px',
     textTransform: 'uppercase',
-    color: COLORS.inkDeep,
+    color: '#3E2F48',
     opacity: 0.8,
     margin: '0 0 24px 0',
   },
@@ -311,7 +311,7 @@ const styles = {
     fontWeight: 600,
     letterSpacing: '1px',
     textTransform: 'uppercase',
-    color: COLORS.inkDeep,
+    color: '#2A1635',
   },
   gradientBox: {
     width: '100%',

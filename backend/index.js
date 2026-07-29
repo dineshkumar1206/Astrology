@@ -54,41 +54,6 @@ const registerRoutes = (prefix) => {
   app.use(cleanPrefix === '/' ? '/api/contact' : `${cleanPrefix}api/contact`, require('./routes/contact'));
   app.use(cleanPrefix === '/' ? '/api/categories' : `${cleanPrefix}api/categories`, require('./routes/categories'));
   
-  app.get(cleanPrefix === '/' ? '/api/db-status' : `${cleanPrefix}api/db-status`, async (req, res) => {
-    try {
-      await sequelize.authenticate();
-      await sequelize.sync({ alter: true });
-      await seedAdminUser();
-      await seedCategories();
-      res.json({
-        status: 'connected',
-        message: 'Database connected and synchronized successfully.',
-        config: {
-          host: sequelize.config.host,
-          port: sequelize.config.port,
-          database: sequelize.config.database,
-          username: sequelize.config.username
-        }
-      });
-    } catch (err) {
-      res.status(500).json({
-        status: 'error',
-        message: 'Database connection failed',
-        error: err.message,
-        config: {
-          host: sequelize.config.host,
-          port: sequelize.config.port,
-          database: sequelize.config.database,
-          username: sequelize.config.username,
-          envDbName: process.env.DB_NAME,
-          envDbUser: process.env.DB_USER,
-          envDbHost: process.env.DB_HOST,
-          envDbPort: process.env.DB_PORT
-        }
-      });
-    }
-  });
-  
   app.get(cleanPrefix === '/' ? '/' : cleanPrefix.slice(0, -1), (req, res) => {
     res.send('Saraa Tarot API is running...');
   });
@@ -203,8 +168,31 @@ const seedCategories = async () => {
 };
 
 // --- START SERVER ---
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
+  
+  // Auto-create local database if it doesn't exist
+  const dbUser = process.env.DB_USER || 'root';
+  const isProduction = process.env.NODE_ENV === 'production' || 
+                       (dbUser && dbUser.startsWith('amigoweb_'));
+  
+  if (!isProduction) {
+    try {
+      const mysql = require('mysql2/promise');
+      const connection = await mysql.createConnection({
+        host: process.env.DB_HOST || '127.0.0.1',
+        port: parseInt(process.env.DB_PORT || '3306', 10),
+        user: dbUser,
+        password: process.env.DB_PASSWORD || ''
+      });
+      const resolvedDbName = process.env.DB_NAME || 'sara-tarot-DB';
+      await connection.query(`CREATE DATABASE IF NOT EXISTS \`${resolvedDbName}\`;`);
+      await connection.end();
+      console.log(`Local database "${resolvedDbName}" ensured.`);
+    } catch (err) {
+      console.warn('Could not auto-create local database:', err.message);
+    }
+  }
   
   sequelize.authenticate()
     .then(() => {

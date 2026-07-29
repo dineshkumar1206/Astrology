@@ -46,7 +46,7 @@ export default function AdminNavbar({
     : SERVICE_CATEGORIES_RIGHT_DEFAULT;
 
   return (
-    <header className="bg-[#130f24]/95 backdrop-blur-md border-b border-[#D9B56A]/20 w-full z-50 sticky top-0 shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
+    <header className="bg-[#0B1225]/95 backdrop-blur-md border-b border-[#D9B56A]/20 w-full z-50 sticky top-0 shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
       <div className="max-w-[1600px] mx-auto px-4 md:px-6 h-[76px] flex justify-between items-center gap-4">
         
         {/* 1. BRANDING (Left) */}
@@ -105,7 +105,7 @@ export default function AdminNavbar({
             {/* Dropdown Menu */}
             {isCrystalsOpen && (
               <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-40">
-                <div className="bg-[#130f24] border border-[#D9B56A]/25 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 w-44 flex flex-col backdrop-blur-xl">
+                <div className="bg-[#0B1225] border border-[#D9B56A]/25 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 w-44 flex flex-col backdrop-blur-xl">
                   {crystalCategories.map((cat) => (
                     <button
                       key={cat}
@@ -179,7 +179,7 @@ export default function AdminNavbar({
             {/* Profile Options Dropdown */}
             {isAdminDropdownOpen && (
               <div className="absolute right-0 top-full pt-2 z-50">
-                <div className="bg-[#130f24] border border-[#D9B56A]/25 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 w-44 flex flex-col backdrop-blur-xl">
+                <div className="bg-[#0B1225] border border-[#D9B56A]/25 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 w-44 flex flex-col backdrop-blur-xl">
                   <a
                     href="/"
                     className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold text-[#B7AFC7] hover:bg-[#1c1635] hover:text-white transition-colors"
@@ -226,7 +226,7 @@ export default function AdminNavbar({
 
       {/* 5. MOBILE DROPDOWN MENU */}
       {isMobileMenuOpen && (
-        <div className="xl:hidden absolute top-full left-0 w-full bg-[#130f24] border-b border-[#D9B56A]/20 shadow-2xl max-h-[calc(100vh-76px)] overflow-y-auto z-50">
+        <div className="xl:hidden absolute top-full left-0 w-full bg-[#0B1225] border-b border-[#D9B56A]/20 shadow-2xl max-h-[calc(100vh-76px)] overflow-y-auto z-50">
           <div className="flex flex-col p-4 gap-2 font-sans">
             
             <div className="text-[10px] text-[#B7AFC7] font-bold uppercase tracking-widest px-3 mb-1 mt-2">
@@ -259,7 +259,7 @@ export default function AdminNavbar({
                     className={`px-3 py-2 rounded-md text-[11px] font-semibold text-left transition-colors ${
                       activeCategory === cat 
                       ? 'bg-[#D9B56A]/20 text-[#D9B56A]' 
-                      : 'text-[#B7AFC7] hover:bg-[#130f24]'
+                      : 'text-[#B7AFC7] hover:bg-[#0B1225]'
                     }`}
                   >
                     {cat}

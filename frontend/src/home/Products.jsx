@@ -62,7 +62,7 @@ function ScrollableCarousel({ children }) {
       className="flex gap-6 overflow-x-auto pb-4 scroll-smooth"
       style={{
         scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(214,178,106,0.2) transparent',
+        scrollbarColor: 'rgba(42,22,53,0.15) transparent',
         cursor: isDragging ? 'grabbing' : 'grab',
       }}
       onMouseDown={handleMouseDown}
@@ -164,7 +164,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   };
 
   return (
-    <div id="products-section" className="relative font-sans py-20 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(67,32,78,0.12)_0%,transparent_70%),linear-gradient(180deg,#0B1225_0%,#161330_50%,#0B1225_100%)]">
+    <div id="products-section" className="relative font-sans py-20 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(161,61,142,0.05)_0%,transparent_70%),linear-gradient(180deg,#FDFCFF_0%,#F8F6FF_50%,#F5EEFF_100%)]">
 
       <motion.div
         initial="hidden"
@@ -224,7 +224,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                       onClick={() => setActiveProduct(product)}
                       className="min-w-[260px] max-w-[260px] bg-sara-panel border border-[rgba(214,178,106,0.12)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)] select-none cursor-pointer"
                     >
-                      <div className="w-full h-[180px] overflow-hidden relative bg-sara-darkDeep">
+                      <div className="w-full h-[180px] overflow-hidden relative bg-[#F5F0FF]">
                         <img
                           src={imgSrc}
                           alt={product.name}
@@ -234,15 +234,15 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                             e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';
                           }}
                         />
-                        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-sara-panel to-transparent" />
-                        <div className="absolute top-3 right-3 bg-[rgba(34,32,66,0.85)] border border-[rgba(214,178,106,0.25)] px-2.5 py-1 rounded text-[10px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
+                        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-white to-transparent" />
+                        <div className="absolute top-3 right-3 bg-[rgba(255,255,255,0.85)] border border-[rgba(214,178,106,0.25)] px-2.5 py-1 rounded text-[10px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
                           {product.type}
                         </div>
                       </div>
 
                       <div className="p-4 flex-grow flex flex-col justify-between">
                         <div>
-                          <h3 className="text-white text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
+                          <h3 className="text-[#2A1635] text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
                             {product.name}
                           </h3>
                           <p className="text-sara-muted text-[12px] m-0 mb-3 line-clamp-2 leading-relaxed">
