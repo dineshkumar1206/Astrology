@@ -5,12 +5,13 @@ const sequelize = require('./config/database');
 
 const app = express();
 
-// --- UPDATE: Configured CORS for your frontend URLs ---
+// --- CORS CONFIGURATION ---
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://sara-tarot.vercel.app'
+  'https://sara-tarot.vercel.app',
+  'https://astrology-ten-neon.vercel.app' // Added your new Vercel URL here
 ];
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
@@ -21,11 +22,14 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps, curl, or postman)
     if (!origin) return callback(null, true);
     
+    // Normalize origin URL by stripping any trailing slash
+    const cleanOrigin = origin.replace(/\/$/, '');
+    
     // Check if origin is allowed
-    const isAllowed = allowedOrigins.includes(origin) || 
-                      origin.startsWith('http://localhost:') || 
-                      origin.endsWith('.vercel.app') || 
-                      origin.endsWith('amigowebster.in');
+    const isAllowed = allowedOrigins.some(o => o.replace(/\/$/, '') === cleanOrigin) || 
+                      cleanOrigin.startsWith('http://localhost:') || 
+                      cleanOrigin.endsWith('.vercel.app') || 
+                      cleanOrigin.endsWith('amigowebster.in');
                       
     if (isAllowed) {
       return callback(null, true);
@@ -39,7 +43,9 @@ app.use(cors({
 
 app.use(express.json());
 
-// --- UPDATE: Register routes with and without the subdirectory prefix for cPanel deployment compatibility ---
+// --- ROUTE REGISTRATION ---
+// This function ensures your routes work perfectly whether running locally 
+// or inside the '/astrology' subfolder on cPanel.
 const registerRoutes = (prefix) => {
   const cleanPrefix = prefix === '/' ? '/' : `/${prefix.replace(/^\/|\/$/g, '')}/`;
   
@@ -47,6 +53,41 @@ const registerRoutes = (prefix) => {
   app.use(cleanPrefix === '/' ? '/api/products' : `${cleanPrefix}api/products`, require('./routes/products'));
   app.use(cleanPrefix === '/' ? '/api/contact' : `${cleanPrefix}api/contact`, require('./routes/contact'));
   app.use(cleanPrefix === '/' ? '/api/categories' : `${cleanPrefix}api/categories`, require('./routes/categories'));
+  
+  app.get(cleanPrefix === '/' ? '/api/db-status' : `${cleanPrefix}api/db-status`, async (req, res) => {
+    try {
+      await sequelize.authenticate();
+      await sequelize.sync({ alter: true });
+      await seedAdminUser();
+      await seedCategories();
+      res.json({
+        status: 'connected',
+        message: 'Database connected and synchronized successfully.',
+        config: {
+          host: sequelize.config.host,
+          port: sequelize.config.port,
+          database: sequelize.config.database,
+          username: sequelize.config.username
+        }
+      });
+    } catch (err) {
+      res.status(500).json({
+        status: 'error',
+        message: 'Database connection failed',
+        error: err.message,
+        config: {
+          host: sequelize.config.host,
+          port: sequelize.config.port,
+          database: sequelize.config.database,
+          username: sequelize.config.username,
+          envDbName: process.env.DB_NAME,
+          envDbUser: process.env.DB_USER,
+          envDbHost: process.env.DB_HOST,
+          envDbPort: process.env.DB_PORT
+        }
+      });
+    }
+  });
   
   app.get(cleanPrefix === '/' ? '/' : cleanPrefix.slice(0, -1), (req, res) => {
     res.send('Saraa Tarot API is running...');
@@ -58,10 +99,15 @@ const registerRoutes = (prefix) => {
   }
 };
 
+// Register standard routes for local testing (e.g., /api/auth)
 registerRoutes('/');
-registerRoutes('/sara-tarot');
 
-const PORT = process.env.PORT || 5000;
+// Register cPanel subfolder routes (e.g., /astrology/api/auth)
+registerRoutes('/astrology');
+
+
+// --- DATABASE & SEEDING CONFIGURATION ---
+const PORT = process.env.PORT || 5001;
 const User = require('./models/User');
 const Category = require('./models/Category');
 
@@ -87,7 +133,6 @@ const seedAdminUser = async () => {
 const seedCategories = async () => {
   try {
     const targetCategories = [
-      // Crystals subcategories (Updated)
       { name: 'Rasi', type: 'crystal', desc: 'Specially energized crystals harmonized for your specific zodiac sign to bring balance and positive cosmic vibrations.', image: '/Raw-Amethyst-Geode.png', slug: 'rasi' },
       { name: 'Bracelet', type: 'crystal', desc: 'Beautifully crafted bead bracelets for daily energetic protection, emotional peace, and spiritual support.', image: '/Rose-Quartz-Love-Bowl-Tumbles.png', slug: 'bracelet' },
       { name: 'Pyrite', type: 'crystal', desc: 'The golden stone of luck, abundance, and business growth. Ideal for work tables and wealth manifestation.', image: '/Golden-Pyrite-Cluster.png', slug: 'pyrite' },
@@ -98,8 +143,6 @@ const seedCategories = async () => {
       { name: 'Pyrite frames', type: 'crystal', desc: 'Beautifully framed pyrite clusters to attract wealth, abundance, and protection into your home or office.', image: '/Golden-Pyrite-Cluster.png', slug: 'pyrite-frames' },
       { name: 'Crystal mala', type: 'crystal', desc: 'Sacred crystal prayer beads for mantra chanting, meditation, and continuous spiritual connection.', image: '/crystal.jpg', slug: 'crystal-mala' },
       { name: 'Crystal tower', type: 'crystal', desc: 'Energized crystal towers to amplify intention, direct positive energy, and cleanse your living space.', image: '/Raw-Amethyst-Geode.png', slug: 'crystal-tower' },
-
-      // Spiritual services
       { name: 'Tarot Private Consultation', type: 'service', desc: 'One-on-one personal guidance session with Sara to answer your life questions.', slug: 'tarot-consultation' },
       { name: 'Spiritual Healing', type: 'service', desc: 'Blessed distance healing therapy to clean aura, manifest prosperity, and remove energetic blockages.', slug: 'spiritual-healing' },
       { name: 'Murugar Cards', type: 'service', desc: 'Divine guidance cards inspired by Lord Murugar to help navigate your path.', image: '/card-1.jpg', slug: 'murugar-cards' },
@@ -109,9 +152,7 @@ const seedCategories = async () => {
     ];
 
     const currentCategories = await Category.findAll();
-    const currentNames = currentCategories.map(c => c.name);
 
-    // 1. Delete crystal categories that are no longer in the list
     const newCrystalNames = targetCategories.filter(c => c.type === 'crystal').map(c => c.name);
     for (const cur of currentCategories) {
       if (cur.type === 'crystal' && !newCrystalNames.includes(cur.name)) {
@@ -120,7 +161,6 @@ const seedCategories = async () => {
       }
     }
 
-    // 2. Add or update target categories
     for (const target of targetCategories) {
       const match = currentCategories.find(c => c.name.toLowerCase() === target.name.toLowerCase());
       if (!match) {
@@ -138,7 +178,6 @@ const seedCategories = async () => {
       }
     }
 
-    // 3. Migrate existing products' categories in the database
     const Product = require('./models/Product');
     const migrationPairs = [
       { from: 'Rashi', to: 'Rasi' },
@@ -163,11 +202,10 @@ const seedCategories = async () => {
   }
 };
 
-// Start the server immediately so it listens on the port (preventing 503 errors on live hosting)
+// --- START SERVER ---
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
   
-  // Connect and sync the database asynchronously
   sequelize.authenticate()
     .then(() => {
       console.log('Database connected successfully.');
@@ -180,6 +218,5 @@ app.listen(PORT, () => {
     })
     .catch(err => {
       console.error('Unable to connect to the database:', err);
-      console.error('Please verify your live environment variables or cPanel database configuration.');
     });
 });
