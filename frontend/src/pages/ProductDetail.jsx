@@ -227,6 +227,15 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
               </div>
             </div>
 
+            {/* Policy & Shipping Notice */}
+            <div className="my-6 p-4 rounded-lg bg-[rgba(214,178,106,0.08)] border border-[rgba(214,178,106,0.25)] text-xs text-[#2A1635] leading-relaxed">
+              <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">Order Policy & Shipping</div>
+              <ul className="list-disc pl-4 m-0 flex flex-col gap-1 text-[#3E2F48]">
+                <li>All products: After payment, no refund.</li>
+                <li>After placing the order, it will take 10 to 20 days.</li>
+              </ul>
+            </div>
+
             {/* Add to Cart */}
             <button
               onClick={handleAddToCart}

@@ -150,6 +150,15 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               )}
             </div>
 
+            {/* Policy & Shipping Notice */}
+            <div className="my-6 p-4 rounded-lg bg-[rgba(214,178,106,0.08)] border border-[rgba(214,178,106,0.25)] text-xs text-[#2A1635] leading-relaxed">
+              <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">Order Policy & Shipping</div>
+              <ul className="list-disc pl-4 m-0 flex flex-col gap-1 text-[#3E2F48]">
+                <li>All products: After payment, no refund.</li>
+                <li>After placing the order, it will take 10 to 20 days.</li>
+              </ul>
+            </div>
+
             <button
               onClick={handleAdd}
               className={`border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-all ${

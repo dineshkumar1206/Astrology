@@ -34,7 +34,7 @@ export default function AbtSara() {
     <div
       ref={sectionRef}
       id="about"
-      className="relative py-24 px-6 pb-40 overflow-hidden min-h-[700px] bg-[radial-gradient(ellipse_60%_50%_at_25%_80%,rgba(161,61,142,0.06)_0%,rgba(91,46,120,0.03)_40%,transparent_70%),radial-gradient(ellipse_40%_35%_at_80%_30%,rgba(214,178,106,0.04)_0%,transparent_60%),linear-gradient(135deg,#FFFFFF_0%,#FDFCFF_40%,#F5EEFF_70%,#EAD6FA_100%)]"
+      className="relative py-24 px-6 pb-40 overflow-hidden min-h-[700px] bg-[#ddbeed]"
     >
       <div
         className="pointer-events-none absolute inset-0 z-0"
@@ -53,14 +53,14 @@ export default function AbtSara() {
       >
         <motion.p
           variants={fadeInUpVariants}
-          className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-black m-0 mb-2"
+          className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-[#000000] m-0 mb-2"
         >
           The Founder
         </motion.p>
 
         <motion.h2
           variants={fadeInUpVariants}
-          className="text-center font-serif text-[clamp(44px,6.5vw,72px)] font-normal tracking-[0.5px] m-0 mb-16 text-black"
+          className="text-center font-serif text-[clamp(44px,6.5vw,72px)] font-semi bold tracking-[0.5px] m-0 mb-16 text-black"
         >
           The Story of Saraa Tarot
         </motion.h2>
@@ -105,7 +105,7 @@ export default function AbtSara() {
             <div className="flex items-center gap-11 mt-4 flex-wrap py-5">
               <button
                 onClick={() => navigate('/contact')}
-                className="font-sans text-[12px] font-medium tracking-[2px] uppercase bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark py-4 px-8 cursor-pointer rounded transition-all duration-300 hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)] hover:-translate-y-0.5"
+                className="font-sans text-[12px] font-semibold tracking-[2px] uppercase bg-gradient-to-r from-sara-gold to-sara-goldSoft text-black py-4 px-8 cursor-pointer rounded transition-all duration-300 hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)] hover:-translate-y-0.5"
               >
                 Connect With Me
               </button>
