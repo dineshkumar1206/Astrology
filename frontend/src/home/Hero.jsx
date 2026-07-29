@@ -267,18 +267,11 @@ export default function Hero() {
         >
           <motion.h1
             variants={fadeInUpVariants}
-            className="m-0 mb-8 font-['Playfair_Display',Georgia,serif] font-normal leading-[1.15] tracking-[-0.5px]"
+            className="m-0 mb-8 font-sans font-bold leading-[1.15] tracking-[-0.5px]"
           >
-            <div className="block whitespace-nowrap">
-              <span className="text-[clamp(42px,5.5vw,92px)] text-[#2A1635] mr-5">
-                Unlock
-              </span>
-              <span className="text-[clamp(42px,5.5vw,92px)] text-[#2A1635] tracking-[0.5px]">
-                The Best
-              </span>
-            </div>
-            <span className="block font-normal text-[clamp(60px,8vw,100px)] leading-[1.05] text-sara-gold mt-2">
-              Future
+            <span className="block text-[clamp(60px,8vw,100px)] leading-[1.05]">
+              <span className="text-black">Awaken Your </span>
+              <span className="text-sara-gold">Inner Wisdom</span>
             </span>
           </motion.h1>
 
@@ -287,10 +280,9 @@ export default function Hero() {
             className="text-[#3E2F48] font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px]"
           >
             <p className="m-0">
-              Discover insights, guidance, and clarity through personalized tarot readings.
-              Gain clarity and direction with every card you draw.
+              Step into the realm of Saraa Tarot and uncover the hidden truths waiting for you. Receive personalized intuitive readings designed to illuminate your path, heal your spirit, and empower your choices.
             </p>
-            <p className="m-0">Explore the path ahead with confidence.</p>
+            <p className="m-0">Trust the cards, embrace the journey, and find your true North.</p>
           </motion.div>
         </motion.div>
 

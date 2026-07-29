@@ -65,12 +65,12 @@ export default function AdminNavbar({
         </div>
 
         {/* 2. DESKTOP NAVIGATION (Center) */}
-        <nav className="hidden xl:flex flex-1 items-center justify-center gap-1 px-4 font-sans text-[11px]">
+        <nav className="hidden lg:flex flex-1 items-center justify-center gap-0.5 px-2 font-sans text-[10px] xl:text-[11px]">
           {serviceCategoriesLeft.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg font-semibold transition-all duration-300 whitespace-nowrap border cursor-pointer ${
+              className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg font-semibold transition-all duration-300 whitespace-nowrap border cursor-pointer ${
                 activeCategory === cat
                   ? 'bg-[#D9B56A]/10 border-[#D9B56A]/40 text-[#D9B56A] shadow-[0_0_15px_rgba(217,181,106,0.05)]'
                   : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
@@ -92,7 +92,7 @@ export default function AdminNavbar({
                   setActiveCategory(crystalCategories[0]);
                 }
               }}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-lg font-semibold transition-all duration-300 whitespace-nowrap border cursor-pointer ${
+              className={`flex items-center gap-0.5 xl:gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg font-semibold transition-all duration-300 whitespace-nowrap border cursor-pointer ${
                 crystalCategories.includes(activeCategory)
                   ? 'bg-[#D9B56A]/10 border-[#D9B56A]/40 text-[#D9B56A] shadow-[0_0_15px_rgba(217,181,106,0.05)]'
                   : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
@@ -131,7 +131,7 @@ export default function AdminNavbar({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg font-semibold transition-all duration-300 whitespace-nowrap border cursor-pointer ${
+              className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg font-semibold transition-all duration-300 whitespace-nowrap border cursor-pointer ${
                 activeCategory === cat
                   ? 'bg-[#D9B56A]/10 border-[#D9B56A]/40 text-[#D9B56A] shadow-[0_0_15px_rgba(217,181,106,0.05)]'
                   : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
@@ -143,17 +143,18 @@ export default function AdminNavbar({
         </nav>
 
         {/* 3. ACTIONS & USER INFO (Right - Compact Dropdown Mode) */}
-        <div className="hidden xl:flex items-center gap-3 shrink-0">
+        <div className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0">
           <button
             onClick={() => setActiveCategory('_manage_menus')}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
+            className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
               activeCategory === '_manage_menus'
                 ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
                 : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
             }`}
           >
-            <Settings size={13} />
-            <span>Manage Menus</span>
+            <Settings size={12} />
+            <span className="hidden xl:inline">Manage Menus</span>
+            <span className="xl:hidden">Menus</span>
           </button>
 
           {/* Admin Profile Dropdown */}
@@ -163,17 +164,17 @@ export default function AdminNavbar({
             onMouseLeave={() => setIsAdminDropdownOpen(false)}
           >
             <button
-              className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#D9B56A]/15 hover:border-[#D9B56A]/40 transition-all cursor-pointer bg-[#1c1635]/30 text-left"
+              className="flex items-center gap-1 xl:gap-2 px-1.5 xl:px-2.5 py-1.5 rounded-lg border border-[#D9B56A]/15 hover:border-[#D9B56A]/40 transition-all cursor-pointer bg-[#1c1635]/30 text-left"
             >
               <div className="flex flex-col">
-                <span className="text-[11px] font-semibold text-white truncate max-w-[120px] leading-tight">
-                  {user?.email || 'Admin User'}
+                <span className="text-[10px] xl:text-[11px] font-semibold text-white truncate max-w-[100px] xl:max-w-[120px] leading-tight">
+                  {user?.email || 'Admin'}
                 </span>
-                <span className="text-[8px] text-[#D9B56A] uppercase font-bold tracking-widest mt-0.5">
+                <span className="text-[7px] xl:text-[8px] text-[#D9B56A] uppercase font-bold tracking-widest mt-0.5 hidden xl:block">
                   Administrator
                 </span>
               </div>
-              <ChevronDown size={12} className="text-[#D9B56A] transition-transform duration-300" style={{ transform: isAdminDropdownOpen ? 'rotate(180deg)' : 'none' }} />
+              <ChevronDown size={10} className="text-[#D9B56A] transition-transform duration-300" style={{ transform: isAdminDropdownOpen ? 'rotate(180deg)' : 'none' }} />
             </button>
 
             {/* Profile Options Dropdown */}
@@ -200,8 +201,8 @@ export default function AdminNavbar({
           </div>
         </div>
 
-        {/* 4. MOBILE / TABLET MENU TOGGLE (Shows below xl breakpoint) */}
-        <div className="xl:hidden flex items-center gap-2 shrink-0">
+        {/* 4. MOBILE / TABLET MENU TOGGLE (Shows below lg breakpoint) */}
+        <div className="lg:hidden flex items-center gap-2 shrink-0">
           <button
             onClick={() => setActiveCategory('_manage_menus')}
             className={`p-2 rounded-lg border transition-all cursor-pointer ${
@@ -226,7 +227,7 @@ export default function AdminNavbar({
 
       {/* 5. MOBILE DROPDOWN MENU */}
       {isMobileMenuOpen && (
-        <div className="xl:hidden absolute top-full left-0 w-full bg-[#0B1225] border-b border-[#D9B56A]/20 shadow-2xl max-h-[calc(100vh-76px)] overflow-y-auto z-50">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-[#0B1225] border-b border-[#D9B56A]/20 shadow-2xl max-h-[calc(100vh-76px)] overflow-y-auto z-50">
           <div className="flex flex-col p-4 gap-2 font-sans">
             
             <div className="text-[10px] text-[#B7AFC7] font-bold uppercase tracking-widest px-3 mb-1 mt-2">

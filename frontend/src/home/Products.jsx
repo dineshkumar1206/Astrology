@@ -59,10 +59,8 @@ function ScrollableCarousel({ children }) {
   return (
     <div
       ref={scrollRef}
-      className="flex gap-6 overflow-x-auto pb-4 scroll-smooth"
+      className="flex gap-6 overflow-x-auto pb-4 scroll-smooth no-scrollbar"
       style={{
-        scrollbarWidth: 'thin',
-        scrollbarColor: 'rgba(42,22,53,0.15) transparent',
         cursor: isDragging ? 'grabbing' : 'grab',
       }}
       onMouseDown={handleMouseDown}
@@ -173,7 +171,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
         variants={fadeInUpVariants}
         className="max-w-[1240px] mx-auto px-8 mb-14 text-center"
       >
-        <h1 className="text-sara-gold text-4xl font-light uppercase tracking-[2px] mb-2 font-serif">
+        <h1 className="text-sara-gold text-4xl font-bold uppercase tracking-[2px] mb-2 font-serif">
           Our Collections
         </h1>
         <p className="text-sara-muted text-base tracking-[0.5px]">
@@ -200,7 +198,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
               className="max-w-[1240px] mx-auto px-8 mb-14"
             >
               <div className="flex items-end justify-between mb-6 border-b border-[rgba(214,178,106,0.15)] pb-4">
-                <h2 className="text-sara-gold text-2xl font-light uppercase tracking-[1.5px] m-0 font-serif">
+                <h2 className="text-black text-2xl font-light uppercase tracking-[1.5px] m-0 font-serif">
                   {section.title}
                 </h2>
                 <Link
@@ -256,9 +254,10 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                           </div>
                           <button
                             onClick={(e) => handleAddToCart(product, e)}
-                            className="w-full bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold rounded-sm"
+                            className="w-full bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold rounded-sm flex items-center justify-center gap-1.5"
                           >
-                            Add To Cart
+                            <span>Add To Cart</span>
+                            <span className="text-[13px] font-normal leading-none">→</span>
                           </button>
                         </div>
                       </div>
