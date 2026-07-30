@@ -181,7 +181,7 @@ export default function ControlDesk() {
     setFormLoading(true);
 
     const isCrystal = isCrystalCategory(formData.category);
-    const hasImageUpload = isCrystal || isKaliPoojaCategory(formData.category) || isMurugarCategory(formData.category);
+    const hasImageUpload = true;
     const inclusionsArray = isCrystal
       ? formData.inclusions
           .split('\n')
@@ -725,8 +725,7 @@ export default function ControlDesk() {
                 </div>
 
                 {/* Image Upload Area */}
-                {(isCrystalCategory(formData.category) || isKaliPoojaCategory(formData.category) || isMurugarCategory(formData.category)) && (
-                  <div>
+                <div>
                     <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                       Item Image
                     </label>
@@ -792,7 +791,6 @@ export default function ControlDesk() {
                       )}
                     </div>
                   </div>
-                )}
 
                 {/* Description */}
                 <div>

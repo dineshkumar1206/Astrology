@@ -48,7 +48,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
           id: item.id,
           name: item.name,
           price: item.price,
-          image: '/saraa-logo.jpeg',
+          image: item.image || '/saraa-logo.jpeg',
           quantity: 1
         }
       ]);
