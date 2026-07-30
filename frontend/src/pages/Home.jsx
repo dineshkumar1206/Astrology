@@ -2,6 +2,7 @@ import React from 'react'
 import Hero from '../home/Hero'
 import Products from '../home/Products'
 import AbtSara from '../home/AbtSara'
+import Testimonial from '../home/Testimonial'
 
 function Home({ cart, setCart, setIsCartOpen }) {
   return (
@@ -9,6 +10,7 @@ function Home({ cart, setCart, setIsCartOpen }) {
     <Hero/>
     <Products cart={cart} setCart={setCart} setIsCartOpen={setIsCartOpen}/>
     <AbtSara/>
+    <Testimonial/>
     </>
   )
 }
