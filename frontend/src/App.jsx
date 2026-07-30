@@ -10,16 +10,16 @@ import ProductDetail from './pages/ProductDetail';
 import About from './pages/About/About';
 import Contact from './pages/Contact';
 import Login from './pages/Login';
+import AdminLogin from './pages/AdminLogin';
 import Dashboard from './dashboard/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 export default function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
 
-  // Scroll to top on path change
   useEffect(() => {
-    // If there is a hash (e.g., #about), handle scrolling after route changes
     if (location.hash) {
       const id = location.hash.replace('#', '');
       const element = document.getElementById(id);
@@ -29,14 +29,13 @@ export default function App() {
       }
     }
 
-    // Default to top scroll
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
   }, [location.pathname, location.hash]);
 
-  const isDashboard = location.pathname.startsWith('/dashboard');
+  const isDashboard = location.pathname.startsWith('/dashboard') || location.pathname === '/admin';
 
   return (
     <div>
@@ -64,10 +63,12 @@ export default function App() {
         <Route 
           path="/checkout" 
           element={
-            <Checkout 
-              cartItems={cart} 
-              setCartItems={setCart} 
-            />
+            <ProtectedRoute>
+              <Checkout 
+                cartItems={cart} 
+                setCartItems={setCart} 
+              />
+            </ProtectedRoute>
           } 
         />
         <Route 
@@ -93,7 +94,15 @@ export default function App() {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/admin" element={<AdminLogin />} />
+        <Route 
+          path="/dashboard" 
+          element={
+            <ProtectedRoute requiredRole="ADMIN">
+              <Dashboard />
+            </ProtectedRoute>
+          } 
+        />
       </Routes>
       
       {!isDashboard && <Footer />}

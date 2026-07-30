@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const JWT_SECRET = process.env.JWT_SECRET || 'saraatarot_secret_key_123';
 
-const verifyAdmin = (req, res, next) => {
+const verifyToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
 
@@ -12,16 +12,27 @@ const verifyAdmin = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, JWT_SECRET);
-    if (decoded.role !== 'admin') {
-      return res.status(403).json({ message: 'Access denied. Administrator privileges required.' });
-    }
     req.user = decoded;
     next();
   } catch (err) {
-    res.status(401).json({ message: 'Token is not valid' });
+    return res.status(401).json({ message: 'Token is not valid' });
   }
 };
 
+const verifyAdmin = (req, res, next) => {
+  verifyToken(req, res, () => {
+    if (req.user.role !== 'ADMIN') {
+      return res.status(403).json({ message: 'Access denied. Administrator privileges required.' });
+    }
+    next();
+  });
+};
+
+const verifyAnyUser = (req, res, next) => {
+  verifyToken(req, res, next);
+};
+
 module.exports = {
-  verifyAdmin
+  verifyAdmin,
+  verifyAnyUser
 };

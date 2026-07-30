@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
+const bcrypt = require('bcryptjs');
 
 const User = sequelize.define('User', {
   id: {
@@ -21,21 +22,37 @@ const User = sequelize.define('User', {
   },
   password: {
     type: DataTypes.STRING,
+    allowNull: true
+  },
+  role: {
+    type: DataTypes.ENUM('ADMIN', 'CUSTOMER'),
+    defaultValue: 'CUSTOMER',
     allowNull: false
+  },
+  googleId: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  phone: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  address: {
+    type: DataTypes.TEXT,
+    allowNull: true
   }
 }, {
   tableName: 'users'
 });
 
-const bcrypt = require('bcryptjs');
-
 User.beforeSave(async (user) => {
-  if (user.changed('password')) {
+  if (user.changed('password') && user.password) {
     user.password = await bcrypt.hash(user.password, 10);
   }
 });
 
 User.prototype.comparePassword = async function (candidatePassword) {
+  if (!this.password) return false;
   return bcrypt.compare(candidatePassword, this.password);
 };
 

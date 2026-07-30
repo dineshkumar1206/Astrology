@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { useLanguage } from '../context/LanguageContext';
 
 const WHATSAPP_PHONE = '919999999999';
@@ -9,6 +10,7 @@ const MERCHANT_NAME = 'SARAA TAROT SERVICES';
 export default function Checkout({ cartItems = [], setCartItems }) {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { user } = useSelector(state => state.auth);
   const [paymentMethod, setPaymentMethod] = useState('qr');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -41,6 +43,36 @@ export default function Checkout({ cartItems = [], setCartItems }) {
       setCartItems([]);
     }, 2000);
   };
+
+  if (!user) {
+    return (
+      <div className="bg-[#F8F6FF] min-h-[85vh] flex justify-center items-center text-[#2A1635] font-sans p-8">
+        <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-lg px-12 py-12 max-w-[450px] w-full text-center shadow-[0_15px_30px_rgba(42,22,53,0.08)]">
+          <div className="text-[4rem] text-sara-gold mb-4">🔒</div>
+          <h2 className="text-[1.6rem] font-normal text-sara-gold mb-4 uppercase tracking-[1px]">
+            {t('checkout.loginRequired') || 'Login Required'}
+          </h2>
+          <p className="text-[#2A1635] text-[14px] leading-relaxed mb-8">
+            {t('checkout.loginToCheckout') || 'Please sign in or create an account to proceed with your order.'}
+          </p>
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => navigate('/login')}
+              className="bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none rounded py-[1rem] px-8 text-[14px] font-bold uppercase tracking-[1px] cursor-pointer transition-opacity hover:opacity-90"
+            >
+              {t('checkout.signIn') || 'Sign In'}
+            </button>
+            <button
+              onClick={() => navigate('/')}
+              className="bg-transparent text-sara-gold border border-[rgba(214,178,106,0.3)] py-[1rem] px-4 text-[13px] font-bold uppercase tracking-[1px] cursor-pointer rounded transition-colors hover:bg-[rgba(214,178,106,0.08)]"
+            >
+              {t('checkout.continueShopping') || 'Continue Shopping'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isSuccess) {
     const orderItemsText = lastOrderDetails.items.join(', ');

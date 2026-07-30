@@ -53,6 +53,7 @@ const registerRoutes = (prefix) => {
   app.use(cleanPrefix === '/' ? '/api/products' : `${cleanPrefix}api/products`, require('./routes/products'));
   app.use(cleanPrefix === '/' ? '/api/contact' : `${cleanPrefix}api/contact`, require('./routes/contact'));
   app.use(cleanPrefix === '/' ? '/api/categories' : `${cleanPrefix}api/categories`, require('./routes/categories'));
+  app.use(cleanPrefix === '/' ? '/api/orders' : `${cleanPrefix}api/orders`, require('./routes/orders'));
   
   app.get(cleanPrefix === '/' ? '/' : cleanPrefix.slice(0, -1), (req, res) => {
     res.send('Saraa Tarot API is running...');
@@ -75,20 +76,30 @@ registerRoutes('/astrology');
 const PORT = process.env.PORT || 5001;
 const User = require('./models/User');
 const Category = require('./models/Category');
+const Order = require('./models/Order');
+const LoginHistory = require('./models/LoginHistory');
 
 const seedAdminUser = async () => {
   try {
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@saraatarot.com';
     const adminPassword = process.env.ADMIN_PASSWORD || 'adminpassword';
 
-    const count = await User.count();
-    if (count === 0) {
-      await User.create({
-        name: 'Saraa Tarot Admin',
-        email: adminEmail,
-        password: adminPassword
-      });
-      console.log('Admin user seeded into database.');
+    const adminExists = await User.findOne({ where: { role: 'ADMIN' } });
+    if (!adminExists) {
+      const existingUser = await User.findOne({ where: { email: adminEmail } });
+      if (existingUser) {
+        existingUser.role = 'ADMIN';
+        await existingUser.save();
+        console.log('Existing user upgraded to ADMIN.');
+      } else {
+        await User.create({
+          name: 'Saraa Tarot Admin',
+          email: adminEmail,
+          password: adminPassword,
+          role: 'ADMIN'
+        });
+        console.log('Admin user seeded into database.');
+      }
     }
   } catch (err) {
     console.error('Failed to seed admin user:', err);

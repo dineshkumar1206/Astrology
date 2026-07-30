@@ -23,6 +23,8 @@ const getLiveURL = () => {
 };
 
 // Export as API_BASE_URL to match your current project's naming convention
+export const GOOGLE_CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID || '';
+
 export const API_BASE_URL = isLocal 
   ? "http://localhost:5001" // Ensure this port matches your local Node.js server port
   : getLiveURL();

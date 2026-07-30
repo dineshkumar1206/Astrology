@@ -184,12 +184,21 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 <span className="text-white font-sans text-xs font-medium uppercase tracking-[0.5px]">
                   {t('nav.hi')}, {user.name.split(' ')[0]}
                 </span>
-                <Link
-                  to="/dashboard"
-                  className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
-                >
-                  {t('nav.dashboard')}
-                </Link>
+                {user.role === 'ADMIN' ? (
+                  <Link
+                    to="/dashboard"
+                    className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
+                  >
+                    {t('nav.dashboard')}
+                  </Link>
+                ) : (
+                  <Link
+                    to="/"
+                    className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
+                  >
+                    My Orders
+                  </Link>
+                )}
                 <button
                   onClick={handleLogout}
                   className="bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] rounded-sm px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-[rgba(223,186,107,0.1)]"
@@ -395,13 +404,23 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   </span>
                 </li>
                 <li>
-                  <Link 
-                    to="/dashboard"
-                    onClick={() => setIsOpen(false)}
-                    className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
-                  >
-                    {t('nav.dashboard')}
-                  </Link>
+                  {user.role === 'ADMIN' ? (
+                    <Link 
+                      to="/dashboard"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
+                    >
+                      {t('nav.dashboard')}
+                    </Link>
+                  ) : (
+                    <Link 
+                      to="/"
+                      onClick={() => setIsOpen(false)}
+                      className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
+                    >
+                      My Orders
+                    </Link>
+                  )}
                 </li>
                 <li>
                   <button 
