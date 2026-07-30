@@ -36,6 +36,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
   const [selectedSize, setSelectedSize] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [addedToCart, setAddedToCart] = useState(false);
+  const [healing, setHealing] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -87,15 +88,25 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
     return '/';
   };
 
+  const CRYSTAL_CATEGORIES = ["rasi", "bracelet", "pyrite", "rings", "pendants", "tumbles", "crystal balls", "pyrite frames", "crystal mala", "crystal tower", "crystal"];
+  const isCrystal = product && product.category && CRYSTAL_CATEGORIES.includes(product.category.toLowerCase());
+
   const handleAddToCart = () => {
     if (!setCart || !product) return;
 
-    const cartItemId = selectedSize ? `${product.id}-${selectedSize}` : product.id;
-    const existingItem = cart.find((item) => item.id === cartItemId);
-
+    const hasHealing = isCrystal && healing;
+    const finalPrice = product.price + (hasHealing ? 1000 : 0);
+    const suffix = hasHealing ? (locale === 'ta' ? ' (+ கூடுதல் குணப்படுத்தும் சக்தி)' : ' (+ Extra Healing Power)') : '';
+    const nameWithSuffix = `${product.name}${suffix}`;
+    
+    const sizeKey = selectedSize ? `-${selectedSize}` : '';
+    const healingKey = hasHealing ? '-healing' : '';
+    const cartItemId = `${product.id}${sizeKey}${healingKey}`;
     const cartName = selectedSize
-      ? `${product.name} (${selectedSize})`
-      : product.name;
+      ? `${nameWithSuffix} (${selectedSize})`
+      : nameWithSuffix;
+
+    const existingItem = cart.find((item) => item.id === cartItemId);
 
     if (existingItem) {
       setCart(
@@ -111,7 +122,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
         {
           id: cartItemId,
           name: cartName,
-          price: product.price,
+          price: finalPrice,
           image: getImgSrc(),
           quantity
         }
@@ -162,11 +173,11 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
-          className="flex flex-col lg:flex-row gap-10 py-10"
+          className="flex flex-col lg:flex-row gap-10 p-8 sm:p-12 my-10 bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded-2xl shadow-[0_20px_50px_rgba(161,61,142,0.15)]"
         >
           {/* Image */}
           <div className="flex-[1_1_450px]">
-            <div className="relative rounded-lg overflow-hidden border border-[rgba(214,178,106,0.15)] bg-white">
+            <div className="relative rounded-lg overflow-hidden border border-[rgba(214,178,106,0.15)] bg-[#12071C]">
               <img
                 src={getImgSrc()}
                 alt={product.name}
@@ -176,7 +187,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                   e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';
                 }}
               />
-              <div className="absolute top-4 right-4 bg-[rgba(255,255,255,0.9)] border border-[rgba(214,178,106,0.3)] px-3 py-1.5 rounded text-[11px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
+              <div className="absolute top-4 right-4 bg-[rgba(30,15,43,0.85)] border border-[rgba(214,178,106,0.25)] px-3 py-1.5 rounded text-[11px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
                 {product.type}
               </div>
             </div>
@@ -187,21 +198,21 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             <span className="text-sara-gold text-[11px] uppercase tracking-[2px] font-semibold mb-2">
               {product.category}
             </span>
-            <h1 className="text-[#2A1635] font-serif text-[2rem] sm:text-[2.5rem] font-normal leading-tight mb-4">
+            <h1 className="text-white font-serif text-[2rem] sm:text-[2.5rem] font-normal leading-tight mb-4">
               {product.name}
             </h1>
-            <p className="text-sara-muted text-[0.95rem] leading-7 mb-6">
+            <p className="text-[#D3C7DC] text-[0.95rem] leading-7 mb-6">
               {product.desc}
             </p>
 
             <div className="text-sara-gold text-[2rem] font-semibold mb-6">
-              Rs. {product.price.toLocaleString('en-IN')}
+              Rs. {(product.price + (isCrystal && healing ? 1000 : 0)).toLocaleString('en-IN')}
             </div>
 
             {/* Sizes */}
             {product.sizes && product.sizes.length > 0 && (
               <div className="mb-6">
-                <label className="block text-[11px] text-sara-muted uppercase tracking-[1px] mb-2 font-medium">
+                <label className="block text-[11px] text-[#D3C7DC] uppercase tracking-[1px] mb-2 font-medium">
                   {t('productDetail.selectSize')}
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -211,8 +222,8 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                       onClick={() => setSelectedSize(size)}
                       className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider border transition-all duration-200 cursor-pointer ${
                         selectedSize === size
-                          ? 'bg-sara-gold text-sara-textDark border-sara-gold'
-                          : 'bg-transparent text-sara-muted border-[rgba(214,178,106,0.2)] hover:border-sara-gold hover:text-sara-gold'
+                          ? 'bg-sara-gold text-[#1E0F2B] border-sara-gold'
+                          : 'bg-transparent text-[#D3C7DC] border-[rgba(214,178,106,0.25)] hover:border-sara-gold'
                       }`}
                     >
                       {size}
@@ -222,22 +233,53 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
               </div>
             )}
 
+            {/* Healing Option for Crystals */}
+            {isCrystal && (
+              <div className="mb-6">
+                <label className="block text-[11px] text-[#D3C7DC] uppercase tracking-[1px] mb-2 font-medium">
+                  {locale === 'ta' ? 'குணப்படுத்துதல் விருப்பம்:' : 'Healing Option:'}
+                </label>
+                <div className="flex flex-col gap-2">
+                  <label className="flex items-center gap-2 text-sm text-[#D3C7DC] cursor-pointer">
+                    <input 
+                      type="radio" 
+                      name="detail-healing" 
+                      checked={!healing}
+                      onChange={() => setHealing(false)}
+                      className="w-4 h-4 accent-sara-gold cursor-pointer"
+                    />
+                    <span>{locale === 'ta' ? 'இல்லை' : 'Without Healing'}</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-sm text-sara-gold font-semibold cursor-pointer">
+                    <input 
+                      type="radio" 
+                      name="detail-healing" 
+                      checked={healing}
+                      onChange={() => setHealing(true)}
+                      className="w-4 h-4 accent-sara-gold cursor-pointer"
+                    />
+                    <span>{locale === 'ta' ? 'குணப்படுத்துதலுடன் (+ ரூ. 1,000)' : 'With Healing (+ ₹1,000)'}</span>
+                  </label>
+                </div>
+              </div>
+            )}
+
             {/* Quantity */}
             <div className="mb-6">
-              <label className="block text-[11px] text-sara-muted uppercase tracking-[1px] mb-2 font-medium">
+              <label className="block text-[11px] text-[#D3C7DC] uppercase tracking-[1px] mb-2 font-medium">
                 {t('productDetail.quantity')}
               </label>
               <div className="flex items-center gap-3">
                 <button
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                  className="w-9 h-9 rounded border border-[rgba(214,178,106,0.2)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
+                  className="w-9 h-9 rounded border border-[rgba(214,178,106,0.25)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
                 >
                   -
                 </button>
-                <span className="text-[#2A1635] text-sm font-medium w-8 text-center">{quantity}</span>
+                <span className="text-white text-sm font-medium w-8 text-center">{quantity}</span>
                 <button
                   onClick={() => setQuantity(quantity + 1)}
-                  className="w-9 h-9 rounded border border-[rgba(214,178,106,0.2)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
+                  className="w-9 h-9 rounded border border-[rgba(214,178,106,0.25)] bg-transparent text-sara-gold text-lg flex items-center justify-center cursor-pointer transition-all hover:border-sara-gold"
                 >
                   +
                 </button>
@@ -245,9 +287,9 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             </div>
 
             {/* Policy & Shipping Notice */}
-            <div className="my-6 p-4 rounded-lg bg-[rgba(214,178,106,0.08)] border border-[rgba(214,178,106,0.25)] text-xs text-[#2A1635] leading-relaxed">
+            <div className="my-6 p-4 rounded-lg bg-[rgba(214,178,106,0.04)] border border-[rgba(214,178,106,0.2)] text-xs text-[#D3C7DC] leading-relaxed">
               <div className="font-semibold text-sara-gold uppercase tracking-[1px] mb-1.5">{t('productDetail.policyTitle')}</div>
-              <ul className="list-disc pl-4 m-0 flex flex-col gap-1 text-[#3E2F48]">
+              <ul className="list-disc pl-4 m-0 flex flex-col gap-1 text-[#D3C7DC]">
                 <li>{t('productDetail.policyNoRefund')}</li>
                 <li>{t('productDetail.policyTimeline')}</li>
               </ul>
@@ -267,11 +309,11 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
 
             {/* Inclusions */}
             {product.inclusions && product.inclusions.length > 0 && (
-              <div className="border-t border-[rgba(214,178,106,0.1)] pt-6">
+              <div className="border-t border-[rgba(214,178,106,0.15)] pt-6">
                 <h3 className="text-sara-gold font-serif text-lg mb-4 tracking-[1px]">{t('productDetail.whatsIncluded')}</h3>
                 <ul className="m-0 pl-0 list-none">
                   {product.inclusions.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 mb-3 text-sara-muted text-[0.9rem] leading-6">
+                    <li key={i} className="flex items-start gap-2 mb-3 text-[#D3C7DC] text-[0.9rem] leading-6">
                       <span className="text-sara-gold mt-1 text-[8px]">●</span>
                       {item}
                     </li>

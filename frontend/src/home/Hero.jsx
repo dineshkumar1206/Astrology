@@ -59,9 +59,10 @@ export default function Hero() {
         >
           <motion.h1
             variants={fadeInUpVariants}
-            className="m-0 mb-8 font-sans font-bold leading-[1.15] tracking-[-0.5px]"
+            className="m-0 mb-8 text-extrabold leading-[1.05] tracking-[-0.03em]"
+            style={{ fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif" }}
           >
-            <span className="block text-[clamp(60px,8vw,100px)] leading-[1.05]">
+            <span className="block text-[clamp(60px,8vw,100px)]">
               <span className="text-black">{t('hero.titleFirst')}</span>
               <span className="text-sara-gold">{t('hero.titleSecond')}</span>
             </span>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
 html {
@@ -22,7 +22,7 @@ html {
 
 @theme {
   --font-sans: 'Poppins', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+  --font-serif: 'Poppins', sans-serif;
 
   --color-sara-dark: #F8F6FF;
   --color-sara-darkDeep: #FFFFFF;
@@ -43,10 +43,6 @@ html {
 
 body {
   font-family: 'Poppins', sans-serif;
-}
-
-h1, h2, h3, h4, h5, h6, .font-serif {
-  font-family: 'Playfair Display', serif !important;
 }
 
 /* Hide scrollbar utility */

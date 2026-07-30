@@ -93,6 +93,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   const [crystalCategoryNames, setCrystalCategoryNames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeProduct, setActiveProduct] = useState(null);
+  const [cardHealing, setCardHealing] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,8 +156,22 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
 
     const qty = product._quantity || 1;
     const size = product._selectedSize || null;
-    const cartItemId = size ? `${product.id}-${size}` : product.id;
-    const cartName = size ? `${product.name} (${size})` : product.name;
+    
+    const isCrystal = product.category && crystalCategoryNames.includes(product.category.toLowerCase());
+    const hasHealing = product._healing !== undefined ? product._healing : (isCrystal && !!cardHealing[product.id]);
+
+    let finalPrice = product.price;
+    let finalName = product.name;
+    if (hasHealing) {
+      finalPrice += 1000;
+      const suffix = locale === 'ta' ? ' (+ கூடுதல் குணப்படுத்தும் சக்தி)' : ' (+ Extra Healing Power)';
+      finalName = `${product.name}${suffix}`;
+    }
+
+    const sizeKey = size ? `-${size}` : '';
+    const healingKey = hasHealing ? '-healing' : '';
+    const cartItemId = `${product.id}${sizeKey}${healingKey}`;
+    const cartName = size ? `${finalName} (${size})` : finalName;
 
     const existingItem = cart.find((item) => item.id === cartItemId);
     if (existingItem) {
@@ -173,7 +188,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
         {
           id: cartItemId,
           name: cartName,
-          price: product.price,
+          price: finalPrice,
           image: getProductImage(product, FALLBACK_IMAGES),
           quantity: qty
         }
@@ -247,6 +262,9 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
               <ScrollableCarousel>
                 {sectionProducts.map((product, idx) => {
                   const imgSrc = getProductImage(product, FALLBACK_IMAGES);
+                  const isCrystal = product.category && crystalCategoryNames.includes(product.category.toLowerCase());
+                  const hasHealing = isCrystal && !!cardHealing[product.id];
+                  
                   return (
                     <motion.div
                       key={product.id}
@@ -255,9 +273,9 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                       viewport={{ once: true }}
                       transition={{ duration: 0.4, delay: idx * 0.06, ease: [0.25, 1, 0.5, 1] }}
                       onClick={() => setActiveProduct(product)}
-                      className="min-w-[260px] max-w-[260px] bg-sara-panel border border-[rgba(214,178,106,0.12)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(0,0,0,0.3)] select-none cursor-pointer"
+                      className="min-w-[260px] max-w-[260px] bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-sara-gold hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(161,61,142,0.15)] select-none cursor-pointer"
                     >
-                      <div className="w-full h-[180px] overflow-hidden relative bg-[#F5F0FF]">
+                      <div className="w-full h-[180px] overflow-hidden relative bg-[#12071C]">
                         <img
                           src={imgSrc}
                           alt={product.name}
@@ -267,29 +285,68 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                             e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';
                           }}
                         />
-                        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-white to-transparent" />
-                        <div className="absolute top-3 right-3 bg-[rgba(255,255,255,0.85)] border border-[rgba(214,178,106,0.25)] px-2.5 py-1 rounded text-[10px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
+                        <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#1E0F2B] to-transparent" />
+                        <div className="absolute top-3 right-3 bg-[rgba(30,15,43,0.85)] border border-[rgba(214,178,106,0.25)] px-2.5 py-1 rounded text-[10px] text-sara-gold font-bold uppercase tracking-wider backdrop-blur-sm">
                           {product.type}
                         </div>
                       </div>
 
                       <div className="p-4 flex-grow flex flex-col justify-between">
                         <div>
-                          <h3 className="text-[#2A1635] text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
+                          <h3 className="text-white text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
                             {product.name}
                           </h3>
-                          <p className="text-sara-muted text-[12px] m-0 mb-3 line-clamp-2 leading-relaxed">
+                          <p className="text-[#D3C7DC] text-[12px] m-0 mb-3 line-clamp-2 leading-relaxed">
                             {product.desc}
                           </p>
                         </div>
 
                         <div>
+                          {isCrystal && (
+                            <div 
+                              className="flex flex-col gap-1.5 mt-2 border-t border-[rgba(214,178,106,0.15)] pt-2.5 mb-2 select-none" 
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <div className="text-[9px] text-[rgba(255,255,255,0.45)] uppercase tracking-[0.5px] font-semibold">
+                                {locale === 'ta' ? 'குணப்படுத்துதல் விருப்பம்:' : 'Healing Option:'}
+                              </div>
+                              <div className="flex flex-col gap-1">
+                                <label className="flex items-center gap-1.5 text-[11px] text-[#D3C7DC] cursor-pointer">
+                                  <input
+                                    type="radio"
+                                    name={`healing-${product.id}`}
+                                    checked={!cardHealing[product.id]}
+                                    onChange={(e) => {
+                                      e.stopPropagation();
+                                      setCardHealing(prev => ({ ...prev, [product.id]: false }));
+                                    }}
+                                    className="w-3.5 h-3.5 accent-sara-gold cursor-pointer"
+                                  />
+                                  <span>{locale === 'ta' ? 'இல்லை' : 'No Healing'}</span>
+                                </label>
+                                <label className="flex items-center gap-1.5 text-[11px] text-sara-gold font-semibold cursor-pointer">
+                                  <input
+                                    type="radio"
+                                    name={`healing-${product.id}`}
+                                    checked={!!cardHealing[product.id]}
+                                    onChange={(e) => {
+                                      e.stopPropagation();
+                                      setCardHealing(prev => ({ ...prev, [product.id]: true }));
+                                    }}
+                                    className="w-3.5 h-3.5 accent-sara-gold cursor-pointer"
+                                  />
+                                  <span>{locale === 'ta' ? 'குணப்படுத்துதலுடன் (+ ₹1,000)' : 'With Healing (+ ₹1,000)'}</span>
+                                </label>
+                              </div>
+                            </div>
+                          )}
+
                           <div className="text-sara-gold text-xl font-semibold my-3">
-                            Rs. {product.price.toLocaleString('en-IN')}
+                            Rs. {(product.price + (hasHealing ? 1000 : 0)).toLocaleString('en-IN')}
                           </div>
                           <button
                             onClick={(e) => handleAddToCart(product, e)}
-                            className="w-full bg-sara-panel text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-sara-dark hover:border-sara-gold rounded-sm flex items-center justify-center gap-1.5"
+                            className="w-full bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold rounded-sm flex items-center justify-center gap-1.5"
                           >
                             <span>{t('products.addToCart')}</span>
                             <span className="text-[13px] font-normal leading-none">→</span>

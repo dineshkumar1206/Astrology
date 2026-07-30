@@ -133,7 +133,7 @@ export default function ZodiacWisdom() {
     <section style={styles.section}>
       {/* Import standard fonts and the specific cursive font for "By" */}
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Poppins:wght@300;400;500;600&family=Pinyon+Script&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         .zw-card {
           transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
@@ -246,14 +246,14 @@ const styles = {
     textAlign: 'left', // Matches reference layout
   },
   eyebrow: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'Poppins', sans-serif",
     fontStyle: 'italic',
     fontSize: '20px',
     color: COLORS.gold,
     marginBottom: '8px',
   },
   heading: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'Poppins', sans-serif",
     fontSize: '64px',
     fontWeight: 400,
     lineHeight: 1.1,
@@ -263,7 +263,7 @@ const styles = {
     margin: 0,
   },
   cursiveWord: {
-    fontFamily: "'Pinyon Script', cursive", // Elegant flowing script font matching the image
+    fontFamily: "'Poppins', sans-serif",
     fontSize: '1.4em',
     textTransform: 'none',
     fontWeight: 400,
@@ -290,7 +290,7 @@ const styles = {
     padding: '32px 10px 40px', // Spacing above the gradient box
   },
   cardTitle: {
-    fontFamily: "'Playfair Display', Georgia, serif",
+    fontFamily: "'Poppins', sans-serif",
     fontSize: '44px',
     fontWeight: 400,
     color: '#2A1635',

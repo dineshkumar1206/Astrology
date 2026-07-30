@@ -33,7 +33,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const [items, setItems] = useState([]);
   const translatedItems = useTranslatedList(items, locale);
   const [loading, setLoading] = useState(true);
-  const [healingPowerChecked, setHealingPowerChecked] = useState(false);
+  const [cardHealing, setCardHealing] = useState({});
   const [crystalCategories, setCrystalCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState({});
 
@@ -93,14 +93,15 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
     let finalPrice = item.price;
     let nameSuffix = '';
     const selectedSize = selectedSizes[item.id] || '';
+    const hasHealing = !!cardHealing[item.id];
 
-    if (healingPowerChecked) {
+    if (hasHealing) {
       finalPrice += 1000;
-      nameSuffix = t('crystalsPage.healingSuffix');
+      nameSuffix = locale === 'ta' ? ' (+ கூடுதல் குணப்படுத்தும் சக்தி)' : ' (+ Extra Healing Power)';
     }
 
     const sizeKey = selectedSize ? `-${selectedSize}` : '';
-    const cartItemId = healingPowerChecked ? `${item.id}${sizeKey}-healing` : `${item.id}${sizeKey}`;
+    const cartItemId = hasHealing ? `${item.id}${sizeKey}-healing` : `${item.id}${sizeKey}`;
     const existingItem = cart.find((c) => c.id === cartItemId);
 
     if (existingItem) {
@@ -115,7 +116,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
       setCart([
         ...cart,
         {
-          id: cartItemId || `crystal-${item.name.toLowerCase().replace(/\s+/g, '-')}${selectedSize ? `-${selectedSize.toLowerCase().replace(/\s+/g, '-')}` : ''}${healingPowerChecked ? '-healing' : ''}`,
+          id: cartItemId || `crystal-${item.name.toLowerCase().replace(/\s+/g, '-')}${selectedSize ? `-${selectedSize.toLowerCase().replace(/\s+/g, '-')}` : ''}${hasHealing ? '-healing' : ''}`,
           name: `${item.name}${selectedSize ? ` (${selectedSize})` : ''}${nameSuffix}`,
           price: finalPrice,
           image: item.image || '/saraa-logo.jpeg',
@@ -177,7 +178,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             {t('crystalsPage.badge')}
           </span>
-          <h1 className="text-[#000000] font-serif text-[2.8rem] font-normal mt-2 mb-6 uppercase tracking-[1px] leading-tight">
+          <h1 className="text-[#000000] font-serif text-[2.8rem] font-semibold mt-2 mb-6 uppercase tracking-[1px] leading-tight">
             {selectedCategory ? <><TranslatedCategoryName name={selectedCategory} locale={locale} /> {t('crystalsPage.collection')}</> : t('crystalsPage.title')}
           </h1>
           <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] mb-8">
@@ -214,26 +215,6 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
             ))}
           </div>
 
-          {/* Healing Power Toggle */}
-          <div 
-            className="bg-[rgba(214,178,106,0.05)] border border-[rgba(214,178,106,0.3)] rounded p-5 mt-6 flex items-center gap-3 cursor-pointer"
-            onClick={() => setHealingPowerChecked(!healingPowerChecked)}
-          >
-            <input 
-              type="checkbox" 
-              checked={healingPowerChecked}
-              onChange={() => {}}
-              className="cursor-pointer w-[18px] h-[18px] accent-sara-gold" 
-            />
-            <div>
-              <div className="font-semibold text-sara-gold text-sm tracking-[0.5px]">
-                {t('crystalsPage.healingLabel')}
-              </div>
-              <div className="text-xs text-sara-muted mt-0.5">
-                {t('crystalsPage.healingDesc')}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Main Content Grid */}
@@ -254,11 +235,11 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     <div 
                       key={item.id}
                       onClick={(e) => handleOpenPopup(item.id, e)}
-                      className="bg-white border border-[rgba(214,178,106,0.15)] rounded overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between hover:border-sara-gold hover:-translate-y-1"
+                      className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between hover:border-sara-gold hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(161,61,142,0.15)]"
                     >
                       {/* Card Image */}
                       {item.image && (
-                        <div className="w-full h-[200px] overflow-hidden relative bg-sara-darkDeep">
+                        <div className="w-full h-[200px] overflow-hidden relative bg-[#12071C]">
                            <img 
                              src={item.image} 
                              alt={item.name} 
@@ -268,7 +249,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                e.target.src = '/saraa-logo.jpeg';
                              }}
                            />
-                           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-white to-transparent" />
+                           <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#1E0F2B] to-transparent" />
                         </div>
                       )}
                       
@@ -278,23 +259,61 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                           <div className="text-sara-gold text-[10px] uppercase tracking-[1px] font-semibold mb-1">
                             {item.type}
                           </div>
-                          <h4 className="text-[#2A1635] text-[1.15rem] mb-2 font-medium leading-snug">
+                          <h4 className="text-white text-[1.15rem] mb-2 font-bold leading-snug">
                             {item.name}
                           </h4>
-                          <p className="text-sara-muted text-[0.85rem] leading-5 mb-4">
+                          <p className="text-[#D3C7DC] text-[0.85rem] leading-5 mb-4">
                             {item.desc}
                           </p>
                         </div>
                         
                         <div>
-                          <div className="text-sara-gold text-[1.4rem] font-semibold my-3">
-                            ₹{(item.price + (healingPowerChecked ? 1000 : 0)).toLocaleString('en-IN')}
+                          {/* Healing Radio Selection */}
+                          <div 
+                            className="flex flex-col gap-1.5 mt-2 border-t border-[rgba(214,178,106,0.15)] pt-2.5 mb-2 select-none" 
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            <div className="text-[9px] text-[rgba(255,255,255,0.45)] uppercase tracking-[0.5px] font-semibold">
+                              {locale === 'ta' ? 'குணப்படுத்துதல் விருப்பம்:' : 'Healing Option:'}
+                            </div>
+                            <div className="flex flex-col gap-1">
+                              <label className="flex items-center gap-1.5 text-[11px] text-[#D3C7DC] cursor-pointer">
+                                <input
+                                  type="radio"
+                                  name={`healing-${item.id}`}
+                                  checked={!cardHealing[item.id]}
+                                  onChange={(e) => {
+                                    e.stopPropagation();
+                                    setCardHealing(prev => ({ ...prev, [item.id]: false }));
+                                  }}
+                                  className="w-3.5 h-3.5 accent-sara-gold cursor-pointer"
+                                />
+                                <span>{locale === 'ta' ? 'இல்லை' : 'No Healing'}</span>
+                              </label>
+                              <label className="flex items-center gap-1.5 text-[11px] text-sara-gold font-semibold cursor-pointer">
+                                  <input
+                                    type="radio"
+                                    name={`healing-${item.id}`}
+                                    checked={!!cardHealing[item.id]}
+                                    onChange={(e) => {
+                                      e.stopPropagation();
+                                      setCardHealing(prev => ({ ...prev, [item.id]: true }));
+                                    }}
+                                    className="w-3.5 h-3.5 accent-sara-gold cursor-pointer"
+                                  />
+                                <span>{locale === 'ta' ? 'குணப்படுத்துதலுடன் (+ ரூ. 1,000)' : 'With Healing (+ ₹1,000)'}</span>
+                              </label>
+                            </div>
                           </div>
 
+                          <div className="text-sara-gold text-[1.4rem] font-semibold my-3">
+                            ₹{(item.price + (cardHealing[item.id] ? 1000 : 0)).toLocaleString('en-IN')}
+                          </div>
+ 
                           {/* Size Selection */}
                           {Array.isArray(item.sizes) && item.sizes.length > 0 && (
                             <div className="my-2">
-                              <div className="text-[10px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1px] font-semibold mb-1.5">
+                              <div className="text-[10px] text-[rgba(255,255,255,0.45)] uppercase tracking-[1px] font-semibold mb-1.5">
                                 {t('crystalsPage.selectSize')}
                               </div>
                               <div className="flex flex-wrap gap-1.5">
@@ -307,8 +326,8 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                     }}
                                     className={
                                       selectedSizes[item.id] === size
-                                        ? 'bg-sara-gold text-sara-dark border border-sara-gold py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
-                                        : 'bg-sara-darkDeep text-sara-muted border border-[rgba(214,178,106,0.3)] py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
+                                        ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
+                                        : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.25)] py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all hover:border-sara-gold'
                                     }
                                   >
                                     {size}
@@ -321,7 +340,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                           <div className="flex gap-3 mt-3">
                             <button 
                               onClick={(e) => handleOpenPopup(item.id, e)}
-                              className="flex-1 bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-textDark"
+                              className="flex-1 bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] py-2 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold"
                             >
                               {t('crystalsPage.details')}
                             </button>
@@ -330,7 +349,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                 e.stopPropagation();
                                 handleAddToCart(item);
                               }}
-                              className="flex-1 bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-2.5 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-sara-textDark"
+                              className="flex-1 bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] py-2 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold"
                             >
                               {t('crystalsPage.addToCart')}
                             </button>
@@ -356,7 +375,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
           {/* Modal Container */}
           <div 
             onClick={(e) => e.stopPropagation()}
-            className="bg-white border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_40px_rgba(0,0,0,0.6)]"
+            className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.25)] rounded-lg max-w-[900px] w-full max-h-[90vh] overflow-y-auto relative p-10 shadow-[0_20px_50px_rgba(161,61,142,0.15)]"
           >
             {/* Close Button */}
             <button 
@@ -375,7 +394,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   <img 
                     src={currentItem.image} 
                     alt={currentItem.name} 
-                    className="w-full rounded border border-[rgba(214,178,106,0.15)] object-cover h-full min-h-[300px] max-h-[400px]"
+                    className="w-full rounded border border-[rgba(214,178,106,0.15)] bg-[#12071C] object-cover h-full min-h-[300px] max-h-[400px]"
                   />
                 </div>
               )}
@@ -386,17 +405,17 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   <span className="text-sara-gold uppercase text-[0.8rem] tracking-[2px] font-semibold">
                     {currentItem.type}
                   </span>
-                  <h2 className="text-[#2A1635] text-[1.8rem] font-light mt-2 mb-3 leading-snug">
+                  <h2 className="text-white text-[1.8rem] font-medium mt-2 mb-3 leading-snug">
                     {currentItem.name}
                   </h2>
                   <div className="text-sara-gold text-[1.75rem] font-semibold mb-5">
-                    ₹{(currentItem.price + (healingPowerChecked ? 1000 : 0)).toLocaleString('en-IN')}
+                    ₹{(currentItem.price + (cardHealing[currentItem.id] ? 1000 : 0)).toLocaleString('en-IN')}
                   </div>
 
                   {/* Size Selection in Modal */}
                   {Array.isArray(currentItem.sizes) && currentItem.sizes.length > 0 && (
                     <div className="mb-5">
-                      <div className="text-[11px] text-[rgba(207,207,207,0.5)] uppercase tracking-[1.5px] font-semibold mb-2">
+                      <div className="text-[11px] text-[#D3C7DC] uppercase tracking-[1.5px] font-semibold mb-2">
                         {t('crystalsPage.selectSize')}
                       </div>
                       <div className="flex flex-wrap gap-2">
@@ -406,8 +425,8 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                             onClick={() => setSelectedSizes(prev => ({ ...prev, [currentItem.id]: size }))}
                             className={
                               selectedSizes[currentItem.id] === size
-                                ? 'bg-sara-gold text-sara-dark border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
-                                : 'bg-sara-darkDeep text-sara-muted border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                                ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                                : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all hover:border-sara-gold'
                             }
                           >
                             {size}
@@ -416,17 +435,46 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                       </div>
                     </div>
                   )}
+
+                  {/* Healing Selection in Modal */}
+                  <div className="mb-5">
+                    <div className="text-[11px] text-[#D3C7DC] uppercase tracking-[1.5px] font-semibold mb-2">
+                      {locale === 'ta' ? 'குணப்படுத்துதல் விருப்பம்:' : 'Healing Option:'}
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label className="flex items-center gap-2 text-sm text-[#D3C7DC] cursor-pointer">
+                        <input 
+                          type="radio" 
+                          name="modal-healing" 
+                          checked={!cardHealing[currentItem.id]}
+                          onChange={() => setCardHealing(prev => ({ ...prev, [currentItem.id]: false }))}
+                          className="w-4 h-4 accent-sara-gold cursor-pointer"
+                        />
+                        <span>{locale === 'ta' ? 'இல்லை' : 'Without Healing'}</span>
+                      </label>
+                      <label className="flex items-center gap-2 text-sm text-sara-gold font-semibold cursor-pointer">
+                        <input 
+                          type="radio" 
+                          name="modal-healing" 
+                          checked={!!cardHealing[currentItem.id]}
+                          onChange={() => setCardHealing(prev => ({ ...prev, [currentItem.id]: true }))}
+                          className="w-4 h-4 accent-sara-gold cursor-pointer"
+                        />
+                        <span>{locale === 'ta' ? 'குணப்படுத்துதலுடன் (+ ரூ. 1,000)' : 'With Healing (+ ₹1,000)'}</span>
+                      </label>
+                    </div>
+                  </div>
                   
                   <hr className="border-none border-t border-[rgba(214,178,106,0.15)] my-4" />
                   
-                  <p className="text-sara-muted leading-6 text-[0.95rem] mb-6">
+                  <p className="text-[#D3C7DC] leading-6 text-[0.95rem] mb-6">
                     {currentItem.desc}
                   </p>
 
                   <h4 className="text-sara-gold uppercase text-[0.85rem] tracking-[1px] mb-2">
                     {t('crystalsPage.inclusions')}
                   </h4>
-                  <ul className="pl-5 m-0 mb-8 text-sara-muted leading-7 text-[0.9rem]">
+                  <ul className="pl-5 m-0 mb-8 text-[#D3C7DC] leading-7 text-[0.9rem]">
                     {Array.isArray(currentItem.inclusions) && currentItem.inclusions.map((inc, index) => (
                       <li key={index} className="mb-1.5">{inc}</li>
                     ))}
@@ -438,7 +486,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     handleAddToCart(currentItem);
                     handleClosePopup();
                   }}
-                  className="bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-dark border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-opacity hover:opacity-90"
+                  className="bg-gradient-to-r from-sara-gold to-sara-goldSoft text-[#1E0F2B] border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-opacity hover:opacity-90"
                 >
                   {t('crystalsPage.addToCart')}
                 </button>

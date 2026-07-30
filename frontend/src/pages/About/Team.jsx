@@ -28,10 +28,7 @@ export default function Team() {
   return (
     <section className="bg-[#F8F6FF] py-28 w-full box-border overflow-hidden">
       
-      {/* Required for the fonts to load if not already in your index.html */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500;600&family=Parisienne&display=swap');
-      `}</style>
+
 
       <div className="max-w-[1320px] mx-auto px-[6vw] box-border">
         
@@ -41,7 +38,7 @@ export default function Team() {
             {t('team.badge')}
           </p>
           <h2 className="m-0 font-serif text-[clamp(42px,6vw,68px)] font-normal text-[#2A1635] leading-[1.05] uppercase">
-            {t('team.title')}<span className="font-['Parisienne'] lowercase text-[#2A1635] text-[1.2em] font-light">{t('team.titleEnd')}</span>
+            {t('team.title')}<span className="font-['Poppins'] lowercase text-[#2A1635] text-[1.2em] font-light">{t('team.titleEnd')}</span>
           </h2>
         </div>
 

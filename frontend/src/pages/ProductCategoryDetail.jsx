@@ -155,14 +155,14 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                         No offerings available at the moment. Please check back later.
                       </div>
                     ) : (
-                      translatedProducts.map((item) => (
+                       translatedProducts.map((item) => (
                         <div
                           key={item.id}
                           onClick={() => setActiveProduct(item)}
-                          className="bg-white border border-[rgba(214,178,106,0.15)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-[rgba(214,178,106,0.35)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.3)] cursor-pointer"
+                          className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
                         >
                           {item.image && (
-                            <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.15)] bg-[#F5F0FF] flex-shrink-0">
+                            <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] bg-[#12071C] flex-shrink-0">
                               <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                             </div>
                           )}
@@ -170,10 +170,10 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                             <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
                               {item.type}
                             </div>
-                            <h4 className="text-[#2A1635] text-[1.35rem] my-1 mb-2 font-medium">
+                            <h4 className="text-white text-[1.35rem] my-1 mb-2 font-medium">
                               {item.name}
                             </h4>
-                            <p className="text-sara-muted text-[0.9rem] leading-[1.5] m-0">
+                            <p className="text-[#D3C7DC] text-[0.9rem] leading-[1.5] m-0">
                               {item.desc}
                             </p>
                           </div>
@@ -184,7 +184,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                             </div>
                             <button
                               onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                              className="bg-white text-sara-gold border border-[rgba(214,178,106,0.3)] py-[0.6rem] px-6 rounded text-[12px] font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-sara-gold hover:text-sara-textDark hover:border-sara-gold"
+                              className="bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] py-[0.6rem] px-6 rounded text-[12px] font-semibold cursor-pointer transition-all duration-300 uppercase tracking-[0.5px] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold"
                             >
                               Add To Cart
                             </button>

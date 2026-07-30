@@ -11,10 +11,7 @@ export default function About() {
   const { t } = useLanguage();
   return (
     <>
-      {/* Required for the fonts to load if not already in your index.html */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500;600&display=swap');
-      `}</style>
+
 
       <section className="relative w-full h-[450px] flex items-center justify-center">
         <div
@@ -64,12 +61,12 @@ export default function About() {
           <div className="w-full lg:flex-1 lg:basis-[540px] lg:max-w-[620px]">
             
             {/* Small upper serif label */}
-            <p className="m-0 mb-3 font-['Playfair_Display'] italic text-[18px] text-[#D9B56A]">
+            <p className="m-0 mb-3 font-['Poppins'] italic text-[18px] text-[#D9B56A]">
               {t('aboutPage.label')}
             </p>
 
             {/* Main Title Header */}
-            <h2 className="m-0 mb-6 font-['Playfair_Display'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
+            <h2 className="m-0 mb-6 font-['Poppins'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
               {t('aboutPage.heading')}
             </h2>
 
@@ -95,7 +92,7 @@ export default function About() {
                     <circle cx="50" cy="76" r="2" className="fill-[#D9B56A] border-none" />
                   </svg>
                 </div>
-                <h4 className="m-0 mb-2 font-['Playfair_Display'] text-[20px] font-normal">
+                <h4 className="m-0 mb-2 font-['Poppins'] text-[20px] font-normal">
                   {t('aboutPage.feature1Title')}
                 </h4>
                 <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#3E2F48]">
@@ -114,7 +111,7 @@ export default function About() {
                     <path d="M40 42 V58 M40 45 C40 38 46 38 46 45 V58 M46 45 C46 38 52 38 52 45 V58 C52 62 56 62 58 56 L62 60 M58 56 L54 54" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
-                <h4 className="m-0 mb-2 font-['Playfair_Display'] text-[20px] font-normal">
+                <h4 className="m-0 mb-2 font-['Poppins'] text-[20px] font-normal">
                   {t('aboutPage.feature2Title')}
                 </h4>
                 <p className="m-0 font-['Poppins'] font-light text-[14px] leading-[1.6] text-[#3E2F48]">

@@ -37,10 +37,7 @@ export default function CosmicInsights() {
   return (
     <section className="relative bg-[#F8F6FF] text-[#2A1635] py-36 w-full overflow-hidden box-border">
       
-      {/* Required for the fonts to load if not already in your index.html */}
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Poppins:wght@300;400;500&display=swap');
-      `}</style>
+
 
       {/* Top Curve SVG Divider */}
       <div className="absolute top-[-1px] left-0 w-full z-10 overflow-hidden leading-none">
