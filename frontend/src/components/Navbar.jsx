@@ -81,20 +81,13 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   const dropdownItems = [];
 
   if (serviceCategories.length > 0) {
-    serviceCategories.forEach((cat, idx) => {
-      if (idx === 2) {
-        dropdownItems.push({ label: t('nav.crystals'), path: '/products/crystals' });
-      }
+    serviceCategories.forEach((cat) => {
       dropdownItems.push({ label: getTranslatedLabel(cat.name), path: getCategoryPath(cat) });
     });
-    if (dropdownItems.findIndex(item => item.label === t('nav.crystals')) === -1) {
-      dropdownItems.splice(2, 0, { label: t('nav.crystals'), path: '/products/crystals' });
-    }
   } else {
     dropdownItems.push(
       { label: getTranslatedLabel('Tarot Private Consultation'), path: '/products/tarot-consultation' },
       { label: getTranslatedLabel('Spiritual Healing'), path: '/products/spiritual-healing' },
-      { label: t('nav.crystals'), path: '/products/crystals' },
       { label: getTranslatedLabel('Murugar Cards'), path: '/products/murugar-cards' },
       { label: getTranslatedLabel('Tarot Reading Classes'), path: '/products/tarot-classes' },
       { label: getTranslatedLabel('Spiritual Counseling'), path: '/products/counseling-classes' },
@@ -156,6 +149,15 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   ))}
                 </div>
               )}
+            </li>
+
+            <li>
+              <Link 
+                to="/products/crystals" 
+                className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
+              >
+                {t('nav.crystals')}
+              </Link>
             </li>
 
             <li>
@@ -374,6 +376,16 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   ))}
                 </div>
               )}
+            </li>
+
+            <li>
+              <Link 
+                to="/products/crystals"
+                onClick={() => setIsOpen(false)}
+                className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
+              >
+                {t('nav.crystals')}
+              </Link>
             </li>
 
             <li>
