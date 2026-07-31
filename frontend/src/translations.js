@@ -106,7 +106,7 @@ export const translations = {
         desc: "Intention-infused crystals energized to attract positive vibes, clean aura, protect from negativity, and manifest prosperity."
       },
       murugar: {
-        title: "Murugar Cards Reading",
+        title: "Murugar Card Deck",
         desc: "Seek the divine guidance and messages of Lord Murugan through specialized card spreads for critical life directions."
       },
       tarotClasses: {
