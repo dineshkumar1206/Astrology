@@ -74,7 +74,7 @@ export const translations = {
       }
     },
     products: {
-      title: "Our Collection",
+      title: "Our Collections",
       description: "Explore sacred crystals, spiritual services, divine readings, and healing sessions.",
       loading: "Loading collections...",
       viewAll: "View All",
