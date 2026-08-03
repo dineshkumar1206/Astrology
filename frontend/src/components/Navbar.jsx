@@ -128,7 +128,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               className="relative py-6 cursor-pointer flex-shrink-0"
             >
               <span
-                className={`flex items-center gap-1.5 transition-colors duration-300 whitespace-nowrap ${isDropdownOpen ? 'text-sara-gold' : 'text-white'}`}
+                className={`flex items-center gap-1.5 whitespace-nowrap ${isDropdownOpen ? 'text-sara-gold' : 'text-white'} animate-[blinkHighlight_1.2s_ease-in-out_infinite]`}
               >
                 {t('nav.services')}
                 <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
@@ -213,7 +213,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                className="bg-sara-gold text-[#0B1225] border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white whitespace-nowrap flex-shrink-0"
+                className="bg-sara-gold text-[#0B1225] border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-white whitespace-nowrap flex-shrink-0"
               >
                 {t('nav.login')}
               </button>
@@ -344,7 +344,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             <li>
               <button
                 onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
-                className="w-full bg-none border-none p-0 text-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left"
+                className="w-full bg-none border-none p-0 text-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left animate-[blinkHighlight_1.2s_ease-in-out_infinite]"
               >
                 <span>{t('nav.services')}</span>
                 <svg
