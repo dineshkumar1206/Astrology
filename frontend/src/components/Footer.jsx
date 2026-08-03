@@ -76,7 +76,16 @@ export default function Footer() {
         </div>
 
         <div className="text-center mt-12 text-[11px] text-[rgba(255,255,255,0.4)] tracking-[0.5px]">
-          {t('footer.copyright').replace('{year}', new Date().getFullYear())}
+          {t('footer.copyright').replace('{year}', new Date().getFullYear())}{' '}
+          | Designed & Developed by{' '}
+          <a 
+            href="https://amigowebster.com/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-sara-gold hover:underline transition-colors no-underline"
+          >
+            amigowebster
+          </a>
         </div>
       </div>
     </footer>

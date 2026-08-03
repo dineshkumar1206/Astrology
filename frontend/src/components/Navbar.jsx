@@ -37,7 +37,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
   const totalItems = cartItems.reduce((acc, item) => acc + item.quantity, 0);
   const itemsTotalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const grandTotal = itemsTotalAmount;
+  const gstAmount = Math.round(itemsTotalAmount * 0.18);
+  const grandTotal = itemsTotalAmount + gstAmount;
 
   const removeItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
@@ -543,9 +544,14 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               <div className="p-6 bg-[#0c0917] border-t border-[rgba(223,186,107,0.15)]">
                 <h5 className="m-0 mb-4 text-[13px] uppercase tracking-[0.5px] text-[#a09ba2]">{t('nav.billDetails')}</h5>
 
-                <div className="flex justify-between text-[13px] mb-4">
+                <div className="flex justify-between text-[13px] mb-2">
                   <span className="text-[#a09ba2]">{t('nav.itemsTotal')}</span>
                   <span>₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
+                </div>
+
+                <div className="flex justify-between text-[13px] mb-4">
+                  <span className="text-[#a09ba2]">{locale === 'ta' ? 'ஜிஎஸ்டி (18%)' : '18% GST'}</span>
+                  <span>₹{gstAmount.toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="flex justify-between text-[15px] font-semibold border-t border-dashed border-[rgba(223,186,107,0.2)] pt-4 mb-6">

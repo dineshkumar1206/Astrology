@@ -447,7 +447,7 @@ export const translations = {
       title: "Murugar Card Desk",
       badge: "Divine Guidance Through Sacred Tamil Wisdom",
       description: "Discover the World's First Murugan Card Deck, thoughtfully curated by Saraa Tarot. Blending divine South Indian heritage with intuitive divination, this unique deck connects you to the powerful spiritual energy of Lord Murugan. Gain profound clarity, divine protection, and profound life direction with every sacred card you draw.",
-      note: "Note: Additional overseas courier charges apply to all international shipments.",
+      note: "*Note: Additional overseas courier charges apply to all international shipments.",
       imageAlt: "Murugar Card Reading",
       policyIntro: "Murugar Cards Reading Guidelines:",
       policy1: "Answers delivered via detailed WhatsApp voice note.",

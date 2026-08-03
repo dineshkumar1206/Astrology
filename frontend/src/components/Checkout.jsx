@@ -11,9 +11,8 @@ const MERCHANT_NAME = 'SARAA TAROT SERVICES';
 
 export default function Checkout({ cartItems = [], setCartItems }) {
   const navigate = useNavigate();
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const { user, token } = useSelector(state => state.auth);
-  const [paymentMethod, setPaymentMethod] = useState('qr');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -21,14 +20,22 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   const [lastOrderDetails, setLastOrderDetails] = useState({ items: [], total: 0 });
 
   const itemsTotalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const grandTotal = itemsTotalAmount;
+  const gstAmount = Math.round(itemsTotalAmount * 0.18);
+  const grandTotal = itemsTotalAmount + gstAmount;
 
   const removeItem = (id) => {
     setCartItems(cartItems.filter((item) => item.id !== id));
   };
 
-  const upiLink = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${grandTotal}&cu=INR`;
-  const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiLink)}`;
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
   const handlePay = async (e) => {
     e.preventDefault();
@@ -36,37 +43,71 @@ export default function Checkout({ cartItems = [], setCartItems }) {
     setIsProcessing(true);
     setError('');
 
-    try {
-      await axios.post(
-        `${API_BASE_URL}/api/orders`,
-        {
-          items: cartItems,
-          total: grandTotal,
-          paymentMethod: 'QR',
-          customerInfo: { name: user.name, email: user.email }
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
+    const loaded = await loadRazorpayScript();
+    if (!loaded) {
+      setError('Failed to load Razorpay SDK. Please check your network connection.');
+      setIsProcessing(false);
+      return;
+    }
+
+    const options = {
+      key: 'rzp_test_TKognp49Y6QBem',
+      amount: grandTotal * 100, // amount in paisa
+      currency: 'INR',
+      name: 'SARAA TAROT SERVICES',
+      description: 'Order Payment',
+      handler: async function (response) {
+        try {
+          await axios.post(
+            `${API_BASE_URL}/api/orders`,
+            {
+              items: cartItems,
+              total: grandTotal,
+              paymentMethod: 'RAZORPAY',
+              customerInfo: { name: user.name, email: user.email },
+              razorpayPaymentId: response.razorpay_payment_id
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`
+              }
+            }
+          );
+
+          setLastOrderDetails({
+            items: cartItems.map(item => `${item.name} (Qty: ${item.quantity})`),
+            total: grandTotal
+          });
+
+          setCartItems([]);
+          setIsSuccess(true);
+        } catch (err) {
+          console.error(err);
+          setError(err.response?.data?.message || 'Failed to place order after payment.');
+        } finally {
+          setIsProcessing(false);
         }
-      );
+      },
+      prefill: {
+        name: user.name,
+        email: user.email,
+      },
+      theme: {
+        color: '#D4B26A',
+      },
+      modal: {
+        ondismiss: function() {
+          setIsProcessing(false);
+        }
+      }
+    };
 
-      setLastOrderDetails({
-        items: cartItems.map(item => `${item.name} (Qty: ${item.quantity})`),
-        total: grandTotal
-      });
-
-      setIsSuccess(true);
-      setCartItems([]);
+    try {
+      const paymentObject = new window.Razorpay(options);
+      paymentObject.open();
     } catch (err) {
       console.error(err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError('Checkout processing failed. Please try again.');
-      }
-    } finally {
+      setError('Razorpay SDK failed to open.');
       setIsProcessing(false);
     }
   };
@@ -161,44 +202,19 @@ export default function Checkout({ cartItems = [], setCartItems }) {
 
           <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">
             <h3 className="text-lg font-medium mb-6 text-sara-gold uppercase tracking-[0.5px]">
-              {t('checkout.selectPayment')}
+              {t('checkout.selectPayment') || 'Payment Method'}
             </h3>
 
-            <div className="flex gap-2 mb-8 flex-wrap">
-              <button
-                type="button"
-                onClick={() => setPaymentMethod('qr')}
-                className="flex-[1_1_100px] py-[0.8rem] px-2 bg-[rgba(214,178,106,0.15)] text-sara-gold border border-sara-gold cursor-pointer rounded font-semibold text-[12px] uppercase tracking-[0.5px]"
-              >
-                {t('checkout.qrCode')}
-              </button>
-            </div>
-
             <form onSubmit={handlePay}>
-              {paymentMethod === 'qr' && (
-                <div className="text-center mb-8">
-                  <p className="text-[13px] text-sara-muted mb-6 uppercase tracking-[0.5px]">
-                    {t('checkout.scanQr')}
-                  </p>
-                  <div className="w-[200px] h-[200px] mx-auto mb-6 bg-white rounded-lg p-3 flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
-                    {cartItems.length > 0 ? (
-                      <img
-                        src={qrImageUrl}
-                        alt={t('checkout.qrAlt')}
-                        className="w-full h-full object-contain"
-                      />
-                    ) : (
-                      <div className="text-sara-muted text-[12px] font-semibold">{t('checkout.noBalance')}</div>
-                    )}
-                  </div>
-                  <div className="text-sara-gold font-semibold text-[15px]">
-                    {t('checkout.payTo')} {MERCHANT_NAME}
-                  </div>
-                  <p className="text-[11px] text-sara-muted mt-2">
-                    {t('checkout.paymentDesc')}
-                  </p>
-                </div>
-              )}
+              <div className="text-center mb-8 bg-[rgba(214,178,106,0.02)] border border-[rgba(214,178,106,0.15)] rounded p-6">
+                <div className="text-4xl mb-4">💳</div>
+                <h4 className="text-sara-gold font-semibold text-[16px] mb-2 uppercase tracking-[0.5px]">
+                  Razorpay Secure Gateway
+                </h4>
+                <p className="text-[12px] text-sara-muted leading-relaxed max-w-[320px] mx-auto m-0">
+                  Pay securely using Cards, Netbanking, UPI, or Wallets. After clicking the payment button, the Razorpay portal will initialize.
+                </p>
+              </div>
 
               {error && (
                 <div className="mb-4 text-xs text-red-500 bg-red-500/10 border border-red-500/20 p-3 rounded text-center font-semibold font-sans">
@@ -215,7 +231,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
               >
                 {isProcessing
                   ? t('checkout.processing')
-                  : `${t('checkout.iHavePaid')} ₹${grandTotal.toLocaleString('en-IN')}`}
+                  : `PAY SECURELY WITH RAZORPAY ₹${grandTotal.toLocaleString('en-IN')}`}
               </button>
             </form>
           </div>
@@ -261,9 +277,14 @@ export default function Checkout({ cartItems = [], setCartItems }) {
 
             {cartItems.length > 0 && (
               <div className="border-t border-[rgba(214,178,106,0.15)] pt-6">
-                <div className="flex justify-between text-[13px] mb-3">
+                <div className="flex justify-between text-[13px] mb-2">
                   <span className="text-sara-muted">{t('checkout.itemsTotal')}</span>
                   <span className="text-[#2A1635]">₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
+                </div>
+
+                <div className="flex justify-between text-[13px] mb-3">
+                  <span className="text-sara-muted">{locale === 'ta' ? 'ஜிஎஸ்டி (18%)' : '18% GST'}</span>
+                  <span className="text-[#2A1635]">₹{gstAmount.toLocaleString('en-IN')}</span>
                 </div>
 
                 <div className="flex justify-between text-[16px] font-semibold border-t border-dashed border-[rgba(214,178,106,0.2)] pt-4 text-sara-gold">
