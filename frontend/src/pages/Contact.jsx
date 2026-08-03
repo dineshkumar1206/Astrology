@@ -111,7 +111,7 @@ export default function Contact() {
           >
             <div className="w-full h-full min-h-[400px] md:min-h-[450px] bg-white border border-sara-gold/20 rounded-lg overflow-hidden shadow-[0_4px_20px_rgba(29,11,46,0.08)]">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3890.871032155608!2d80.05739097585098!3d12.825740487476839!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a52f70d6eb8bcbb%3A0x7d6c6e7a2b9a7102!2sGuduvanchery%2C%20Tamil%20Nadu!5e0!3m2!1sen!2sin!4v1708450123456!5m2!1sen!2sin"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d22010.01396267883!2d80.12184421255127!3d12.787758220361113!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5257002a5460df%3A0x226673f97a12430b!2sSara%20Healing%20centre!5e0!3m2!1sen!2sin!4v1785738608272!5m2!1sen!2sin"
                 className="w-full h-full border-0"
                 allowFullScreen=""
                 loading="lazy"
