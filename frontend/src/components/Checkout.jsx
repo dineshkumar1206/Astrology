@@ -16,6 +16,8 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [phone, setPhone] = useState('');
+  const [address, setAddress] = useState('');
 
   const [lastOrderDetails, setLastOrderDetails] = useState({ items: [], total: 0 });
 
@@ -40,6 +42,10 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   const handlePay = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
+    if (!phone.trim() || !address.trim()) {
+      setError(t('checkout.fillDetails'));
+      return;
+    }
     setIsProcessing(true);
     setError('');
 
@@ -64,7 +70,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
               items: cartItems,
               total: grandTotal,
               paymentMethod: 'RAZORPAY',
-              customerInfo: { name: user.name, email: user.email },
+              customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
               razorpayPaymentId: response.razorpay_payment_id
             },
             {
@@ -91,6 +97,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
       prefill: {
         name: user.name,
         email: user.email,
+        contact: phone.trim(),
       },
       theme: {
         color: '#D4B26A',
@@ -200,40 +207,90 @@ export default function Checkout({ cartItems = [], setCartItems }) {
 
         <div className="grid grid-cols-2 gap-12 max-lg:grid-cols-1 max-lg:gap-10">
 
-          <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">
-            <h3 className="text-lg font-medium mb-6 text-sara-gold uppercase tracking-[0.5px]">
-              {t('checkout.selectPayment') || 'Payment Method'}
-            </h3>
+          <div className="flex flex-col gap-10">
 
-            <form onSubmit={handlePay}>
-              <div className="text-center mb-8 bg-[rgba(214,178,106,0.02)] border border-[rgba(214,178,106,0.15)] rounded p-6">
-                <div className="text-4xl mb-4">💳</div>
-                <h4 className="text-sara-gold font-semibold text-[16px] mb-2 uppercase tracking-[0.5px]">
-                  Razorpay Secure Gateway
-                </h4>
-                <p className="text-[12px] text-sara-muted leading-relaxed max-w-[320px] mx-auto m-0">
-                  Pay securely using Cards, Netbanking, UPI, or Wallets. After clicking the payment button, the Razorpay portal will initialize.
-                </p>
+            <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">
+              <h3 className="text-lg font-medium mb-6 text-sara-gold uppercase tracking-[0.5px]">
+                {t('checkout.customerDetails')}
+              </h3>
+
+              <div className="mb-8 flex items-center gap-4 bg-[rgba(214,178,106,0.04)] border border-[rgba(214,178,106,0.15)] rounded p-4">
+                <div className="w-12 h-12 rounded-full bg-[rgba(214,178,106,0.12)] border border-[rgba(214,178,106,0.3)] flex items-center justify-center text-lg">
+                  👤
+                </div>
+                <div>
+                  <div className="text-sm font-semibold text-[#2A1635]">{user.name}</div>
+                  <div className="text-[13px] text-sara-muted">{user.email}</div>
+                </div>
               </div>
 
-              {error && (
-                <div className="mb-4 text-xs text-red-500 bg-red-500/10 border border-red-500/20 p-3 rounded text-center font-semibold font-sans">
-                  {error}
+              <div className="flex flex-col gap-5">
+                <div>
+                  <label className="block text-[12px] font-semibold uppercase tracking-[0.5px] text-sara-muted mb-2">
+                    {t('checkout.phoneNumber')} <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder={t('checkout.phonePlaceholder')}
+                    className="w-full border border-[rgba(42,22,53,0.15)] rounded px-4 py-3 text-[14px] text-[#2A1635] outline-none transition-colors focus:border-sara-gold bg-[#FBF9FF]"
+                  />
                 </div>
-              )}
 
-              <button
-                type="submit"
-                disabled={isProcessing || cartItems.length === 0}
-                className={`w-full bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none rounded py-[1.1rem] text-[15px] font-bold uppercase tracking-[1px] flex justify-center items-center gap-[10px] transition-opacity ${
-                  isProcessing || cartItems.length === 0 ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:opacity-90'
-                }`}
-              >
-                {isProcessing
-                  ? t('checkout.processing')
-                  : `PAY SECURELY WITH RAZORPAY ₹${grandTotal.toLocaleString('en-IN')}`}
-              </button>
-            </form>
+                <div>
+                  <label className="block text-[12px] font-semibold uppercase tracking-[0.5px] text-sara-muted mb-2">
+                    {t('checkout.address')} <span className="text-red-500">*</span>
+                  </label>
+                  <textarea
+                    required
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder={t('checkout.addressPlaceholder')}
+                    rows="3"
+                    className="w-full border border-[rgba(42,22,53,0.15)] rounded px-4 py-3 text-[14px] text-[#2A1635] outline-none transition-colors focus:border-sara-gold bg-[#FBF9FF] resize-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">
+              <h3 className="text-lg font-medium mb-6 text-sara-gold uppercase tracking-[0.5px]">
+                {t('checkout.selectPayment') || 'Payment Method'}
+              </h3>
+
+              <form onSubmit={handlePay}>
+                <div className="text-center mb-8 bg-[rgba(214,178,106,0.02)] border border-[rgba(214,178,106,0.15)] rounded p-6">
+                  <div className="text-4xl mb-4">💳</div>
+                  <h4 className="text-sara-gold font-semibold text-[16px] mb-2 uppercase tracking-[0.5px]">
+                    Razorpay Secure Gateway
+                  </h4>
+                  <p className="text-[12px] text-sara-muted leading-relaxed max-w-[320px] mx-auto m-0">
+                    Pay securely using Cards, Netbanking, UPI, or Wallets. After clicking the payment button, the Razorpay portal will initialize.
+                  </p>
+                </div>
+
+                {error && (
+                  <div className="mb-4 text-xs text-red-500 bg-red-500/10 border border-red-500/20 p-3 rounded text-center font-semibold font-sans">
+                    {error}
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isProcessing || cartItems.length === 0}
+                  className={`w-full bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none rounded py-[1.1rem] text-[15px] font-bold uppercase tracking-[1px] flex justify-center items-center gap-[10px] transition-opacity ${
+                    isProcessing || cartItems.length === 0 ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:opacity-90'
+                  }`}
+                >
+                  {isProcessing
+                    ? t('checkout.processing')
+                    : `PAY SECURELY WITH RAZORPAY ₹${grandTotal.toLocaleString('en-IN')}`}
+                </button>
+              </form>
+            </div>
+
           </div>
 
           <div className="bg-white border border-[rgba(214,178,106,0.15)] rounded-md p-10 shadow-[0_4px_20px_rgba(42,22,53,0.06)]">

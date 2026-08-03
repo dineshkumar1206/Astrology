@@ -9,6 +9,7 @@ import { useLanguage } from '../context/LanguageContext';
 
 // Component Imports
 import AdminNavbar from './AdminNavbar'; 
+import Orders from './Orders';
 
 export default function ControlDesk() {
   const navigate = useNavigate();
@@ -87,7 +88,7 @@ export default function ControlDesk() {
       
       // Auto select first category if current is not in the loaded list
       const loadedCatNames = catData.map(c => c.name);
-      if (loadedCatNames.length > 0 && !loadedCatNames.includes(activeCategory) && activeCategory !== '_manage_menus') {
+      if (loadedCatNames.length > 0 && !loadedCatNames.includes(activeCategory) && activeCategory !== '_manage_menus' && activeCategory !== '_orders') {
         setActiveCategory(loadedCatNames[0]);
       }
     } catch (err) {
@@ -363,7 +364,10 @@ export default function ControlDesk() {
       {/* ─── MAIN PANEL ─── */}
       <main className="flex-grow p-6 md:p-8 max-w-[1400px] mx-auto w-full overflow-y-auto">
         
-        {activeCategory === '_manage_menus' ? (
+        {activeCategory === '_orders' ? (
+          /* ─── ORDERS DASHBOARD VIEW ─── */
+          <Orders />
+        ) : activeCategory === '_manage_menus' ? (
           /* ─── CATEGORY MANAGEMENT DASHBOARD VIEW ─── */
           <div>
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 border-b border-[#D9B56A]/10 pb-6">

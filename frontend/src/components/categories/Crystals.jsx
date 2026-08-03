@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../../config';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTranslatedList, useTranslatedText } from '../../utils/translator';
+import WelfareTrust from '../../components/WelfareTrust';
 
 function TranslatedCategoryName({ name, locale }) {
   const translated = useTranslatedText(name, locale);
@@ -150,6 +151,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const currentItem = translatedItems.find((item) => item.id === activeItemId);
 
   return (
+    <>
     <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] font-sans pt-16 pb-24 px-4 sm:px-8">
       <div className="max-w-[1200px] mx-auto">
         
@@ -516,5 +518,8 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         </div>
       )}
     </div>
+
+    <WelfareTrust />
+    </>
   );
 }

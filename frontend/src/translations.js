@@ -227,6 +227,17 @@ export const translations = {
       mineralotherapy: "Mineralotherapy",
       copyright: "\u00a9 {year} Saraa Tarot. All rights reserved."
     },
+    welfareTrust: {
+      badge: "Our Pledge of Service",
+      title: "Sara Welfare Trust",
+      subtitle: "Extending the healing we share in spirit to the community around us — through medical aid, spiritual care, and sacred temple services.",
+      medicalTitle: "Medical",
+      medicalDesc: "Supporting health camps, medical aid, and compassionate care for those in need, bringing wellness within everyone's reach.",
+      spiritualTitle: "Spiritual",
+      spiritualDesc: "Guiding souls through prayer, meditation, and healing circles that restore peace, hope, and inner balance.",
+      templeTitle: "Temple",
+      templeDesc: "Preserving and serving our temples through poojas, rituals, and community seva that keep our sacred traditions alive."
+    },
     contactPage: {
       title: "Contact",
       subtitle: "Saraa Tarot | Cosmic Guidance",
@@ -316,7 +327,13 @@ export const translations = {
       orderSummary: "Order Summary",
       emptyCart: "No items in checkout.",
       itemsTotal: "Items Total",
-      grandTotal: "Grand Total"
+      grandTotal: "Grand Total",
+      customerDetails: "Customer Details",
+      phoneNumber: "Phone Number",
+      address: "Address",
+      phonePlaceholder: "Enter your phone number",
+      addressPlaceholder: "Enter your full address",
+      fillDetails: "Please fill in your phone number and address before proceeding."
     },
     productDetailModal: {
       selectSize: "Select Size",
@@ -822,6 +839,17 @@ export const translations = {
       mineralotherapy: "கனிம சிகிச்சை",
       copyright: "\u00a9 {year} சாரா டேரட். அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை."
     },
+    welfareTrust: {
+      badge: "எங்களின் சேவை உறுதிமொழி",
+      title: "சாரா நலவாழ்வு அறக்கட்டளை",
+      subtitle: "நாம் ஆன்மீகத்தில் பகிர்ந்துகொள்ளும் குணப்படுத்துதலை சுற்றியுள்ள சமூகத்திற்கும் நீட்டிக்கிறோம் — மருத்துவ உதவி, ஆன்மீக பராமரிப்பு மற்றும் புனித கோயில் சேவைகள் மூலம்.",
+      medicalTitle: "மருத்துவம்",
+      medicalDesc: "சுகாதார முகாம்கள், மருத்துவ உதவி மற்றும் தேவைப்படுவோருக்கான அன்பான பராமரிப்பை ஆதரித்து, அனைவருக்கும் நல்வாழ்வை எட்டச் செய்கிறோம்.",
+      spiritualTitle: "ஆன்மீகம்",
+      spiritualDesc: "பிரார்த்தனை, தியானம் மற்றும் குணப்படுத்தும் வட்டங்கள் மூலம் அமைதி, நம்பிக்கை மற்றும் உள் சமநிலையை மீட்டெடுக்க உள்ளங்களுக்கு வழிகாட்டுகிறோம்.",
+      templeTitle: "கோயில்",
+      templeDesc: "பூஜைகள், சடங்குகள் மற்றும் சமூக சேவை மூலம் நமது புனித கோயில் மரபுகளைப் பாதுகாத்து தொடர்ந்து நிறைவேற்றுகிறோம்."
+    },
     contactPage: {
       title: "தொடர்பு",
       subtitle: "சாரா டேரட் | விண்மீன் வழிகாட்டுதல்",
@@ -911,7 +939,13 @@ export const translations = {
       orderSummary: "ஆர்டர் சுருக்கம்",
       emptyCart: "செக்அவுட்டில் பொருள்கள் இல்லை.",
       itemsTotal: "பொருள்கள் மொத்தம்",
-      grandTotal: "மொத்தத் தொகை"
+      grandTotal: "மொத்தத் தொகை",
+      customerDetails: "வாடிக்கையாளர் விவரங்கள்",
+      phoneNumber: "தொலைபேசி எண்",
+      address: "முகவரி",
+      phonePlaceholder: "உங்கள் தொலைபேசி எண்ணை உள்ளிடவும்",
+      addressPlaceholder: "உங்கள் முழு முகவரியை உள்ளிடவும்",
+      fillDetails: "தொடர்வதற்கு உங்கள் தொலைபேசி எண் மற்றும் முகவரியை உள்ளிடவும்."
     },
     productDetailModal: {
       selectSize: "அளவைத் தேர்ந்தெடுக்கவும்",

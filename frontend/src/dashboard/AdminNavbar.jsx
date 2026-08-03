@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Globe, LogOut, Menu, X, ChevronDown, Settings } from 'lucide-react';
+import { LayoutDashboard, Globe, LogOut, Menu, X, ChevronDown, Settings, Package } from 'lucide-react';
 
 const CRYSTAL_CATEGORIES_DEFAULT = ['Rasi', 'Bracelet', 'Pyrite', 'Rings', 'Pendants', 'Tumbles', 'Crystal balls', 'Pyrite frames', 'Crystal mala', 'Crystal tower'];
 const SERVICE_CATEGORIES_LEFT_DEFAULT = [
@@ -145,6 +145,18 @@ export default function AdminNavbar({
         {/* 3. ACTIONS & USER INFO (Right - Compact Dropdown Mode) */}
         <div className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0">
           <button
+            onClick={() => setActiveCategory('_orders')}
+            className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
+              activeCategory === '_orders'
+                ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
+                : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
+            }`}
+          >
+            <Package size={12} />
+            <span>Orders</span>
+          </button>
+
+          <button
             onClick={() => setActiveCategory('_manage_menus')}
             className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
               activeCategory === '_manage_menus'
@@ -203,6 +215,18 @@ export default function AdminNavbar({
 
         {/* 4. MOBILE / TABLET MENU TOGGLE (Shows below lg breakpoint) */}
         <div className="lg:hidden flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => setActiveCategory('_orders')}
+            className={`p-2 rounded-lg border transition-all cursor-pointer ${
+              activeCategory === '_orders'
+                ? 'bg-[#D9B56A]/20 border-[#D9B56A] text-[#D9B56A]'
+                : 'bg-[#D9B56A]/5 border-[#D9B56A]/20 text-[#B7AFC7] hover:text-white'
+            }`}
+            title="Orders"
+          >
+            <Package size={16} />
+          </button>
+
           <button
             onClick={() => setActiveCategory('_manage_menus')}
             className={`p-2 rounded-lg border transition-all cursor-pointer ${
@@ -284,6 +308,18 @@ export default function AdminNavbar({
             ))}
 
             <hr className="border-[#D9B56A]/10 my-3" />
+
+            <button
+              onClick={() => setActiveCategory('_orders')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-semibold transition-colors ${
+                activeCategory === '_orders' 
+                ? 'bg-[#D9B56A]/15 text-[#D9B56A]' 
+                : 'text-[#B7AFC7] hover:bg-[#1c1635]'
+              }`}
+            >
+              <Package size={14} />
+              <span>View Orders</span>
+            </button>
 
             <a
               href="/"

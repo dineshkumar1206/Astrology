@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../../config';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTranslatedList } from '../../utils/translator';
 import ProductDetailModal from '../../components/ProductDetailModal';
+import WelfareTrust from '../../components/WelfareTrust';
 
 const FALLBACK_IMAGE = '/card-1.jpg';
 
@@ -249,6 +250,8 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
           onAddToCart={(item) => handleAddToCart(item)}
         />
       )}
+
+      <WelfareTrust />
     </>
   );
 }

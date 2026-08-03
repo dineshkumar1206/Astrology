@@ -5,6 +5,7 @@ import { API_BASE_URL } from '../../config';
 import { useLanguage } from '../../context/LanguageContext';
 import { useTranslatedList } from '../../utils/translator';
 import ProductDetailModal from '../../components/ProductDetailModal';
+import WelfareTrust from '../../components/WelfareTrust';
 
 export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
   const { locale, t } = useLanguage();
@@ -179,6 +180,8 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
           onAddToCart={(item) => handleAddToCart(item)}
         />
       )}
+
+      <WelfareTrust />
     </>
   );
 }
