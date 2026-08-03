@@ -44,7 +44,8 @@ export default function ControlDesk() {
     desc: '',
     image: '',
     inclusions: '',
-    sizes: ''
+    sizes: '',
+    stock: ''
   });
 
   // Category Modal / Form state
@@ -129,7 +130,8 @@ export default function ControlDesk() {
       desc: '',
       image: '',
       inclusions: '',
-      sizes: ''
+      sizes: '',
+      stock: ''
     });
     setImageFile(null);
     setFormError('');
@@ -148,7 +150,8 @@ export default function ControlDesk() {
       desc: product.desc || '',
       image: product.image || '',
       inclusions: Array.isArray(product.inclusions) ? product.inclusions.join('\n') : '',
-      sizes: Array.isArray(product.sizes) ? product.sizes.join('\n') : ''
+      sizes: Array.isArray(product.sizes) ? product.sizes.join('\n') : '',
+      stock: product.stock !== undefined && product.stock !== null ? product.stock : ''
     });
     setImageFile(null);
     setFormError('');
@@ -203,6 +206,7 @@ export default function ControlDesk() {
     fd.append('desc', formData.desc);
     fd.append('inclusions', JSON.stringify(inclusionsArray));
     fd.append('sizes', JSON.stringify(sizesArray));
+    fd.append('stock', formData.stock !== undefined && formData.stock !== '' ? formData.stock : 'null');
 
     if (hasImageUpload) {
       if (imageFile) {
@@ -837,6 +841,23 @@ export default function ControlDesk() {
                       rows="3"
                       placeholder="e.g.&#10;Small&#10;Medium&#10;Large"
                       className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200 resize-none"
+                    />
+                  </div>
+                )}
+
+                {/* Stock Limit (Crystals / Murugar Cards Only) */}
+                {(isCrystalCategory(formData.category) || isMurugarCategory(formData.category)) && (
+                  <div>
+                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
+                      Stock Limit / Quantity
+                    </label>
+                    <input
+                      type="number"
+                      name="stock"
+                      value={formData.stock}
+                      onChange={handleInputChange}
+                      placeholder="e.g. 100"
+                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
                     />
                   </div>
                 )}

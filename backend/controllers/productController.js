@@ -288,6 +288,17 @@ const DEFAULT_PRODUCTS = [
     image: '/card-1.jpg',
     inclusions: ['2 questions answered in depth', 'Murugan Vel remedies', 'WhatsApp audio format']
   },
+  {
+    name: 'Crystals and Murugan card deck',
+    price: 3500,
+    type: 'Physical Product Pack',
+    category: 'Murugar Cards',
+    desc: 'A premium combination of energized healing crystals and the sacred world-first Murugan Card Deck for divine guidance.',
+    image: '/card-2.jpg',
+    inclusions: ['Sacred Murugan Card Deck', 'Set of 5 energized healing crystals', 'Aura cleansing instruction booklet', 'Blessed red protection thread'],
+    sizes: ['Standard'],
+    stock: 100
+  },
 
   // --- Tarot Card Reading (Classes) ---
   {
@@ -389,7 +400,7 @@ const createProduct = async (req, res) => {
   console.log('req.body:', req.body);
   console.log('req.file:', req.file);
 
-  const { name, price, type, category, desc, image, inclusions, sizes } = req.body;
+  const { name, price, type, category, desc, image, inclusions, sizes, stock } = req.body;
 
   if (!name || !price || !category) {
     return res.status(400).json({ message: 'Product name, price, and category are required' });
@@ -434,7 +445,8 @@ const createProduct = async (req, res) => {
       image: imageBuffer,
       imageMime,
       inclusions: parsedInclusions,
-      sizes: parsedSizes
+      sizes: parsedSizes,
+      stock: stock !== undefined && stock !== '' && stock !== null ? parseInt(stock, 10) : null
     });
 
     res.status(201).json(formatProduct(newProduct));
@@ -450,7 +462,7 @@ const updateProduct = async (req, res) => {
   console.log('req.body:', req.body);
   console.log('req.file:', req.file);
 
-  const { name, price, type, category, desc, image, inclusions, sizes } = req.body;
+  const { name, price, type, category, desc, image, inclusions, sizes, stock } = req.body;
 
   try {
     const product = await Product.findByPk(req.params.id);
@@ -496,6 +508,10 @@ const updateProduct = async (req, res) => {
         }
       }
       product.sizes = parsedSizes;
+    }
+
+    if (stock !== undefined) {
+      product.stock = (stock !== '' && stock !== null && stock !== 'null') ? parseInt(stock, 10) : null;
     }
 
     await product.save();

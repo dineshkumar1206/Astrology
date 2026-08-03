@@ -296,9 +296,20 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                           <h3 className="text-white text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
                             {product.name}
                           </h3>
-                          <p className="text-[#D3C7DC] text-[12px] m-0 mb-3 line-clamp-2 leading-relaxed">
+                          <p className="text-[#D3C7DC] text-[12px] m-0 mb-2 line-clamp-2 leading-relaxed">
                             {product.desc}
                           </p>
+
+                          {/* Stock Status Alerts on Home Cards */}
+                          {product.stock !== null && product.stock !== undefined && (
+                            <div className="text-left font-sans text-xs font-semibold mb-2" onClick={(e) => e.stopPropagation()}>
+                              {product.stock === 0 ? (
+                                <span className="text-[#ef5350] font-bold uppercase tracking-[0.5px]">● Out of Stock</span>
+                              ) : product.stock <= 5 ? (
+                                <span className="text-amber-500 font-bold text-[15px] animate-pulse block">⚠️ Only {product.stock} left in stock!</span>
+                              ) : null}
+                            </div>
+                          )}
                         </div>
 
                         <div>
@@ -346,10 +357,15 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                           </div>
                           <button
                             onClick={(e) => handleAddToCart(product, e)}
-                            className="w-full bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold rounded-sm flex items-center justify-center gap-1.5"
+                            disabled={product.stock === 0}
+                            className={`w-full py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 rounded-sm flex items-center justify-center gap-1.5 ${
+                              product.stock === 0
+                                ? 'bg-gray-700 text-gray-500 border border-gray-600 cursor-not-allowed opacity-60'
+                                : 'bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold'
+                            }`}
                           >
-                            <span>{t('products.addToCart')}</span>
-                            <span className="text-[13px] font-normal leading-none">→</span>
+                            <span>{product.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('products.addToCart')}</span>
+                            {product.stock !== 0 && <span className="text-[13px] font-normal leading-none">→</span>}
                           </button>
                         </div>
                       </div>

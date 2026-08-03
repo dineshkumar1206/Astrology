@@ -16,6 +16,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   const { locale, setLocale, t } = useLanguage();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
 
+
   useEffect(() => {
     axios.get(`${API_BASE_URL}/api/categories`)
       .then(res => {
@@ -97,43 +98,43 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
   return (
     <nav className="sticky top-0 z-[1000] w-full box-border bg-[#0B1225] border-b border-[rgba(223,186,107,0.15)]">
-      <div className="max-w-[1240px] mx-auto px-8 py-2 flex justify-between items-center box-border">
+      <div className="max-w-[1360px] mx-auto px-6 py-2 flex justify-between items-center box-border flex-nowrap">
         {/* Brand Logo Identity */}
-        <Link to="/" className="flex items-center cursor-pointer no-underline">
-          <img 
-            src="/saraa-logo.jpeg" 
-            alt="Saraa Tarot Logo" 
-            className="h-[85px] w-auto block rounded" 
+        <Link to="/" className="flex items-center cursor-pointer no-underline flex-shrink-0">
+          <img
+            src="/saraa-logo.jpeg"
+            alt="Saraa Tarot Logo"
+            className="h-[70px] w-auto block rounded"
           />
         </Link>
 
         {/* Desktop & Tablet Navigation Menu */}
-        <div className="hidden lg:flex items-center gap-8">
-          <ul className="list-none flex items-center gap-9 m-0 p-0 font-sans text-[13px] font-normal uppercase tracking-[1.5px]">
+        <div className="hidden lg:flex items-center gap-6 flex-nowrap">
+          <ul className="list-none flex items-center gap-6 m-0 p-0 font-sans text-[13px] font-normal uppercase tracking-[1.5px] flex-nowrap whitespace-nowrap">
             <li>
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 {t('nav.home')}
               </Link>
             </li>
-            
+
             {/* Products Hover Dropdown */}
-            <li 
+            <li
               onMouseEnter={() => setIsDropdownOpen(true)}
               onMouseLeave={() => setIsDropdownOpen(false)}
-              className="relative py-6 cursor-pointer"
+              className="relative py-6 cursor-pointer flex-shrink-0"
             >
-              <span 
-                className={`flex items-center gap-1.5 transition-colors duration-300 ${isDropdownOpen ? 'text-sara-gold' : 'text-white'}`}
+              <span
+                className={`flex items-center gap-1.5 transition-colors duration-300 whitespace-nowrap ${isDropdownOpen ? 'text-sara-gold' : 'text-white'}`}
               >
                 {t('nav.services')}
                 <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
                   <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </span>
-              
+
               {/* Dropdown Options */}
               {isDropdownOpen && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#130f24] border border-[rgba(223,186,107,0.25)] rounded w-[280px] py-3 shadow-[0_12px_30px_rgba(0,0,0,0.6)] z-[1100] flex flex-col box-border">
@@ -152,8 +153,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link 
-                to="/products/crystals" 
+              <Link
+                to="/products/crystals"
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 {t('nav.crystals')}
@@ -161,8 +162,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link 
-                to="/about" 
+              <Link
+                to="/about"
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 {t('nav.about')}
@@ -170,8 +171,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link 
-                to="/contact" 
+              <Link
+                to="/contact"
                 className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
               >
                 {t('nav.contact')}
@@ -179,31 +180,31 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
           </ul>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 flex-nowrap whitespace-nowrap">
             {/* Login/Logout Action */}
             {user ? (
-              <div className="flex items-center gap-5">
-                <span className="text-white font-sans text-xs font-medium uppercase tracking-[0.5px]">
+              <div className="flex items-center gap-4 flex-nowrap whitespace-nowrap">
+                <span className="text-white font-sans text-xs font-medium uppercase tracking-[0.5px] whitespace-nowrap flex-shrink-0">
                   {t('nav.hi')}, {user.name.split(' ')[0]}
                 </span>
                 {user.role === 'ADMIN' ? (
                   <Link
                     to="/dashboard"
-                    className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
+                    className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white flex-shrink-0"
                   >
                     {t('nav.dashboard')}
                   </Link>
                 ) : (
                   <Link
                     to="/"
-                    className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white"
+                    className="text-sara-gold no-underline font-sans text-xs font-semibold uppercase tracking-[1px] transition-colors duration-300 hover:text-white flex-shrink-0"
                   >
                     My Orders
                   </Link>
                 )}
                 <button
                   onClick={handleLogout}
-                  className="bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] rounded-sm px-5 py-2.5 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-[rgba(223,186,107,0.1)]"
+                  className="bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] rounded-sm px-4 py-2 font-sans text-xs font-medium uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-[rgba(223,186,107,0.1)] whitespace-nowrap flex-shrink-0"
                 >
                   {t('nav.logout')}
                 </button>
@@ -211,7 +212,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             ) : (
               <button
                 onClick={() => navigate('/login')}
-                className="bg-sara-gold text-[#0B1225] border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white"
+                className="bg-sara-gold text-[#0B1225] border-0 rounded-sm px-5 py-2.5 font-sans text-xs font-semibold uppercase tracking-[1px] cursor-pointer transition-colors duration-300 hover:bg-sara-white whitespace-nowrap flex-shrink-0"
               >
                 {t('nav.login')}
               </button>
@@ -289,15 +290,15 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'en' ? 'text-sara-gold font-bold' : 'text-white'}`}
                 >
                   {t('nav.english')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setLocale('ta');
-                      setIsLangDropdownOpen(false);
-                    }}
-                    className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'ta' ? 'text-sara-gold font-bold' : 'text-white'}`}
-                  >
-                    {t('nav.tamil')}
+                </button>
+                <button
+                  onClick={() => {
+                    setLocale('ta');
+                    setIsLangDropdownOpen(false);
+                  }}
+                  className={`px-4 py-2.5 text-left bg-transparent border-none text-[11px] uppercase tracking-[1px] cursor-pointer transition-colors duration-200 ${locale === 'ta' ? 'text-sara-gold font-bold' : 'text-white'}`}
+                >
+                  {t('nav.tamil')}
                 </button>
               </div>
             )}
@@ -313,7 +314,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </span>
           </button>
 
-          <button 
+          <button
             onClick={() => setIsOpen(!isOpen)}
             className="bg-transparent border-none cursor-pointer text-sara-gold p-1"
           >
@@ -329,7 +330,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
         <div className="lg:hidden bg-[#130f24] border-b border-[rgba(223,186,107,0.15)] px-8 py-6 absolute top-full left-0 w-full box-border z-[999]">
           <ul className="list-none m-0 p-0 flex flex-col gap-5">
             <li>
-              <Link 
+              <Link
                 to="/"
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
@@ -340,17 +341,17 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
 
             {/* Mobile Products Accordion Trigger */}
             <li>
-              <button 
+              <button
                 onClick={() => setIsMobileProductsOpen(!isMobileProductsOpen)}
                 className="w-full bg-none border-none p-0 text-white font-sans text-sm uppercase tracking-[1px] flex justify-between items-center cursor-pointer text-left"
               >
                 <span>{t('nav.services')}</span>
-                <svg 
-                  width="10" 
-                  height="6" 
-                  viewBox="0 0 10 6" 
-                  fill="none" 
-                  stroke="currentColor" 
+                <svg
+                  width="10"
+                  height="6"
+                  viewBox="0 0 10 6"
+                  fill="none"
+                  stroke="currentColor"
                   strokeWidth="2"
                   className={`transition-transform duration-200 ${isMobileProductsOpen ? 'rotate-180' : 'rotate-0'}`}
                 >
@@ -379,7 +380,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link 
+              <Link
                 to="/products/crystals"
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
@@ -389,7 +390,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link 
+              <Link
                 to="/about"
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
@@ -399,7 +400,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link 
+              <Link
                 to="/contact"
                 onClick={() => setIsOpen(false)}
                 className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
@@ -407,7 +408,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 {t('nav.contact')}
               </Link>
             </li>
-            
+
             {user ? (
               <>
                 <li className="mt-2 text-center">
@@ -417,7 +418,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 </li>
                 <li>
                   {user.role === 'ADMIN' ? (
-                    <Link 
+                    <Link
                       to="/dashboard"
                       onClick={() => setIsOpen(false)}
                       className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
@@ -425,7 +426,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                       {t('nav.dashboard')}
                     </Link>
                   ) : (
-                    <Link 
+                    <Link
                       to="/"
                       onClick={() => setIsOpen(false)}
                       className="block text-center text-sara-gold no-underline py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px]"
@@ -435,7 +436,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                   )}
                 </li>
                 <li>
-                  <button 
+                  <button
                     onClick={() => { setIsOpen(false); handleLogout(); }}
                     className="w-full bg-transparent text-sara-gold border border-[rgba(223,186,107,0.4)] py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                   >
@@ -445,7 +446,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               </>
             ) : (
               <li>
-                <button 
+                <button
                   onClick={() => { setIsOpen(false); navigate('/login'); }}
                   className="w-full bg-sara-gold text-[#0B1225] border-0 py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center"
                 >
@@ -455,7 +456,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             )}
 
             <li className="mt-3">
-              <button 
+              <button
                 onClick={() => { setIsOpen(false); setIsCartOpen(true); }}
                 className="w-full bg-[rgba(223,186,107,0.1)] text-sara-gold border border-[rgba(223,186,107,0.3)] py-3 font-sans text-[13px] font-semibold uppercase tracking-[1px] cursor-pointer flex items-center justify-center gap-2"
               >
@@ -474,7 +475,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
       {isCartOpen && (
         <>
           {/* Dark Blurred Backdrop Overlay */}
-          <div 
+          <div
             onClick={() => setIsCartOpen(false)}
             className="fixed inset-0 w-screen h-screen bg-black/60 backdrop-blur-sm z-[2000]"
           />
@@ -512,10 +513,10 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 cartItems.map((item) => (
                   <div key={item.id} className="flex gap-4 mb-5 pb-5 border-b border-[rgba(255,255,255,0.05)] items-center justify-between">
                     <div className="flex gap-4 items-center">
-                      <img 
-                        src={item.image || "/placeholder-item.jpg"} 
-                        alt={item.name} 
-                        className="w-[60px] h-[60px] object-cover rounded border border-[rgba(223,186,107,0.1)]" 
+                      <img
+                        src={item.image || "/placeholder-item.jpg"}
+                        alt={item.name}
+                        className="w-[60px] h-[60px] object-cover rounded border border-[rgba(223,186,107,0.1)]"
                       />
                       <div>
                         <h4 className="m-0 mb-1 text-sm font-medium text-white">{item.name}</h4>
@@ -525,7 +526,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                       </div>
                     </div>
 
-                    <button 
+                    <button
                       onClick={() => removeItem(item.id)}
                       className="bg-none border-none text-[#ef5353] cursor-pointer text-base p-1 flex items-center"
                       title={t('nav.removeItem')}
@@ -541,7 +542,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             {cartItems.length > 0 && (
               <div className="p-6 bg-[#0c0917] border-t border-[rgba(223,186,107,0.15)]">
                 <h5 className="m-0 mb-4 text-[13px] uppercase tracking-[0.5px] text-[#a09ba2]">{t('nav.billDetails')}</h5>
-                
+
                 <div className="flex justify-between text-[13px] mb-4">
                   <span className="text-[#a09ba2]">{t('nav.itemsTotal')}</span>
                   <span>₹{itemsTotalAmount.toLocaleString('en-IN')}</span>
@@ -553,7 +554,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
                 </div>
 
                 {/* Primary Proceed Action button */}
-                <button 
+                <button
                   onClick={() => {
                     setIsCartOpen(false);
                     navigate('/checkout');

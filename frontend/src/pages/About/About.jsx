@@ -11,8 +11,6 @@ export default function About() {
   const { t } = useLanguage();
   return (
     <>
-
-
       <section className="relative w-full h-[450px] flex items-center justify-center">
         <div
           className="absolute inset-0 bg-cover bg-center z-0"
@@ -54,12 +52,12 @@ export default function About() {
       </section>
 
       <section className="bg-[#F8F6FF] text-[#2A1635] py-24 w-full flex items-center relative overflow-hidden box-border">
-        
+
         <div className="w-full max-w-[1320px] mx-auto flex flex-wrap items-center gap-[4.5rem] px-[6vw]">
-          
+
           {/* Left Column Container: Branding copy, sub-features grid, button */}
           <div className="w-full lg:flex-1 lg:basis-[540px] lg:max-w-[620px]">
-            
+
             {/* Small upper serif label */}
             <p className="m-0 mb-3 font-['Poppins'] italic text-[18px] text-[#D9B56A]">
               {t('aboutPage.label')}
@@ -71,13 +69,16 @@ export default function About() {
             </h2>
 
             {/* Description Copy */}
-            <p className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
+            <p className="m-0 mb-6 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
               {t('aboutPage.p1')}
+            </p>
+            <p className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
+              {t('aboutPage.p2')}
             </p>
 
             {/* Side-by-side Mini Insights Modules Grid */}
             <div className="flex flex-wrap gap-10 w-full">
-              
+
               {/* Feature Item 1 */}
               <div className="flex-1 basis-[240px]">
                 {/* Detailed Astrology Line Art Icon */}
@@ -130,11 +131,11 @@ export default function About() {
 
           {/* Right Column Container: Asymmetric visual presentation layout window */}
           <div className="w-full lg:flex-1 lg:basis-[420px] lg:max-w-[560px] flex justify-center lg:justify-end relative mt-12 lg:mt-0">
-            
+
             <div className="w-full aspect-[4/3.8] rounded-bl-[180px] overflow-hidden border border-[#D9B56A]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative">
-              <img 
-                src={aboutImage} 
-                alt={t('aboutPage.founderAlt')} 
+              <img
+                src={aboutImage}
+                alt={t('aboutPage.founderAlt')}
                 className="w-full h-full object-cover block"
               />
             </div>
@@ -143,9 +144,9 @@ export default function About() {
 
         </div>
       </section>
-      
+
       <CosmicInsights />
-      
+
     </>
   );
 }

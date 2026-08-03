@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useLanguage } from '../context/LanguageContext';
+import axios from 'axios';
+import { API_BASE_URL } from '../config';
 
 const WHATSAPP_PHONE = '919999999999';
 const MERCHANT_UPI_ID = '50100234981123@hdfcbank';
@@ -10,10 +12,11 @@ const MERCHANT_NAME = 'SARAA TAROT SERVICES';
 export default function Checkout({ cartItems = [], setCartItems }) {
   const navigate = useNavigate();
   const { t } = useLanguage();
-  const { user } = useSelector(state => state.auth);
+  const { user, token } = useSelector(state => state.auth);
   const [paymentMethod, setPaymentMethod] = useState('qr');
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState('');
 
   const [lastOrderDetails, setLastOrderDetails] = useState({ items: [], total: 0 });
 
@@ -27,21 +30,45 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   const upiLink = `upi://pay?pa=${MERCHANT_UPI_ID}&pn=${encodeURIComponent(MERCHANT_NAME)}&am=${grandTotal}&cu=INR`;
   const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${encodeURIComponent(upiLink)}`;
 
-  const handlePay = (e) => {
+  const handlePay = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
     setIsProcessing(true);
+    setError('');
 
-    setLastOrderDetails({
-      items: cartItems.map(item => `${item.name} (Qty: ${item.quantity})`),
-      total: grandTotal
-    });
+    try {
+      await axios.post(
+        `${API_BASE_URL}/api/orders`,
+        {
+          items: cartItems,
+          total: grandTotal,
+          paymentMethod: 'QR',
+          customerInfo: { name: user.name, email: user.email }
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
 
-    setTimeout(() => {
-      setIsProcessing(false);
+      setLastOrderDetails({
+        items: cartItems.map(item => `${item.name} (Qty: ${item.quantity})`),
+        total: grandTotal
+      });
+
       setIsSuccess(true);
       setCartItems([]);
-    }, 2000);
+    } catch (err) {
+      console.error(err);
+      if (err.response && err.response.data && err.response.data.message) {
+        setError(err.response.data.message);
+      } else {
+        setError('Checkout processing failed. Please try again.');
+      }
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (!user) {
@@ -170,6 +197,12 @@ export default function Checkout({ cartItems = [], setCartItems }) {
                   <p className="text-[11px] text-sara-muted mt-2">
                     {t('checkout.paymentDesc')}
                   </p>
+                </div>
+              )}
+
+              {error && (
+                <div className="mb-4 text-xs text-red-500 bg-red-500/10 border border-red-500/20 p-3 rounded text-center font-semibold font-sans">
+                  {error}
                 </div>
               )}
 

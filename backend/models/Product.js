@@ -64,6 +64,11 @@ const Product = sequelize.define('Product', {
     set(value) {
       this.setDataValue('sizes', JSON.stringify(value || []));
     }
+  },
+  stock: {
+    type: DataTypes.INTEGER,
+    defaultValue: 100,
+    allowNull: true
   }
 }, {
   tableName: 'products'

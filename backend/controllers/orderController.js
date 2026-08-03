@@ -1,4 +1,5 @@
 const Order = require('../models/Order');
+const Product = require('../models/Product');
 
 const createOrder = async (req, res) => {
   const { items, total, paymentMethod, customerInfo } = req.body;
@@ -8,13 +9,42 @@ const createOrder = async (req, res) => {
   }
 
   try {
+    // Validate stock first for all items
+    const itemsToProcess = [];
+    
+    for (const item of items) {
+      const baseProductId = parseInt(item.id, 10);
+      if (isNaN(baseProductId)) continue;
+      
+      const product = await Product.findByPk(baseProductId);
+      if (!product) {
+        return res.status(404).json({ message: `Product not found: ${item.name}` });
+      }
+      
+      if (product.stock !== null && product.stock !== undefined) {
+        const qty = item.quantity || 1;
+        if (product.stock < qty) {
+          return res.status(400).json({ 
+            message: `Insufficient stock for product "${product.name}". Only ${product.stock} left in stock.` 
+          });
+        }
+        itemsToProcess.push({ product, qty });
+      }
+    }
+    
+    // Decrement stock for all processed items
+    for (const { product, qty } of itemsToProcess) {
+      product.stock = Math.max(0, product.stock - qty);
+      await product.save();
+    }
+
     const order = await Order.create({
       userId: req.user.id,
       items,
       total,
       paymentMethod: paymentMethod || 'QR',
       customerInfo: customerInfo || null,
-      status: 'PENDING'
+      status: 'CONFIRMED'
     });
 
     return res.status(201).json({ order });

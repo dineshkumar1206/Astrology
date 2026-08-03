@@ -175,6 +175,15 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
                       <p className="text-[#D3C7DC] text-[0.9rem] leading-5 m-0">
                         {item.desc}
                       </p>
+                      {item.stock !== null && item.stock !== undefined && (
+                        <div className="text-[11px] font-medium mt-2 font-sans">
+                          {item.stock === 0 ? (
+                            <span className="text-[#ef5350] font-bold uppercase tracking-[0.5px]">● Out of Stock</span>
+                          ) : item.stock <= 5 ? (
+                            <span className="text-amber-500 font-bold text-[15px] animate-pulse block">⚠️ Only {item.stock} left!</span>
+                          ) : null}
+                        </div>
+                      )}
                     </div>
 
                     <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">
@@ -183,9 +192,14 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
                       </div>
                       <button
                         onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                        className="bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold"
+                        disabled={item.stock === 0}
+                        className={`rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full ${
+                          item.stock === 0
+                            ? 'bg-gray-700 text-gray-500 border border-gray-600 cursor-not-allowed opacity-60'
+                            : 'bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold'
+                        }`}
                       >
-                        {t('categoryCommon.bookAdd')}
+                        {item.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('categoryCommon.bookAdd')}
                       </button>
                     </div>
                   </div>

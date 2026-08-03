@@ -100,14 +100,17 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
                     {product.sizes.map((size, idx) => (
                       <button
                         key={idx}
+                        disabled={product.stock === 0}
                         onClick={() => setSelectedSize(size)}
                         className={
-                          selectedSize === size
-                            ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
-                            : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all hover:border-sara-gold'
+                          product.stock === 0
+                            ? 'bg-gray-800 text-gray-500 border border-gray-700 py-1.5 px-4 rounded-2xl text-xs font-semibold line-through cursor-not-allowed opacity-50'
+                            : selectedSize === size
+                              ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                              : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all hover:border-sara-gold'
                         }
                       >
-                        {size}
+                        {size} {product.stock === 0 && `(${locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock'})`}
                       </button>
                     ))}
                   </div>
@@ -197,15 +200,35 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
               </ul>
             </div>
 
+            {/* Stock Alerts */}
+            {product.stock !== null && product.stock !== undefined && (
+              <div className="mb-4 font-sans text-[14px]">
+                {product.stock === 0 ? (
+                  <div className="text-[#ef5350] font-bold uppercase tracking-[1px] flex items-center gap-1.5">
+                    ● Out of Stock
+                  </div>
+                ) : product.stock <= 5 ? (
+                  <div className="text-amber-500 font-bold text-[18px] tracking-[0.5px] flex items-center gap-1.5 animate-pulse">
+                    ⚠️ Only {product.stock} left in stock!
+                  </div>
+                ) : null}
+              </div>
+            )}
+
             <button
               onClick={handleAdd}
+              disabled={product.stock === 0}
               className={`border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-all ${
-                added
-                  ? 'bg-green-600 text-white'
-                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-[#1E0F2B] hover:opacity-90'
+                product.stock === 0
+                  ? 'bg-gray-700 text-gray-500 cursor-not-allowed opacity-60 border border-gray-600'
+                  : added
+                    ? 'bg-green-600 text-white'
+                    : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-[#1E0F2B] hover:opacity-90'
               }`}
             >
-              {added ? t('productDetailModal.addedToCart') : t('productDetailModal.addToCart')}
+              {product.stock === 0 
+                ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') 
+                : (added ? t('productDetailModal.addedToCart') : t('productDetailModal.addToCart'))}
             </button>
           </div>
         </div>

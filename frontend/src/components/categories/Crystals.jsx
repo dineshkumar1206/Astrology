@@ -320,23 +320,37 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                 {item.sizes.map((size, idx) => (
                                   <button
                                     key={idx}
+                                    disabled={item.stock === 0}
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       setSelectedSizes(prev => ({ ...prev, [item.id]: size }));
                                     }}
                                     className={
-                                      selectedSizes[item.id] === size
-                                        ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
-                                        : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.25)] py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all hover:border-sara-gold'
+                                      item.stock === 0
+                                        ? 'bg-gray-800 text-gray-500 border border-gray-700 py-1 px-2.5 rounded-full text-[11px] font-semibold line-through cursor-not-allowed opacity-50'
+                                        : selectedSizes[item.id] === size
+                                          ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all'
+                                          : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.25)] py-1 px-2.5 rounded-full text-[11px] font-semibold cursor-pointer transition-all hover:border-sara-gold'
                                     }
                                   >
-                                    {size}
+                                    {size} {item.stock === 0 && `(${locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock'})`}
                                   </button>
                                 ))}
                               </div>
                             </div>
                           )}
                           
+                          {/* Stock Status */}
+                          {item.stock !== null && item.stock !== undefined && (
+                            <div className="text-[11px] font-medium mt-2 font-sans">
+                              {item.stock === 0 ? (
+                                <span className="text-[#ef5350] font-bold uppercase tracking-[0.5px]">● Out of Stock</span>
+                              ) : item.stock <= 5 ? (
+                                <span className="text-amber-500 font-bold text-[15px] animate-pulse block">⚠️ Only {item.stock} left!</span>
+                              ) : null}
+                            </div>
+                          )}
+
                           <div className="flex gap-3 mt-3">
                             <button 
                               onClick={(e) => handleOpenPopup(item.id, e)}
@@ -349,9 +363,14 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                                 e.stopPropagation();
                                 handleAddToCart(item);
                               }}
-                              className="flex-1 bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] py-2 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold"
+                              disabled={item.stock === 0}
+                              className={`flex-1 bg-transparent py-2 text-[0.75rem] font-semibold uppercase tracking-[1px] cursor-pointer transition-all ${
+                                item.stock === 0
+                                  ? 'text-gray-500 border border-gray-700 cursor-not-allowed opacity-60'
+                                  : 'text-sara-gold border border-[rgba(214,178,106,0.4)] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold'
+                              }`}
                             >
-                              {t('crystalsPage.addToCart')}
+                              {item.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('crystalsPage.addToCart')}
                             </button>
                           </div>
                         </div>

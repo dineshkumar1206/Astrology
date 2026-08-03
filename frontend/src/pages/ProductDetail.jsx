@@ -219,14 +219,17 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                   {product.sizes.map((size) => (
                     <button
                       key={size}
+                      disabled={product.stock === 0}
                       onClick={() => setSelectedSize(size)}
                       className={`px-4 py-2 rounded text-xs font-semibold uppercase tracking-wider border transition-all duration-200 cursor-pointer ${
-                        selectedSize === size
-                          ? 'bg-sara-gold text-[#1E0F2B] border-sara-gold'
-                          : 'bg-transparent text-[#D3C7DC] border-[rgba(214,178,106,0.25)] hover:border-sara-gold'
+                        product.stock === 0
+                          ? 'bg-gray-800 text-gray-500 border-gray-700 line-through cursor-not-allowed opacity-50'
+                          : selectedSize === size
+                            ? 'bg-sara-gold text-[#1E0F2B] border-sara-gold'
+                            : 'bg-transparent text-[#D3C7DC] border-[rgba(214,178,106,0.25)] hover:border-sara-gold'
                       }`}
                     >
-                      {size}
+                      {size} {product.stock === 0 && `(${locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock'})`}
                     </button>
                   ))}
                 </div>
@@ -295,16 +298,36 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
               </ul>
             </div>
 
+            {/* Stock Alerts */}
+            {product.stock !== null && product.stock !== undefined && (
+              <div className="mb-4 font-sans text-[14px]">
+                {product.stock === 0 ? (
+                  <div className="text-[#ef5350] font-bold uppercase tracking-[1px] flex items-center gap-1.5">
+                    ● Out of Stock
+                  </div>
+                ) : product.stock <= 5 ? (
+                  <div className="text-amber-500 font-bold text-[18px] tracking-[0.5px] flex items-center gap-1.5 animate-pulse">
+                    ⚠️ Only {product.stock} left in stock!
+                  </div>
+                ) : null}
+              </div>
+            )}
+
             {/* Add to Cart */}
             <button
               onClick={handleAddToCart}
+              disabled={product.stock === 0}
               className={`w-full py-3.5 rounded text-xs font-bold uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mb-6 ${
-                addedToCart
-                  ? 'bg-green-600 text-white border-green-600'
-                  : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none hover:shadow-[0_4px_20px_rgba(214,178,106,0.3)] hover:-translate-y-0.5'
+                product.stock === 0
+                  ? 'bg-gray-700 text-gray-500 border border-gray-600 cursor-not-allowed opacity-60'
+                  : addedToCart
+                    ? 'bg-green-600 text-white border-green-600'
+                    : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-sara-textDark border-none hover:shadow-[0_4px_20px_rgba(214,178,106,0.3)] hover:-translate-y-0.5'
               }`}
             >
-              {addedToCart ? t('productDetail.addedToCart') : t('productDetail.addToCart')}
+              {product.stock === 0 
+                ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') 
+                : (addedToCart ? t('productDetail.addedToCart') : t('productDetail.addToCart'))}
             </button>
 
             {/* Inclusions */}
