@@ -45,7 +45,31 @@ export default function Orders() {
         const res = await axios.get(`${API_BASE_URL}/api/orders`, {
           headers: { Authorization: `Bearer ${token}` }
         });
-        setOrders(Array.isArray(res.data?.orders) ? res.data.orders : []);
+        const fetchedOrders = Array.isArray(res.data?.orders) ? res.data.orders : [];
+        const parsedOrders = fetchedOrders.map(order => {
+          let customerInfo = order.customerInfo;
+          if (typeof customerInfo === 'string') {
+            try {
+              customerInfo = JSON.parse(customerInfo);
+            } catch (e) {
+              customerInfo = {};
+            }
+          }
+          let items = order.items;
+          if (typeof items === 'string') {
+            try {
+              items = JSON.parse(items);
+            } catch (e) {
+              items = [];
+            }
+          }
+          return {
+            ...order,
+            customerInfo,
+            items
+          };
+        });
+        setOrders(parsedOrders);
       } catch (err) {
         console.error(err);
         setError(err.response?.data?.message || 'Failed to load orders.');

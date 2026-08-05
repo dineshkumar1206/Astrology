@@ -198,6 +198,12 @@ app.listen(PORT, async () => {
       });
       const resolvedDbName = process.env.DB_NAME || 'sara-tarot-DB';
       await connection.query(`CREATE DATABASE IF NOT EXISTS \`${resolvedDbName}\`;`);
+      try {
+        await connection.query(`SET GLOBAL max_allowed_packet = 67108864;`);
+        console.log('MySQL max_allowed_packet increased to 64MB globally.');
+      } catch (packetErr) {
+        console.warn('Could not set global max_allowed_packet:', packetErr.message);
+      }
       await connection.end();
       console.log(`Local database "${resolvedDbName}" ensured.`);
     } catch (err) {

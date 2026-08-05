@@ -5,7 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import axios from 'axios';
 import { API_BASE_URL } from '../config';
 
-const WHATSAPP_PHONE = '919999999999';
+const WHATSAPP_PHONE = '919655199507';
 const MERCHANT_UPI_ID = '50100234981123@hdfcbank';
 const MERCHANT_NAME = 'SARAA TAROT SERVICES';
 
@@ -64,7 +64,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
       description: 'Order Payment',
       handler: async function (response) {
         try {
-          await axios.post(
+          const res = await axios.post(
             `${API_BASE_URL}/api/orders`,
             {
               items: cartItems,
@@ -80,13 +80,44 @@ export default function Checkout({ cartItems = [], setCartItems }) {
             }
           );
 
+          const orderId = res.data?.order?.id || 'N/A';
+          const orderItems = cartItems.map(item => `${item.name}${item._selectedSize ? ` (Size: ${item._selectedSize})` : ''} x${item.quantity}`);
+
           setLastOrderDetails({
-            items: cartItems.map(item => `${item.name} (Qty: ${item.quantity})`),
-            total: grandTotal
+            id: orderId,
+            items: orderItems,
+            total: grandTotal,
+            customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
+            razorpayPaymentId: response.razorpay_payment_id
           });
 
           setCartItems([]);
           setIsSuccess(true);
+
+          // Auto-trigger WhatsApp redirect
+          const orderItemsText = orderItems.map((item, idx) => `${idx + 1}. ${item}`).join('\n');
+          const messageText = 
+`🔮 *SARAA TAROT - ORDER CONFIRMATION* 🔮
+
+Hello Saraa Tarot, I have successfully placed an order. Below are the details as proof of purchase:
+
+• *Order Reference:* #ORD${orderId}
+• *Payment ID:* ${response.razorpay_payment_id || 'N/A'}
+• *Total Amount Paid:* ₹${grandTotal.toLocaleString('en-IN')}
+
+*Customer Details:*
+• *Name:* ${user.name}
+• *Email:* ${user.email}
+• *Phone:* ${phone.trim()}
+• *Delivery Address:* ${address.trim()}
+
+*Items Ordered:*
+${orderItemsText}
+
+Please confirm my booking and process it. Thank you!`;
+
+          const waLink = `https://wa.me/919655199507?text=${encodeURIComponent(messageText)}`;
+          window.open(waLink, '_blank');
         } catch (err) {
           console.error(err);
           setError(err.response?.data?.message || 'Failed to place order after payment.');
@@ -115,6 +146,80 @@ export default function Checkout({ cartItems = [], setCartItems }) {
     } catch (err) {
       console.error(err);
       setError('Razorpay SDK failed to open.');
+      setIsProcessing(false);
+    }
+  };
+
+  const handleSimulatePayment = async (e) => {
+    e.preventDefault();
+    if (cartItems.length === 0) return;
+    if (!phone.trim() || !address.trim()) {
+      setError(t('checkout.fillDetails'));
+      return;
+    }
+    setIsProcessing(true);
+    setError('');
+
+    try {
+      const demoPaymentId = `pay_demo_${Math.random().toString(36).substring(2, 11)}`;
+      const res = await axios.post(
+        `${API_BASE_URL}/api/orders`,
+        {
+          items: cartItems,
+          total: grandTotal,
+          paymentMethod: 'RAZORPAY',
+          customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
+          razorpayPaymentId: demoPaymentId
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const orderId = res.data?.order?.id || 'N/A';
+      const orderItems = cartItems.map(item => `${item.name}${item._selectedSize ? ` (Size: ${item._selectedSize})` : ''} x${item.quantity}`);
+
+      setLastOrderDetails({
+        id: orderId,
+        items: orderItems,
+        total: grandTotal,
+        customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
+        razorpayPaymentId: demoPaymentId
+      });
+
+      setCartItems([]);
+      setIsSuccess(true);
+
+      // Auto-trigger WhatsApp redirect
+      const orderItemsText = orderItems.map((item, idx) => `${idx + 1}. ${item}`).join('\n');
+      const messageText = 
+`🔮 *SARAA TAROT - ORDER CONFIRMATION* 🔮
+
+Hello Saraa Tarot, I have successfully placed an order. Below are the details as proof of purchase:
+
+• *Order Reference:* #ORD${orderId}
+• *Payment ID:* ${demoPaymentId}
+• *Total Amount Paid:* ₹${grandTotal.toLocaleString('en-IN')}
+
+*Customer Details:*
+• *Name:* ${user.name}
+• *Email:* ${user.email}
+• *Phone:* ${phone.trim()}
+• *Delivery Address:* ${address.trim()}
+
+*Items Ordered:*
+${orderItemsText}
+
+Please confirm my booking and process it. Thank you!`;
+
+      const waLink = `https://wa.me/919655199507?text=${encodeURIComponent(messageText)}`;
+      window.open(waLink, '_blank');
+    } catch (err) {
+      console.error(err);
+      setError(err.response?.data?.message || 'Failed to place demo order.');
+    } finally {
       setIsProcessing(false);
     }
   };
@@ -150,8 +255,26 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   }
 
   if (isSuccess) {
-    const orderItemsText = lastOrderDetails.items.join(', ');
-    const messageText = `Hi Saraa Tarot, I have placed an order for: ${orderItemsText}. Total Amount: ₹${lastOrderDetails.total.toLocaleString('en-IN')}. Please confirm my booking.`;
+    const orderItemsText = lastOrderDetails.items.map((item, idx) => `${idx + 1}. ${item}`).join('\n');
+    const messageText = 
+`🔮 *SARAA TAROT - ORDER CONFIRMATION* 🔮
+
+Hello Saraa Tarot, I have successfully placed an order. Below are the details as proof of purchase:
+
+• *Order Reference:* #ORD${lastOrderDetails.id || 'N/A'}
+• *Payment ID:* ${lastOrderDetails.razorpayPaymentId || 'N/A'}
+• *Total Amount Paid:* ₹${lastOrderDetails.total.toLocaleString('en-IN')}
+
+*Customer Details:*
+• *Name:* ${lastOrderDetails.customerInfo?.name || user.name}
+• *Email:* ${lastOrderDetails.customerInfo?.email || user.email}
+• *Phone:* ${lastOrderDetails.customerInfo?.phone || ''}
+• *Delivery Address:* ${lastOrderDetails.customerInfo?.address || ''}
+
+*Items Ordered:*
+${orderItemsText}
+
+Please confirm my booking and process it. Thank you!`;
     const waLink = `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(messageText)}`;
 
     return (
@@ -287,6 +410,17 @@ export default function Checkout({ cartItems = [], setCartItems }) {
                   {isProcessing
                     ? t('checkout.processing')
                     : `PAY SECURELY WITH RAZORPAY ₹${grandTotal.toLocaleString('en-IN')}`}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSimulatePayment}
+                  disabled={isProcessing || cartItems.length === 0}
+                  className={`w-full mt-4 bg-transparent text-amber-500 border border-amber-500/50 rounded py-[0.8rem] text-[13px] font-semibold uppercase tracking-[1px] flex justify-center items-center gap-[10px] transition-colors hover:bg-amber-500/10 ${
+                    isProcessing || cartItems.length === 0 ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+                  }`}
+                >
+                  🧪 [Test Mode] Simulate Success & WhatsApp
                 </button>
               </form>
             </div>

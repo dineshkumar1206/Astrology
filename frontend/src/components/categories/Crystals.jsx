@@ -443,14 +443,17 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                         {currentItem.sizes.map((size, idx) => (
                           <button
                             key={idx}
+                            disabled={currentItem.stock === 0}
                             onClick={() => setSelectedSizes(prev => ({ ...prev, [currentItem.id]: size }))}
                             className={
-                              selectedSizes[currentItem.id] === size
-                                ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
-                                : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all hover:border-sara-gold'
+                              currentItem.stock === 0
+                                ? 'bg-gray-800 text-gray-500 border border-gray-700 py-1.5 px-4 rounded-2xl text-xs font-semibold line-through cursor-not-allowed opacity-50'
+                                : selectedSizes[currentItem.id] === size
+                                  ? 'bg-sara-gold text-[#1E0F2B] border border-sara-gold py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all'
+                                  : 'bg-transparent text-[#D3C7DC] border border-[rgba(214,178,106,0.3)] py-1.5 px-4 rounded-2xl text-xs font-semibold cursor-pointer transition-all hover:border-sara-gold'
                             }
                           >
-                            {size}
+                            {size} {currentItem.stock === 0 && `(${locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock'})`}
                           </button>
                         ))}
                       </div>
@@ -507,9 +510,14 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     handleAddToCart(currentItem);
                     handleClosePopup();
                   }}
-                  className="bg-gradient-to-r from-sara-gold to-sara-goldSoft text-[#1E0F2B] border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-opacity hover:opacity-90"
+                  disabled={currentItem.stock === 0}
+                  className={`border-none py-4 px-8 text-[0.95rem] font-semibold uppercase tracking-[1.5px] cursor-pointer w-full rounded-sm transition-all ${
+                    currentItem.stock === 0
+                      ? 'bg-gray-700 text-gray-500 cursor-not-allowed opacity-60 border border-gray-600'
+                      : 'bg-gradient-to-r from-sara-gold to-sara-goldSoft text-[#1E0F2B] hover:opacity-90'
+                  }`}
                 >
-                  {t('crystalsPage.addToCart')}
+                  {currentItem.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('crystalsPage.addToCart')}
                 </button>
               </div>
 

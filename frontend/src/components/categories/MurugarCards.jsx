@@ -102,10 +102,10 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
           </div>
           <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">
             <img 
-              src={FALLBACK_IMAGE} 
+              src={translatedItems[0]?.image || FALLBACK_IMAGE} 
               alt={t('murugarCards.imageAlt')} 
               className="w-full h-full object-cover"
-              onError={(e) => { e.target.src = '/saraa-logo.jpeg'; }}
+              onError={(e) => { e.target.src = FALLBACK_IMAGE; }}
             />
           </div>
         </div>
