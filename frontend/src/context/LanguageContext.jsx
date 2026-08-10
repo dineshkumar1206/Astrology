@@ -13,7 +13,7 @@ export function useLanguage() {
   };
 
   // Ensure it returns a consistent language code (e.g., 'en' or 'ta')
-  const locale = (i18n.language || 'en').split('-')[0];
+  const locale = (i18n.language || 'ta').split('-')[0];
 
   return {
     locale,
