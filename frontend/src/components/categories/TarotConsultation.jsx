@@ -145,7 +145,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-full h-full object-cover rounded-lg border border-[rgba(214,178,106,0.2)]"
+                          className="w-full h-full object-contain rounded-lg border border-[rgba(214,178,106,0.2)] bg-black/40 p-1"
                           onError={(e) => { e.currentTarget.style.display = 'none' }}
                         />
                       </div>

@@ -69,7 +69,7 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
             <img
               src={getImgSrc(product)}
               alt={product.name}
-              className="w-full rounded border border-[rgba(214,178,106,0.15)] object-cover h-full min-h-[300px] max-h-[400px]"
+              className="w-full rounded border border-[rgba(214,178,106,0.15)] object-contain bg-black/40 h-full min-h-[300px] max-h-[400px]"
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';

@@ -279,7 +279,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                         <img
                           src={imgSrc}
                           alt={product.name}
-                          className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                          className="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-105"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = FALLBACK_IMAGES[(product.category || '').toLowerCase()] || '/saraa-logo.jpeg';

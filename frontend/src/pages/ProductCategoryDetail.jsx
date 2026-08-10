@@ -163,7 +163,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                         >
                           {item.image && (
                             <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] bg-[#12071C] flex-shrink-0">
-                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                              <img src={item.image} alt={item.name} className="w-full h-full object-contain p-1" />
                             </div>
                           )}
                           <div className="flex-[1_1_280px]">
