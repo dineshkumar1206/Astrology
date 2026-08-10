@@ -73,6 +73,56 @@ export default function ControlDesk() {
     fetchData();
   }, [token, navigate]);
 
+  // Image compression helper to prevent large payloads on live servers
+  const compressImage = (file, callback) => {
+    if (!file || !file.type.startsWith('image/')) {
+      callback(file);
+      return;
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target.result;
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 800;
+        const MAX_HEIGHT = 800;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const compressedFile = new File([blob], file.name, {
+              type: 'image/jpeg',
+              lastModified: Date.now(),
+            });
+            callback(compressedFile);
+          } else {
+            callback(file);
+          }
+        }, 'image/jpeg', 0.8);
+      };
+    };
+  };
+
   const fetchData = async () => {
     setLoading(true);
     setError('');
@@ -209,14 +259,10 @@ export default function ControlDesk() {
     fd.append('sizes', JSON.stringify(sizesArray));
     fd.append('stock', formData.stock !== undefined && formData.stock !== '' ? formData.stock : 'null');
 
-    if (hasImageUpload) {
-      if (imageFile) {
-        fd.append('image', imageFile);
-      } else {
-        fd.append('image', formData.image);
-      }
-    } else {
-      fd.append('image', '');
+    if (imageFile) {
+      fd.append('image', imageFile);
+    } else if (!formData.id) {
+      fd.append('image', formData.image || '');
     }
 
     try {
@@ -311,8 +357,8 @@ export default function ControlDesk() {
 
     if (catImageFile) {
       fd.append('image', catImageFile);
-    } else {
-      fd.append('image', catFormData.image);
+    } else if (!catFormData.id) {
+      fd.append('image', catFormData.image || '');
     }
 
     try {
@@ -754,7 +800,11 @@ export default function ControlDesk() {
                       <input
                         type="file"
                         accept="image/*"
-                        onChange={(e) => setImageFile(e.target.files[0] || null)}
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          if (file) compressImage(file, setImageFile);
+                          else setImageFile(null);
+                        }}
                         style={{
                           position: 'absolute',
                           top: 0,
@@ -977,7 +1027,11 @@ export default function ControlDesk() {
                     <input
                       type="file"
                       accept="image/*"
-                      onChange={(e) => setCatImageFile(e.target.files[0] || null)}
+                      onChange={(e) => {
+                        const file = e.target.files[0];
+                        if (file) compressImage(file, setCatImageFile);
+                        else setCatImageFile(null);
+                      }}
                       style={{
                         position: 'absolute',
                         top: 0,
