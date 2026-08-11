@@ -1,25 +1,26 @@
 const isLocal = typeof window !== "undefined" && 
   (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
 
+// The live backend is hosted on cPanel under the /astrology subfolder.
+// This MUST be a stable, absolute URL — do NOT build it from window.location
+// because the frontend may be served from a different origin (e.g. Vercel),
+// which would make every API call hit the wrong host.
+const LIVE_API_URL = "https://amigowebster.in/astrology";
+
 // Determine the live URL dynamically or use the amigowebster.in fallback
 const getLiveURL = () => {
-  // 1. Prefer environment variable if it exists
+  // 1. Prefer environment variable if it exists (set VITE_API_URL in Vercel/cPanel build settings)
   if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+    return import.meta.env.VITE_API_URL.replace(/\/$/, '');
   }
 
-  // 2. Dynamic client-side routing
-  if (typeof window !== "undefined") {
-    // If we're on the staging domain, use the hardcoded staging path
-    if (window.location.hostname.includes("amigowebster.in")) {
-      return "https://amigowebster.in/astrology";
-    }
-    // Dynamic fallback for custom domains (e.g., if you move to www.saraatarot.com)
-    return window.location.origin + "/astrology"; 
+  // 2. If we're on the staging/backend domain, use the same subfolder backend
+  if (typeof window !== "undefined" && window.location.hostname.includes("amigowebster.in")) {
+    return LIVE_API_URL;
   }
-  
-  // 3. Absolute fallback
-  return "https://amigowebster.in/astrology";
+
+  // 3. Any other origin (Vercel, custom domain) still points at the real backend
+  return LIVE_API_URL;
 };
 
 // Export as API_BASE_URL to match your current project's naming convention

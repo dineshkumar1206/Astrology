@@ -6,7 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 const IMAGES = {
   mainPortrait: "/abt-1.png",
   moonCircle: "/moon.png",
-  cardSpread: "/abt.jpeg",
+  cardSpread: "/home-abt-1.png"
 };
 
 export default function AbtSara() {
@@ -121,7 +121,7 @@ export default function AbtSara() {
             <motion.div
               style={{ y: cardSpreadY }}
               whileHover={{ scale: 1.02 }}
-              className="w-[95%] mx-auto aspect-[6/5] min-h-[360px] overflow-hidden rounded-2xl rounded-br-[80px] border border-[rgba(214,178,106,0.2)] shadow-[0_20px_45px_rgba(161,61,142,0.10)] bg-white"
+              className="w-full mx-auto aspect-[4/5] min-h-[400px] overflow-hidden rounded-t-[160px] rounded-b-3xl border border-[rgba(214,178,106,0.25)] shadow-[0_30px_60px_rgba(161,61,142,0.15)] bg-white"
             >
               <img
                 src={IMAGES.cardSpread}

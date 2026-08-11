@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useLanguage } from '../context/LanguageContext';
-import axios from 'axios';
-import { API_BASE_URL } from '../config';
+import api from '../api/client';
 
 const WHATSAPP_PHONE = '919655199507';
 const MERCHANT_UPI_ID = '50100234981123@hdfcbank';
@@ -12,7 +11,7 @@ const MERCHANT_NAME = 'SARAA TAROT SERVICES';
 export default function Checkout({ cartItems = [], setCartItems }) {
   const navigate = useNavigate();
   const { t, locale } = useLanguage();
-  const { user, token } = useSelector(state => state.auth);
+  const { user } = useSelector(state => state.auth);
   const [isProcessing, setIsProcessing] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState('');
@@ -64,19 +63,14 @@ export default function Checkout({ cartItems = [], setCartItems }) {
       description: 'Order Payment',
       handler: async function (response) {
         try {
-          const res = await axios.post(
-            `${API_BASE_URL}/api/orders`,
+          const res = await api.post(
+            '/api/orders',
             {
               items: cartItems,
               total: grandTotal,
               paymentMethod: 'RAZORPAY',
               customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
               razorpayPaymentId: response.razorpay_payment_id
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${token}`
-              }
             }
           );
 
@@ -162,19 +156,14 @@ Please confirm my booking and process it. Thank you!`;
 
     try {
       const demoPaymentId = `pay_demo_${Math.random().toString(36).substring(2, 11)}`;
-      const res = await axios.post(
-        `${API_BASE_URL}/api/orders`,
+      const res = await api.post(
+        '/api/orders',
         {
           items: cartItems,
           total: grandTotal,
           paymentMethod: 'RAZORPAY',
           customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
           razorpayPaymentId: demoPaymentId
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
         }
       );
 

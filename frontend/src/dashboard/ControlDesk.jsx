@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import axios from 'axios';
-import { Plus, Pencil, Trash2, Loader2, AlertCircle, CheckCircle, Settings, Menu } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, AlertCircle, CheckCircle } from 'lucide-react';
 import { logout } from '../store/slices/authSlice';
-import { API_BASE_URL } from '../config';
 import { useLanguage } from '../context/LanguageContext';
+import api, { getErrorMessage } from '../api/client';
 
 // Component Imports
 import AdminNavbar from './AdminNavbar'; 
@@ -64,15 +63,6 @@ export default function ControlDesk() {
     image: ''
   });
 
-  // Verify auth
-  useEffect(() => {
-    if (!token) {
-      navigate('/login');
-      return;
-    }
-    fetchData();
-  }, [token, navigate]);
-
   // Image compression helper to prevent large payloads on live servers
   const compressImage = (file, callback) => {
     if (!file || !file.type.startsWith('image/')) {
@@ -128,8 +118,8 @@ export default function ControlDesk() {
     setError('');
     try {
       const [prodRes, catRes] = await Promise.all([
-        axios.get(`${API_BASE_URL}/api/products`),
-        axios.get(`${API_BASE_URL}/api/categories`)
+        api.get('/api/products'),
+        api.get('/api/categories')
       ]);
       const prodData = Array.isArray(prodRes.data) ? prodRes.data : [];
       const catData = Array.isArray(catRes.data) ? catRes.data : [];
@@ -143,11 +133,39 @@ export default function ControlDesk() {
       }
     } catch (err) {
       console.error(err);
-      setError(t('controlDesk.fetchError'));
+      setError(getErrorMessage(err, t('controlDesk.fetchError')));
     } finally {
       setLoading(false);
     }
   };
+
+  // Verify auth on mount / when the token changes. First call /auth/me so a
+  // stale or invalid token (the source of "Token is not valid" on production)
+  // is detected immediately — the global 401 interceptor then logs the user
+  // out and redirects to /admin for a clean re-login — instead of failing only
+  // when a product/menu is submitted.
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+    let cancelled = false;
+    const init = async () => {
+      try {
+        await api.get('/api/auth/me');
+        if (!cancelled) await fetchData();
+      } catch (err) {
+        // 401 is handled by the global interceptor (logout + redirect).
+        if (!cancelled && err?.response?.status !== 401) {
+          setError(getErrorMessage(err, t('controlDesk.fetchError')));
+        }
+      }
+    };
+    init();
+    return () => {
+      cancelled = true;
+    };
+  }, [token, navigate]);
 
   const handleSignOut = () => {
     dispatch(logout());
@@ -213,13 +231,11 @@ export default function ControlDesk() {
   const handleDelete = async (id) => {
     if (!window.confirm(t('controlDesk.deleteConfirm'))) return;
     try {
-      await axios.delete(`${API_BASE_URL}/api/products/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await api.delete(`/api/products/${id}`);
       setProducts(products.filter(p => p.id !== id));
     } catch (err) {
       console.error(err);
-      alert(t('controlDesk.deleteError'));
+      alert(getErrorMessage(err, t('controlDesk.deleteError')));
     }
   };
 
@@ -235,7 +251,6 @@ export default function ControlDesk() {
     setFormLoading(true);
 
     const isCrystal = isCrystalCategory(formData.category);
-    const hasImageUpload = true;
     const inclusionsArray = isCrystal
       ? formData.inclusions
           .split('\n')
@@ -267,15 +282,11 @@ export default function ControlDesk() {
 
     try {
       if (formData.id) {
-        const res = await axios.put(`${API_BASE_URL}/api/products/${formData.id}`, fd, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.put(`/api/products/${formData.id}`, fd);
         setProducts(products.map(p => p.id === formData.id ? res.data : p));
         setFormSuccess(t('controlDesk.updateSuccess'));
       } else {
-        const res = await axios.post(`${API_BASE_URL}/api/products`, fd, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.post('/api/products', fd);
         setProducts([...products, res.data]);
         setFormSuccess(t('controlDesk.addSuccess'));
       }
@@ -286,11 +297,7 @@ export default function ControlDesk() {
 
     } catch (err) {
       console.error(err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setFormError(err.response.data.message);
-      } else {
-        setFormError(t('controlDesk.saveError'));
-      }
+      setFormError(getErrorMessage(err, t('controlDesk.saveError')));
     } finally {
       setFormLoading(false);
     }
@@ -329,13 +336,11 @@ export default function ControlDesk() {
   const handleDeleteCategory = async (id) => {
     if (!window.confirm(t('controlDesk.deleteCategoryConfirm'))) return;
     try {
-      await axios.delete(`${API_BASE_URL}/api/categories/${id}`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      await api.delete(`/api/categories/${id}`);
       setCategories(categories.filter(c => c.id !== id));
     } catch (err) {
       console.error(err);
-      alert(t('controlDesk.deleteCategoryError'));
+      alert(getErrorMessage(err, t('controlDesk.deleteCategoryError')));
     }
   };
 
@@ -363,15 +368,11 @@ export default function ControlDesk() {
 
     try {
       if (catFormData.id) {
-        const res = await axios.put(`${API_BASE_URL}/api/categories/${catFormData.id}`, fd, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.put(`/api/categories/${catFormData.id}`, fd);
         setCategories(categories.map(c => c.id === catFormData.id ? res.data : c));
         setCatFormSuccess(t('controlDesk.categoryUpdateSuccess'));
       } else {
-        const res = await axios.post(`${API_BASE_URL}/api/categories`, fd, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.post('/api/categories', fd);
         setCategories([...categories, res.data]);
         setCatFormSuccess(t('controlDesk.categoryAddSuccess'));
       }
@@ -381,11 +382,7 @@ export default function ControlDesk() {
       }, 1500);
     } catch (err) {
       console.error(err);
-      if (err.response && err.response.data && err.response.data.message) {
-        setCatFormError(err.response.data.message);
-      } else {
-        setCatFormError(t('controlDesk.categorySaveError'));
-      }
+      setCatFormError(getErrorMessage(err, t('controlDesk.categorySaveError')));
     } finally {
       setCatFormLoading(false);
     }

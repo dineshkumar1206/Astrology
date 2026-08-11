@@ -1,11 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
-import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Info } from 'lucide-react';
 import { loginSuccess } from '../store/slices/authSlice';
-import { API_BASE_URL } from '../config';
+import api, { getErrorMessage } from '../api/client';
 import { useLanguage } from '../context/LanguageContext';
+
+// If the previous session ended with a 401 (expired/invalid token), greet the
+// admin with a clear re-login notice instead of a confusing failure.
+const readSessionExpiredNotice = () => {
+  try {
+    const expired = sessionStorage.getItem('sara_auth_expired') === '1';
+    sessionStorage.removeItem('sara_auth_expired');
+    return expired ? 'Your previous session expired. Please sign in again.' : '';
+  } catch {
+    return '';
+  }
+};
 
 export default function AdminLogin() {
   const { t } = useLanguage();
@@ -15,6 +26,7 @@ export default function AdminLogin() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [notice, setNotice] = useState(readSessionExpiredNotice);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,22 +40,33 @@ export default function AdminLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setNotice('');
     setLoading(true);
 
     try {
-      const res = await axios.post(`${API_BASE_URL}/api/auth/admin-login`, { email, password });
+      const res = await api.post('/api/auth/admin-login', { email, password });
+
+      const token = res.data?.token;
+      const user = res.data?.user;
+
+      // Guard against a bogus login response (e.g. hitting an SPA fallback page
+      // that returns HTML with HTTP 200 instead of the real backend).
+      if (!token || token === 'undefined' || token === 'null') {
+        throw new Error('Invalid login response from server.');
+      }
+
+      // Sanity-check the response really is an admin account before storing it.
+      if (!user || user.role !== 'ADMIN') {
+        throw new Error('This account does not have admin privileges.');
+      }
 
       setLoading(false);
-      dispatch(loginSuccess({ token: res.data.token, user: res.data.user }));
+      dispatch(loginSuccess({ token, user }));
       navigate('/dashboard');
     } catch (err) {
       console.error(err);
       setLoading(false);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(t('login.error'));
-      }
+      setError(getErrorMessage(err, t('login.error')));
     }
   };
 
@@ -71,6 +94,13 @@ export default function AdminLogin() {
         {error && (
           <div className="mb-6 text-sm text-red-400 bg-red-500/10 border border-red-500/20 p-3 rounded-lg font-sans">
             {error}
+          </div>
+        )}
+
+        {notice && (
+          <div className="mb-6 text-sm text-amber-300 bg-amber-500/10 border border-amber-500/20 p-3 rounded-lg font-sans flex items-start gap-2">
+            <Info size={16} className="mt-0.5 shrink-0" />
+            <span>{notice}</span>
           </div>
         )}
 

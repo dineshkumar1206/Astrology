@@ -1,14 +1,13 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const LoginHistory = require('../models/LoginHistory');
-
-const JWT_SECRET = process.env.JWT_SECRET || 'saraatarot_secret_key_123';
+const { JWT_SECRET, JWT_EXPIRES_IN } = require('../config/jwt');
 
 const signToken = (user) => {
   return jwt.sign(
     { id: user.id, role: user.role },
     JWT_SECRET,
-    { expiresIn: '7d' }
+    { expiresIn: JWT_EXPIRES_IN }
   );
 };
 
@@ -158,8 +157,7 @@ const adminLogin = async (req, res) => {
   }
 };
 
-const googleLogin = async (req, res) => {
-  const { credential, accessToken } = req.body;
+const googleLogin = async (req, res) => {  const { credential, accessToken } = req.body;
 
   if (!credential && !accessToken) {
     return res.status(400).json({ message: 'Google credential or access token is required' });
@@ -233,9 +231,30 @@ const googleLogin = async (req, res) => {
   }
 };
 
+const getMe = async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(401).json({ code: 'TOKEN_INVALID', message: 'User not found. Please log in again.' });
+    }
+    return res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+      }
+    });
+  } catch (err) {
+    console.error('Get me error:', err);
+    return res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   register,
   customerLogin,
   adminLogin,
-  googleLogin
+  googleLogin,
+  getMe
 };

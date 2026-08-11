@@ -1,7 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { API_BASE_URL } from '../config';
+import api, { getErrorMessage } from '../api/client';
 import {
   Loader2,
   Package,
@@ -42,16 +41,14 @@ export default function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${API_BASE_URL}/api/orders`, {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const res = await api.get('/api/orders');
         const fetchedOrders = Array.isArray(res.data?.orders) ? res.data.orders : [];
         const parsedOrders = fetchedOrders.map(order => {
           let customerInfo = order.customerInfo;
           if (typeof customerInfo === 'string') {
             try {
               customerInfo = JSON.parse(customerInfo);
-            } catch (e) {
+            } catch {
               customerInfo = {};
             }
           }
@@ -59,7 +56,7 @@ export default function Orders() {
           if (typeof items === 'string') {
             try {
               items = JSON.parse(items);
-            } catch (e) {
+            } catch {
               items = [];
             }
           }
@@ -72,7 +69,7 @@ export default function Orders() {
         setOrders(parsedOrders);
       } catch (err) {
         console.error(err);
-        setError(err.response?.data?.message || 'Failed to load orders.');
+        setError(getErrorMessage(err, 'Failed to load orders.'));
       } finally {
         setLoading(false);
       }

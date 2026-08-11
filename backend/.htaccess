@@ -1,0 +1,28 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# cPanel / LiteSpeed / Apache reverse-proxy fix for JWT authentication
+#
+# Place this file in the PUBLIC web root of the Node.js backend on the server
+# (e.g. the app's "public" directory in cPanel → Setup Node.js App, or the
+# folder Apache serves for the /astrology subfolder).
+#
+# WHY THIS IS NEEDED:
+# The frontend (Vercel) sends the JWT in the "Authorization: Bearer ..." header.
+# cPanel typically proxies requests to the Node process through Apache/LiteSpeed,
+# which by default strips the Authorization header before it reaches Node.
+# That silently breaks every protected request in production while localhost
+# (no proxy) works fine — the classic "works locally, fails on the server".
+# ─────────────────────────────────────────────────────────────────────────────
+
+<IfModule mod_setenvif.c>
+    # Rebuild the Authorization header so Node receives it as HTTP_AUTHORIZATION.
+    SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+</IfModule>
+
+# Forward the Authorization header to the backend process (Apache 2.4.13+ and
+# LiteSpeed). Remove this line only if the host blocks it in .htaccess context.
+CGIPassAuth On
+
+# Let Express see the real client scheme/port when behind the proxy.
+<IfModule mod_headers.c>
+    RequestHeader set X-Forwarded-Proto "https" env=HTTPS
+</IfModule>

@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useGoogleLogin } from '@react-oauth/google';
 import { loginSuccess } from '../store/slices/authSlice';
-import { API_BASE_URL, GOOGLE_CLIENT_ID } from '../config';
+import api, { getErrorMessage } from '../api/client';
 import { useLanguage } from '../context/LanguageContext';
 
 const GoogleIcon = () => (
@@ -60,18 +59,14 @@ export default function Login() {
       const endpoint = mode === 'login' ? 'customer-login' : 'register';
       const body = mode === 'login' ? { email, password } : { name, email, password };
 
-      const res = await axios.post(`${API_BASE_URL}/api/auth/${endpoint}`, body);
+      const res = await api.post(`/api/auth/${endpoint}`, body);
 
       setLoading(false);
       dispatch(loginSuccess({ token: res.data.token, user: res.data.user }));
     } catch (err) {
       console.error(err);
       setLoading(false);
-      if (err.response && err.response.data && err.response.data.message) {
-        setError(err.response.data.message);
-      } else {
-        setError(t('login.error'));
-      }
+      setError(getErrorMessage(err, t('login.error')));
     }
   };
 
@@ -80,7 +75,7 @@ export default function Login() {
       setError('');
       setLoading(true);
       try {
-        const res = await axios.post(`${API_BASE_URL}/api/auth/google`, {
+        const res = await api.post('/api/auth/google', {
           accessToken: tokenResponse.access_token
         });
         setLoading(false);
@@ -88,7 +83,7 @@ export default function Login() {
       } catch (err) {
         console.error(err);
         setLoading(false);
-        setError(err.response?.data?.message || t('login.error'));
+        setError(getErrorMessage(err, t('login.error')));
       }
     },
     onError: () => {
