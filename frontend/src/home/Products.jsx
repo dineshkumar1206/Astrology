@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import axios from 'axios';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { API_BASE_URL } from '../config';
 import ProductDetailModal from '../components/ProductDetailModal';
 import { useLanguage } from '../context/LanguageContext';
@@ -41,6 +42,22 @@ function ScrollableCarousel({ children }) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 0);
+      setCanScrollRight(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
+    }
+  };
+
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener('resize', checkScroll);
+    return () => window.removeEventListener('resize', checkScroll);
+  }, [children]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -58,19 +75,46 @@ function ScrollableCarousel({ children }) {
 
   const handleMouseUp = () => setIsDragging(false);
 
+  const scrollByAmount = (amount) => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollBy({ left: amount, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <div
-      ref={scrollRef}
-      className="flex gap-6 overflow-x-auto pb-4 scroll-smooth no-scrollbar"
-      style={{
-        cursor: isDragging ? 'grabbing' : 'grab',
-      }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-    >
-      {children}
+    <div className="relative group">
+      {canScrollLeft && (
+        <button
+          onClick={() => scrollByAmount(-300)}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.1)] border border-[rgba(214,178,106,0.2)] text-[#1E0F2B] hover:bg-sara-gold hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center -ml-4"
+          aria-label="Scroll left"
+        >
+          <ChevronLeft size={20} />
+        </button>
+      )}
+      <div
+        ref={scrollRef}
+        onScroll={checkScroll}
+        className="flex gap-6 overflow-x-auto pb-4 scroll-smooth no-scrollbar"
+        style={{
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+      >
+        {children}
+      </div>
+      {canScrollRight && (
+        <button
+          onClick={() => scrollByAmount(300)}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white p-2.5 rounded-full shadow-[0_4px_12px_rgba(0,0,0,0.1)] border border-[rgba(214,178,106,0.2)] text-[#1E0F2B] hover:bg-sara-gold hover:text-white transition-all duration-300 opacity-0 group-hover:opacity-100 flex items-center justify-center -mr-4"
+          aria-label="Scroll right"
+        >
+          <ChevronRight size={20} />
+        </button>
+      )}
     </div>
   );
 }
