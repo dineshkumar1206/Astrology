@@ -341,7 +341,7 @@ export const translations = {
       whatsIncluded: "What this product includes:",
       policyTitle: "Order Policy & Shipping",
       policyNoRefund: "All products: After payment, no refund.",
-      policyTimeline: "After placing the order, it will take 10 to 20 days.",
+      policyTimeline: "After placing the order, it will take 20 to 30 days.",
       addedToCart: "Added to Cart",
       addToCart: "Add To Cart"
     },
@@ -953,7 +953,7 @@ export const translations = {
       whatsIncluded: "இந்த தயாரிப்பில் என்ன சேர்க்கப்பட்டுள்ளது:",
       policyTitle: "ஆர்டர் கொள்கை & ஷிப்பிங்",
       policyNoRefund: "அனைத்து பொருட்களும்: பணம் செலுத்திய பின், பணம் திரும்பப் பெற முடியாது.",
-      policyTimeline: "ஆர்டர் செய்த பிறகு, 10 முதல் 20 நாட்கள் வரை எடுக்கும்.",
+      policyTimeline: "ஆர்டர் செய்த பிறகு, 20 முதல் 30 நாட்கள் வரை எடுக்கும்.",
       addedToCart: "கார்டில் சேர்க்கப்பட்டது",
       addToCart: "கார்டில் சேர்"
     },
