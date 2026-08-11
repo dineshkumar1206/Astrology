@@ -5,7 +5,7 @@ import Team from './Team';
 import { useLanguage } from '../../context/LanguageContext';
 
 // High-quality relevant founder photography for the right-hand container
-const aboutImage = "/about.png";
+const aboutImage = "/4.jpg";
 
 export default function About() {
   const { t } = useLanguage();
@@ -45,7 +45,7 @@ export default function About() {
         </motion.div>
 
         <div className="absolute bottom-[-1px] left-0 w-full z-30 overflow-hidden leading-none">
-          <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-[80px] block fill-sara-cream">
+          <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-[80px] block fill-[#F8F6FF]">
             <path d="M0,100 Q720,0 1440,100 V110 H0 Z"></path>
           </svg>
         </div>
@@ -86,7 +86,7 @@ export default function About() {
           {/* Right Column Container: Asymmetric visual presentation layout window */}
           <div className="w-full lg:flex-1 lg:basis-[420px] lg:max-w-[560px] flex justify-center lg:justify-end relative mt-12 lg:mt-0">
 
-            <div className="w-full aspect-[4/3.8] rounded-bl-[180px] overflow-hidden border border-[#D9B56A]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative">
+            <div className="w-full aspect-[4/3.8] rounded-tl-[120px] rounded-br-[120px] overflow-hidden border border-[#D9B56A]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative">
               <img
                 src={aboutImage}
                 alt={t('aboutPage.founderAlt')}

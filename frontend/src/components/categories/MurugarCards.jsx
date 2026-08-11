@@ -102,7 +102,7 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
           </div>
           <div className="w-[340px] max-w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">
             <img 
-              src="/murugar-card.jpeg" 
+              src="/abt.jpeg" 
               alt={t('murugarCards.imageAlt')} 
               className="w-full h-full object-cover"
               onError={(e) => { e.target.src = FALLBACK_IMAGE; }}

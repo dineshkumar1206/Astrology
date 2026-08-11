@@ -6,7 +6,7 @@ import { useLanguage } from "../context/LanguageContext";
 const IMAGES = {
   mainPortrait: "/abt-1.png",
   moonCircle: "/moon.png",
-  cardSpread: "/home-abt-1.png"
+  cardSpread: "/Abt-Home-1.png"
 };
 
 export default function AbtSara() {
