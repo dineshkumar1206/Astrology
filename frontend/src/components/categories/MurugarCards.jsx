@@ -100,9 +100,9 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
               {t('murugarCards.note')}
             </p>
           </div>
-          <div className="w-[200px] h-[200px] rounded-full overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">
+          <div className="w-[340px] max-w-full aspect-[4/3] rounded-2xl overflow-hidden border-2 border-[rgba(214,178,106,0.3)] flex-shrink-0 shadow-[0_0_30px_rgba(214,178,106,0.15)]">
             <img 
-              src={translatedItems[0]?.image || FALLBACK_IMAGE} 
+              src="/murugar-card.jpeg" 
               alt={t('murugarCards.imageAlt')} 
               className="w-full h-full object-cover"
               onError={(e) => { e.target.src = FALLBACK_IMAGE; }}
@@ -156,7 +156,7 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
                     className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
                   >
                     {(item.image || FALLBACK_IMAGE) && (
-                      <div className="w-[120px] h-[120px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] bg-[#12071C] flex-shrink-0">
+                      <div className="w-[120px] h-[140px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] bg-[#12071C] flex-shrink-0">
                         <img 
                           src={item.image || FALLBACK_IMAGE} 
                           alt={item.name}

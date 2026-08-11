@@ -50,7 +50,7 @@ export default function Hero() {
         />
       </div>
 
-      <div className="w-full max-w-[1320px] mx-auto flex flex-row flex-nowrap justify-between items-center gap-8 relative z-[5] px-[6vw] box-border max-lg:flex-col-reverse max-lg:flex-wrap max-lg:items-center max-lg:pt-24 max-lg:pb-12 max-lg:gap-12">
+      <div className="w-full max-w-[1320px] mx-auto flex flex-row flex-nowrap justify-between items-center gap-6 relative z-[5] px-[6vw] box-border max-lg:flex-col-reverse max-lg:flex-wrap max-lg:items-center max-lg:pt-24 max-lg:pb-12 max-lg:gap-12">
         <motion.div
           initial="hidden"
           animate="visible"
@@ -59,10 +59,10 @@ export default function Hero() {
         >
           <motion.h1
             variants={fadeInUpVariants}
-            className="m-0 mb-8 font-bold leading-[1.05] tracking-[-0.03em]"
+            className="m-0 mb-8 font-semibold leading-[1.05] tracking-[-0.03em] text-start"
             style={{ fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif" }}
           >
-            <span className="block text-[clamp(60px,8vw,100px)]">
+            <span className="block text-[clamp(50px,6vw,80px)]">
               <span className="text-black">{t('hero.titleFirst')}</span>
               <span className="text-sara-gold">{t('hero.titleSecond')}</span>
             </span>
@@ -70,7 +70,7 @@ export default function Hero() {
 
           <motion.div
             variants={fadeInUpVariants}
-            className="text-[#3E2F48] font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px]"
+            className="text-[#3E2F48] font-['Poppins',sans-serif] font-light text-base leading-[1.75] flex flex-col gap-3 max-w-[480px] text-start"
           >
             <p className="m-0">
               {t('hero.description')}
@@ -83,17 +83,28 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           whileHover={{
-            scale: 1.025,
-            boxShadow: '0 40px 80px rgba(42, 22, 53, 0.15)',
+            y: -6,
             transition: { duration: 0.4, ease: 'easeOut' }
           }}
           transition={{ duration: 1.2, delay: 0.3, ease: [0.25, 1, 0.5, 1] }}
-          className="flex-[0_0_400px] max-w-[460px] relative rounded-[22px] overflow-hidden border border-[rgba(214,178,106,0.35)] bg-white shadow-[0_30px_60px_rgba(42,22,53,0.12)] cursor-pointer max-lg:w-full max-lg:max-w-[320px] max-lg:flex-none max-lg:ml-0"
+          className="group flex-[0_0_500px] max-w-[560px] relative rounded-[22px] overflow-hidden border border-[rgba(214,178,106,0.35)] bg-white shadow-[0_30px_60px_rgba(42,22,53,0.12)] cursor-pointer transition-[border-color,box-shadow] duration-500 ease-out group-hover:border-[rgba(214,178,106,0.8)] group-hover:shadow-[0_45px_90px_rgba(214,178,106,0.35)] max-lg:w-full max-lg:max-w-[320px] max-lg:flex-none max-lg:ml-0"
         >
           <img
-            src="/hero-1.png"
+            src="/home-abt-1.png"
             alt="Personalized tarot reading session"
-            className="w-full h-full aspect-[4/5] object-cover block"
+            className="w-full h-full aspect-square object-cover block transition-transform duration-700 ease-out group-hover:scale-[1.08]"
+          />
+
+          {/* Shine sweep across the image on hover */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[12] -translate-x-[130%] skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/25 to-transparent transition-transform duration-[900ms] ease-out group-hover:translate-x-[130%]"
+          />
+
+          {/* Soft gold glow overlay on hover */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[11] bg-gradient-to-t from-sara-gold/20 to-transparent opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
           />
 
           <button
