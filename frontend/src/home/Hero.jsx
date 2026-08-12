@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useLanguage } from '../context/LanguageContext';
@@ -18,8 +18,10 @@ const COLORS = {
 
 
 export default function Hero() {
+  const sectionRef = useRef(null);
   const navigate = useNavigate();
   const { t } = useLanguage();
+
   const fadeInUpVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: {
@@ -31,6 +33,7 @@ export default function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border bg-[radial-gradient(ellipse_80%_100%_at_100%_50%,rgba(161,61,142,0.10)_0%,rgba(161,61,142,0.04)_40%,transparent_70%),linear-gradient(135deg,#FFFFFF_0%,#FDFCFF_40%,#F5EEFF_70%,#EAD6FA_100%)]"
     >
       <div
@@ -51,6 +54,21 @@ export default function Hero() {
       </div>
 
       <div className="w-full max-w-[1320px] mx-auto flex flex-row flex-nowrap justify-between items-center gap-6 relative z-[5] px-[6vw] box-border max-lg:flex-col-reverse max-lg:flex-wrap max-lg:items-center max-lg:pt-24 max-lg:pb-12 max-lg:gap-12">
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={fadeInUpVariants}
+          className="absolute left-[42%] top-[65%] w-[80px] md:w-[110px] z-20 hidden lg:block drop-shadow-[0_15px_30px_rgba(161,61,142,0.3)]"
+        >
+          <motion.img
+            src="/crystal.webp"
+            alt="Crystal floating"
+            className="w-full h-auto object-contain"
+            animate={{ y: [0, -20, 0] }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+          />
+        </motion.div>
+
         <motion.div
           initial="hidden"
           animate="visible"
