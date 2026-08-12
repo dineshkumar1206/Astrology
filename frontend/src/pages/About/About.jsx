@@ -5,7 +5,7 @@ import Team from './Team';
 import { useLanguage } from '../../context/LanguageContext';
 
 // High-quality relevant founder photography for the right-hand container
-const aboutImage = "/4.jpg";
+const aboutImage = "/4-1.webp";
 
 export default function About() {
   const { t } = useLanguage();
