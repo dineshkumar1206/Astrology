@@ -84,7 +84,7 @@ export default function AbtSara() {
           <motion.div
             variants={fadeInUpVariants}
             whileHover={{ scale: 1.015, transition: { duration: 0.4 } }}
-            className="w-full aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(161,61,142,0.10)] bg-white"
+            className="w-full md:max-w-[450px] lg:max-w-none mx-auto aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(161,61,142,0.10)] bg-white"
           >
             <img
               src={IMAGES.mainPortrait}
@@ -121,7 +121,7 @@ export default function AbtSara() {
             <motion.div
               style={{ y: cardSpreadY }}
               whileHover={{ scale: 1.02 }}
-              className="w-full mx-auto aspect-[4/5] min-h-[400px] overflow-hidden rounded-t-[160px] rounded-b-3xl border border-[rgba(214,178,106,0.25)] shadow-[0_30px_60px_rgba(161,61,142,0.15)] bg-white"
+              className="w-full md:max-w-[450px] lg:max-w-none mx-auto aspect-[4/5] min-h-[400px] overflow-hidden rounded-t-[160px] rounded-b-3xl border border-[rgba(214,178,106,0.25)] shadow-[0_30px_60px_rgba(161,61,142,0.15)] bg-white"
             >
               <img
                 src={IMAGES.cardSpread}
