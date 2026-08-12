@@ -200,7 +200,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
 
     const qty = product._quantity || 1;
     const size = product._selectedSize || null;
-    
+
     const isCrystal = product.category && crystalCategoryNames.includes(product.category.toLowerCase());
     const hasHealing = product._healing !== undefined ? product._healing : (isCrystal && !!cardHealing[product.id]);
 
@@ -308,7 +308,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                   const imgSrc = getProductImage(product, FALLBACK_IMAGES);
                   const isCrystal = product.category && crystalCategoryNames.includes(product.category.toLowerCase());
                   const hasHealing = isCrystal && !!cardHealing[product.id];
-                  
+
                   return (
                     <motion.div
                       key={product.id}
@@ -358,8 +358,8 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
 
                         <div>
                           {isCrystal && (
-                            <div 
-                              className="flex flex-col gap-1.5 mt-2 border-t border-[rgba(214,178,106,0.15)] pt-2.5 mb-2 select-none" 
+                            <div
+                              className="flex flex-col gap-1.5 mt-2 border-t border-[rgba(214,178,106,0.15)] pt-2.5 mb-2 select-none"
                               onClick={(e) => e.stopPropagation()}
                             >
                               <div className="text-[9px] text-[rgba(255,255,255,0.45)] uppercase tracking-[0.5px] font-semibold">
@@ -402,11 +402,10 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                           <button
                             onClick={(e) => handleAddToCart(product, e)}
                             disabled={product.stock === 0}
-                            className={`w-full py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 rounded-sm flex items-center justify-center gap-1.5 ${
-                              product.stock === 0
+                            className={`w-full py-2.5 text-[11px] font-semibold uppercase tracking-[1px] cursor-pointer transition-all duration-200 rounded-sm flex items-center justify-center gap-1.5 ${product.stock === 0
                                 ? 'bg-gray-700 text-gray-500 border border-gray-600 cursor-not-allowed opacity-60'
                                 : 'bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold'
-                            }`}
+                              }`}
                           >
                             <span>{product.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('products.addToCart')}</span>
                             {product.stock !== 0 && <span className="text-[13px] font-normal leading-none">→</span>}
