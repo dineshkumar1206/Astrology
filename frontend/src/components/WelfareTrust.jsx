@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Cross, Sparkles, Landmark, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Cross, Sparkles, Landmark, ChevronLeft, ChevronRight, BookOpen, Lightbulb } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 const SERVICES = [
@@ -24,6 +24,20 @@ const SERVICES = [
     titleKey: 'welfareTrust.templeTitle', 
     descKey: 'welfareTrust.templeDesc', 
     image: '/welfare/temple.png' 
+  },
+  {
+    key: 'education',
+    icon: BookOpen,
+    titleKey: 'welfareTrust.educationTitle',
+    descKey: 'welfareTrust.educationDesc',
+    image: '/welfare/education.png'
+  },
+  {
+    key: 'awareness',
+    icon: Lightbulb,
+    titleKey: 'welfareTrust.awarenessTitle',
+    descKey: 'welfareTrust.awarenessDesc',
+    image: '/welfare/awareness.png'
   }
 ];
 

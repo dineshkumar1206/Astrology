@@ -446,7 +446,7 @@ const createProduct = async (req, res) => {
       imageMime,
       inclusions: parsedInclusions,
       sizes: parsedSizes,
-      stock: stock !== undefined && stock !== '' && stock !== null ? parseInt(stock, 10) : null
+      stock: (stock !== undefined && stock !== '' && stock !== null && stock !== 'null') ? parseInt(stock, 10) : null
     });
 
     res.status(201).json(formatProduct(newProduct));

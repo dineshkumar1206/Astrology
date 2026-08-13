@@ -236,7 +236,11 @@ export const translations = {
       spiritualTitle: "Spiritual",
       spiritualDesc: "Guiding souls through prayer, meditation, and healing circles that restore peace, hope, and inner balance.",
       templeTitle: "Temple",
-      templeDesc: "Preserving and serving our temples through poojas, rituals, and community seva that keep our sacred traditions alive."
+      templeDesc: "Preserving and serving our temples through poojas, rituals, and community seva that keep our sacred traditions alive.",
+      educationTitle: "Education",
+      educationDesc: "Empowering the next generation through scholarships, school supplies, and educational programs.",
+      awarenessTitle: "Awareness",
+      awarenessDesc: "Spreading knowledge and awareness on crucial social, health, and environmental issues."
     },
     contactPage: {
       title: "Contact",
@@ -848,7 +852,11 @@ export const translations = {
       spiritualTitle: "ஆன்மீகம்",
       spiritualDesc: "பிரார்த்தனை, தியானம் மற்றும் குணப்படுத்தும் வட்டங்கள் மூலம் அமைதி, நம்பிக்கை மற்றும் உள் சமநிலையை மீட்டெடுக்க உள்ளங்களுக்கு வழிகாட்டுகிறோம்.",
       templeTitle: "கோயில்",
-      templeDesc: "பூஜைகள், சடங்குகள் மற்றும் சமூக சேவை மூலம் நமது புனித கோயில் மரபுகளைப் பாதுகாத்து தொடர்ந்து நிறைவேற்றுகிறோம்."
+      templeDesc: "பூஜைகள், சடங்குகள் மற்றும் சமூக சேவை மூலம் நமது புனித கோயில் மரபுகளைப் பாதுகாத்து தொடர்ந்து நிறைவேற்றுகிறோம்.",
+      educationTitle: "கல்வி",
+      educationDesc: "உதவித்தொகைகள், பள்ளிப் பொருட்கள் மற்றும் கல்வித் திட்டங்கள் மூலம் அடுத்த தலைமுறையை மேம்படுத்துதல்.",
+      awarenessTitle: "விழிப்புணர்வு",
+      awarenessDesc: "முக்கியமான சமூக, சுகாதார மற்றும் சுற்றுச்சூழல் பிரச்சினைகள் குறித்த அறிவையும் விழிப்புணர்வையும் பரப்புதல்."
     },
     contactPage: {
       title: "தொடர்பு",

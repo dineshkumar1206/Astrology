@@ -4,6 +4,7 @@ import axios from 'axios';
 import { API_BASE_URL } from '../config';
 import { useLanguage } from '../context/LanguageContext';
 import ProductDetailModal from '../components/ProductDetailModal';
+import WelfareTrust from '../components/WelfareTrust';
 import { useTranslatedList, useTranslatedText } from '../utils/translator';
 
 function TranslatedCategoryName({ name, locale }) {
@@ -130,15 +131,14 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                 <span className="text-sara-gold"><TranslatedCategoryName name={dynamicCat.name} locale={locale} /></span>
               </div>
 
-              <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-[linear-gradient(135deg,#FFFFFF_0%,#F5EEFF_60%,rgba(161,61,142,0.08)_100%)] rounded-lg p-10 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-[radial-gradient(circle,rgba(161,61,142,0.08)_0%,transparent_70%)] pointer-events-none" />
-                <span className="text-sara-muted tracking-[2px] text-[12px] font-semibold uppercase">
+              <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
+                <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
                   {dynamicCat.type === 'crystal' ? t('productCategoryDetail.crystalType') : t('productCategoryDetail.divineType')}
                 </span>
-                <h1 className="text-[#000000] font-[Cinzel] text-[2.8rem] font-normal my-2 mb-6 uppercase tracking-[1px] leading-[1.2]">
+                <h1 className="text-[#000000] font-serif text-[2.8rem] font-semibold mt-2 mb-6 uppercase tracking-[1px] leading-tight">
                   <TranslatedCategoryName name={dynamicCat.name} locale={locale} />
                 </h1>
-                <p className="text-sara-muted text-[1.05rem] leading-[1.7] max-w-[800px] m-0">
+                <p className="text-sara-muted text-[1.05rem] leading-7 max-w-[800px] m-0">
                   {dynamicCat.desc ? <TranslatedCategoryName name={dynamicCat.desc} locale={locale} /> : t('productCategoryDetail.fallbackDesc')}
                 </p>
               </div>
@@ -207,6 +207,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
               onAddToCart={(p) => handleAddToCart(p)}
             />
           )}
+          <WelfareTrust />
         </>
         );
       }

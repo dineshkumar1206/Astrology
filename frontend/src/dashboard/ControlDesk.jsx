@@ -896,22 +896,20 @@ export default function ControlDesk() {
                   </div>
                 )}
 
-                {/* Stock Limit (Crystals / Murugar Cards Only) */}
-                {(isCrystalCategory(formData.category) || isMurugarCategory(formData.category)) && (
-                  <div>
-                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
-                      Stock Limit / Quantity
-                    </label>
-                    <input
-                      type="number"
-                      name="stock"
-                      value={formData.stock}
-                      onChange={handleInputChange}
-                      placeholder="e.g. 100"
-                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
-                    />
-                  </div>
-                )}
+                {/* Stock Limit / Quantity */}
+                <div>
+                  <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
+                    Stock Limit / Quantity
+                  </label>
+                  <input
+                    type="number"
+                    name="stock"
+                    value={formData.stock}
+                    onChange={handleInputChange}
+                    placeholder="e.g. 100"
+                    className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200"
+                  />
+                </div>
 
                 {/* Submit button */}
                 <div className="pt-2">
