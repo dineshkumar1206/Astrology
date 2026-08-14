@@ -99,8 +99,24 @@ export default function Footer() {
               {t('footer.info')}
             </h4>
             <ul className="list-none p-0 m-0 text-sm text-[#CFCFCF] leading-8 max-md:flex max-md:flex-col max-md:items-center">
-              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.emailLabel')}</span> {t('footer.emailVal')}</li>
-              <li className="mb-2"><span className="text-sara-gold font-medium">{t('footer.phoneLabel')}</span> {t('footer.phoneVal')}</li>
+              <li className="mb-2">
+                <span className="text-sara-gold font-medium">{t('footer.emailLabel')}</span>{' '}
+                <a
+                  href={`mailto:${t('footer.emailVal')}`}
+                  className="text-[#CFCFCF] hover:text-sara-gold transition-colors"
+                >
+                  {t('footer.emailVal')}
+                </a>
+              </li>
+              <li className="mb-2">
+                <span className="text-sara-gold font-medium">{t('footer.phoneLabel')}</span>{' '}
+                <a
+                  href={`tel:${t('footer.phoneVal').replace(/[^+\d]/g, '')}`}
+                  className="text-[#CFCFCF] hover:text-sara-gold transition-colors"
+                >
+                  {t('footer.phoneVal')}
+                </a>
+              </li>
             </ul>
           </div>
         </div>
