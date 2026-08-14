@@ -94,8 +94,21 @@ export default function Contact() {
               <div>
                 <h4 className="text-sara-gold text-[15px] font-semibold uppercase tracking-[1.5px] mb-3">{t('contactPage.getInTouch')}</h4>
                 <p className="text-[#3E2F48] text-[14px] leading-relaxed m-0 font-light">
-                  <span className="font-semibold text-sara-gold">{t('contactPage.phone')}</span> {t('contactPage.phoneVal')}<br />
-                  <span className="font-semibold text-sara-gold">{t('contactPage.email')}</span> {t('contactPage.emailVal')}
+                  <span className="font-semibold text-sara-gold">{t('contactPage.phone')}</span>{' '}
+                  <a
+                    href={`tel:${t('contactPage.phoneVal').replace(/[^+\d]/g, '')}`}
+                    className="text-[#3E2F48] hover:text-sara-gold transition-colors"
+                  >
+                    {t('contactPage.phoneVal')}
+                  </a>
+                  <br />
+                  <span className="font-semibold text-sara-gold">{t('contactPage.email')}</span>{' '}
+                  <a
+                    href={`mailto:${t('contactPage.emailVal')}`}
+                    className="text-[#3E2F48] hover:text-sara-gold transition-colors"
+                  >
+                    {t('contactPage.emailVal')}
+                  </a>
                 </p>
               </div>
             </motion.div>

@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import CosmicInsights from './CosmicInsights';
 import Team from './Team';
 import { useLanguage } from '../../context/LanguageContext';
@@ -77,9 +78,12 @@ export default function About() {
             </p>
 
             {/* Action button */}
-            <button className="bg-transparent text-[#D9B56A] border border-dashed border-[#D9B56A]/40 py-4 px-8 font-['Poppins'] text-[13px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mt-2 hover:border-solid hover:border-[#D9B56A] hover:bg-[#D9B56A]/5">
+            <Link
+              to="/contact"
+              className="inline-block bg-transparent text-[#D9B56A] border border-dashed border-[#D9B56A]/40 py-4 px-8 font-['Poppins'] text-[13px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mt-2 hover:border-solid hover:border-[#D9B56A] hover:bg-[#D9B56A]/5"
+            >
               {t('aboutPage.connectBtn')}
-            </button>
+            </Link>
 
           </div>
 
