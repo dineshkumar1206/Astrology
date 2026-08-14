@@ -21,4 +21,8 @@ router.put('/:id', verifyAdmin, upload.single('image'), handleUploadError, categ
 // @desc    Delete a category (admin only)
 router.delete('/:id', verifyAdmin, categoryController.deleteCategory);
 
+// @route   POST api/categories/reorder
+// @desc    Reorder categories (admin only)
+router.post('/reorder', verifyAdmin, categoryController.reorderCategories);
+
 module.exports = router;

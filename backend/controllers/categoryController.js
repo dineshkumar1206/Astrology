@@ -20,7 +20,7 @@ const formatCategory = (category) => {
 // Get all categories
 exports.getCategories = async (req, res) => {
   try {
-    const categories = await Category.findAll({ order: [['id', 'ASC']] });
+    const categories = await Category.findAll({ order: [['order', 'ASC'], ['id', 'ASC']] });
     const formatted = categories.map(formatCategory);
     res.json(formatted);
   } catch (err) {
@@ -106,5 +106,31 @@ exports.deleteCategory = async (req, res) => {
   } catch (err) {
     console.error('Failed to delete category:', err);
     res.status(500).json({ message: 'Server error deleting category' });
+  }
+};
+
+// Reorder categories
+exports.reorderCategories = async (req, res) => {
+  try {
+    const { updates } = req.body; // Expects: { updates: [{ id: 1, order: 0 }, { id: 2, order: 1 }] }
+    
+    if (!updates || !Array.isArray(updates)) {
+      return res.status(400).json({ message: 'Invalid updates payload' });
+    }
+
+    // Process all updates in parallel
+    await Promise.all(
+      updates.map(update => 
+        Category.update(
+          { order: update.order },
+          { where: { id: update.id } }
+        )
+      )
+    );
+
+    res.json({ message: 'Categories reordered successfully' });
+  } catch (err) {
+    console.error('Failed to reorder categories:', err);
+    res.status(500).json({ message: 'Server error reordering categories' });
   }
 };

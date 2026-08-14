@@ -371,12 +371,12 @@ const DEFAULT_PRODUCTS = [
 // Get all products (seeds database if empty)
 const getProducts = async (req, res) => {
   try {
-    let products = await Product.findAll();
+    let products = await Product.findAll({ order: [['order', 'ASC'], ['id', 'ASC']] });
 
     // If database is empty, seed defaults
     if (products.length === 0) {
       await Product.bulkCreate(DEFAULT_PRODUCTS);
-      products = await Product.findAll();
+      products = await Product.findAll({ order: [['order', 'ASC'], ['id', 'ASC']] });
     }
 
     let formattedProducts = products.map(p => formatProduct(p));
@@ -552,10 +552,36 @@ const getProductById = async (req, res) => {
   }
 };
 
+// Reorder products
+const reorderProducts = async (req, res) => {
+  try {
+    const { updates } = req.body;
+    
+    if (!updates || !Array.isArray(updates)) {
+      return res.status(400).json({ message: 'Invalid updates payload' });
+    }
+
+    await Promise.all(
+      updates.map(update => 
+        Product.update(
+          { order: update.order },
+          { where: { id: update.id } }
+        )
+      )
+    );
+
+    res.json({ message: 'Products reordered successfully' });
+  } catch (err) {
+    console.error('reorderProducts error:', err);
+    res.status(500).json({ message: 'Server error reordering products' });
+  }
+};
+
 module.exports = {
   getProducts,
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  reorderProducts
 };

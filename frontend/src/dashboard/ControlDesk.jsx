@@ -63,6 +63,128 @@ export default function ControlDesk() {
     image: ''
   });
 
+  // Drag and Drop state
+  const [draggedCategoryId, setDraggedCategoryId] = useState(null);
+  const [draggedProductId, setDraggedProductId] = useState(null);
+
+  const handleDragStart = (e, id) => {
+    setDraggedCategoryId(id);
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => {
+      e.target.style.opacity = '0.5';
+    }, 0);
+  };
+
+  const handleDragEnd = (e) => {
+    e.target.style.opacity = '1';
+    setDraggedCategoryId(null);
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = async (e, targetId, type) => {
+    e.preventDefault();
+    if (draggedCategoryId === targetId || draggedCategoryId === null) return;
+
+    const filtered = categories.filter(c => c.type === type);
+    const draggedIndex = filtered.findIndex(c => c.id === draggedCategoryId);
+    const targetIndex = filtered.findIndex(c => c.id === targetId);
+
+    if (draggedIndex === -1 || targetIndex === -1) return;
+
+    const newFiltered = [...filtered];
+    const [draggedItem] = newFiltered.splice(draggedIndex, 1);
+    newFiltered.splice(targetIndex, 0, draggedItem);
+
+    const updates = newFiltered.map((cat, index) => ({
+      id: cat.id,
+      order: index
+    }));
+
+    const otherCategories = categories.filter(c => c.type !== type);
+    const updatedCategories = newFiltered.map((c, index) => ({ ...c, order: index }));
+    const newCategories = [...otherCategories, ...updatedCategories];
+    
+    // Maintain overall id/order sorting
+    newCategories.sort((a, b) => {
+      if (a.order !== b.order) return (a.order || 0) - (b.order || 0);
+      return a.id - b.id;
+    });
+    setCategories(newCategories);
+
+    try {
+      await api.post('/api/categories/reorder', { updates });
+    } catch (err) {
+      console.error(err);
+      alert(getErrorMessage(err, 'Failed to save new order.'));
+      fetchData(); // revert
+    }
+  };
+
+  const handleProductDragStart = (e, id) => {
+    setDraggedProductId(id);
+    e.dataTransfer.effectAllowed = 'move';
+    setTimeout(() => {
+      e.target.style.opacity = '0.5';
+    }, 0);
+  };
+
+  const handleProductDragEnd = (e) => {
+    e.target.style.opacity = '1';
+    setDraggedProductId(null);
+  };
+
+  const handleProductDragOver = (e) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleProductDrop = async (e, targetId) => {
+    e.preventDefault();
+    if (draggedProductId === targetId || draggedProductId === null) return;
+
+    const filtered = products.filter(
+      p => p.category && p.category.toLowerCase() === activeCategory.toLowerCase()
+    );
+    
+    const draggedIndex = filtered.findIndex(p => p.id === draggedProductId);
+    const targetIndex = filtered.findIndex(p => p.id === targetId);
+
+    if (draggedIndex === -1 || targetIndex === -1) return;
+
+    const newFiltered = [...filtered];
+    const [draggedItem] = newFiltered.splice(draggedIndex, 1);
+    newFiltered.splice(targetIndex, 0, draggedItem);
+
+    const updates = newFiltered.map((p, index) => ({
+      id: p.id,
+      order: index
+    }));
+
+    const otherProducts = products.filter(
+      p => !(p.category && p.category.toLowerCase() === activeCategory.toLowerCase())
+    );
+    const updatedProducts = newFiltered.map((p, index) => ({ ...p, order: index }));
+    const newProducts = [...otherProducts, ...updatedProducts];
+    
+    newProducts.sort((a, b) => {
+      if (a.order !== b.order) return (a.order || 0) - (b.order || 0);
+      return a.id - b.id;
+    });
+    setProducts(newProducts);
+
+    try {
+      await api.post('/api/products/reorder', { updates });
+    } catch (err) {
+      console.error(err);
+      alert(getErrorMessage(err, 'Failed to save new product order.'));
+      fetchData(); // revert
+    }
+  };
+
   // Image compression helper to prevent large payloads on live servers
   const compressImage = (file, callback) => {
     if (!file || !file.type.startsWith('image/')) {
@@ -445,25 +567,43 @@ export default function ControlDesk() {
                     {t('controlDesk.spiritualMenus')}
                   </h3>
                   <div className="space-y-3">
-                    {categories.filter(c => c.type === 'service').map(cat => (
-                      <div key={cat.id} className="flex justify-between items-center bg-white border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all">
-                        <div>
-                          <h4 className="font-semibold text-[14px] text-[#2A1635]">{cat.name}</h4>
-                          <p className="text-[11px] text-[#3E2F48] mt-0.5 line-clamp-1 max-w-[300px]">{cat.desc || 'No description provided.'}</p>
-                          <span className="inline-block mt-2 text-[9px] font-bold uppercase tracking-wider bg-[#D9B56A]/10 text-[#D9B56A] px-2 py-0.5 rounded">
-                            Slug: {cat.slug}
-                          </span>
+                    {categories.filter(c => c.type === 'service').map((cat) => (
+                      <div 
+                        key={cat.id} 
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, cat.id)}
+                        onDragEnd={handleDragEnd}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, cat.id, 'service')}
+                        className="flex justify-between items-center bg-white border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all cursor-move shadow-sm hover:shadow-md"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="text-[#D9B56A]/50">
+                            {/* Drag handle icon (6 dots) */}
+                            <svg width="14" height="20" viewBox="0 0 14 20" fill="currentColor">
+                              <circle cx="4" cy="4" r="1.5"/><circle cx="10" cy="4" r="1.5"/>
+                              <circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/>
+                              <circle cx="4" cy="16" r="1.5"/><circle cx="10" cy="16" r="1.5"/>
+                            </svg>
+                          </div>
+                          <div>
+                            <h4 className="font-semibold text-[14px] text-[#2A1635]">{cat.name}</h4>
+                            <p className="text-[11px] text-[#3E2F48] mt-0.5 line-clamp-1 max-w-[300px]">{cat.desc || 'No description provided.'}</p>
+                            <span className="inline-block mt-2 text-[9px] font-bold uppercase tracking-wider bg-[#D9B56A]/10 text-[#D9B56A] px-2 py-0.5 rounded">
+                              Slug: {cat.slug}
+                            </span>
+                          </div>
                         </div>
                         <div className="flex gap-2">
                           <button 
-                            onClick={() => openEditCategoryModal(cat)}
+                            onClick={(e) => { e.stopPropagation(); openEditCategoryModal(cat); }}
                             className="p-2 text-[#3E2F48] hover:text-[#D9B56A] hover:bg-[#D9B56A]/5 rounded transition-all cursor-pointer"
                             title="Edit Menu"
                           >
                             <Pencil size={15} />
                           </button>
                           <button 
-                            onClick={() => handleDeleteCategory(cat.id)}
+                            onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat.id); }}
                             className="p-2 text-red-400 hover:text-red-500 hover:bg-red-500/5 rounded transition-all cursor-pointer"
                             title="Delete Menu"
                           >
@@ -481,9 +621,25 @@ export default function ControlDesk() {
                     Crystals Collection Menus
                   </h3>
                   <div className="space-y-3">
-                    {categories.filter(c => c.type === 'crystal').map(cat => (
-                      <div key={cat.id} className="flex justify-between items-center bg-white border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all">
+                    {categories.filter(c => c.type === 'crystal').map((cat) => (
+                      <div 
+                        key={cat.id} 
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, cat.id)}
+                        onDragEnd={handleDragEnd}
+                        onDragOver={handleDragOver}
+                        onDrop={(e) => handleDrop(e, cat.id, 'crystal')}
+                        className="flex justify-between items-center bg-white border border-[#D9B56A]/10 rounded-lg p-4 hover:border-[#D9B56A]/20 transition-all cursor-move shadow-sm hover:shadow-md"
+                      >
                         <div className="flex gap-3 items-center">
+                          <div className="text-[#D9B56A]/50 pr-2">
+                            {/* Drag handle icon (6 dots) */}
+                            <svg width="14" height="20" viewBox="0 0 14 20" fill="currentColor">
+                              <circle cx="4" cy="4" r="1.5"/><circle cx="10" cy="4" r="1.5"/>
+                              <circle cx="4" cy="10" r="1.5"/><circle cx="10" cy="10" r="1.5"/>
+                              <circle cx="4" cy="16" r="1.5"/><circle cx="10" cy="16" r="1.5"/>
+                            </svg>
+                          </div>
                           {cat.image && (
                             <img src={cat.image} alt={cat.name} className="w-10 h-10 object-cover rounded border border-[#D9B56A]/20" />
                           )}
@@ -494,14 +650,14 @@ export default function ControlDesk() {
                         </div>
                         <div className="flex gap-2">
                           <button 
-                            onClick={() => openEditCategoryModal(cat)}
+                            onClick={(e) => { e.stopPropagation(); openEditCategoryModal(cat); }}
                             className="p-2 text-[#3E2F48] hover:text-[#D9B56A] hover:bg-[#D9B56A]/5 rounded transition-all cursor-pointer"
                             title="Edit Menu"
                           >
                             <Pencil size={15} />
                           </button>
                           <button 
-                            onClick={() => handleDeleteCategory(cat.id)}
+                            onClick={(e) => { e.stopPropagation(); handleDeleteCategory(cat.id); }}
                             className="p-2 text-red-400 hover:text-red-500 hover:bg-red-500/5 rounded transition-all cursor-pointer"
                             title="Delete Menu"
                           >
@@ -571,7 +727,12 @@ export default function ControlDesk() {
                     {filteredProducts.map((product) => (
                       <div 
                         key={product.id}
-                        className="bg-white border border-[#D9B56A]/15 rounded-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#D9B56A]/40"
+                        draggable
+                        onDragStart={(e) => handleProductDragStart(e, product.id)}
+                        onDragEnd={handleProductDragEnd}
+                        onDragOver={handleProductDragOver}
+                        onDrop={(e) => handleProductDrop(e, product.id)}
+                        className="bg-white border border-[#D9B56A]/15 rounded-xl overflow-hidden flex flex-col justify-between transition-all duration-300 hover:border-[#D9B56A]/40 cursor-move"
                       >
                         {/* Card Image */}
                         <div className="w-full h-[160px] aspect-video overflow-hidden relative bg-[#F5F0FF] flex items-center justify-center">

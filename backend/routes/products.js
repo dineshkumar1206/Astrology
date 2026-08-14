@@ -13,6 +13,10 @@ router.get('/', productController.getProducts);
 // @desc    Get single product by ID
 router.get('/:id', productController.getProductById);
 
+// @route   POST api/products/reorder
+// @desc    Reorder products (admin only)
+router.post('/reorder', verifyAdmin, productController.reorderProducts);
+
 // @route   POST api/products
 // @desc    Create a new product (admin only)
 router.post('/', verifyAdmin, upload.single('image'), handleUploadError, productController.createProduct);

@@ -135,6 +135,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   const [allProducts, setAllProducts] = useState([]);
   const [translatedProducts, setTranslatedProducts] = useState([]);
   const [crystalCategoryNames, setCrystalCategoryNames] = useState([]);
+  const [categories, setCategories] = useState([]); // ADDED CATEGORIES STATE
   const [loading, setLoading] = useState(true);
   const [activeProduct, setActiveProduct] = useState(null);
   const [cardHealing, setCardHealing] = useState({});
@@ -147,9 +148,10 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
           axios.get(`${API_BASE_URL}/api/categories`)
         ]);
         const products = Array.isArray(prodRes.data) ? prodRes.data : [];
-        const categories = Array.isArray(catRes.data) ? catRes.data : [];
+        const categoriesData = Array.isArray(catRes.data) ? catRes.data : [];
         setAllProducts(products);
-        const crystalNames = categories
+        setCategories(categoriesData); // STORE IN STATE
+        const crystalNames = categoriesData
           .filter(c => c.type === 'crystal')
           .map(c => c.name.toLowerCase());
         setCrystalCategoryNames(crystalNames);
@@ -184,14 +186,28 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   }, [allProducts, locale]);
 
   const getProductsForSection = (section) => {
+    let prods = [];
     if (section.filterType === 'crystal') {
-      return translatedProducts.filter(p =>
+      prods = translatedProducts.filter(p =>
         p.category && crystalCategoryNames.includes(p.category.toLowerCase())
       );
+    } else {
+      prods = translatedProducts.filter(p =>
+        p.category && p.category.toLowerCase() === (section.categoryName || '').toLowerCase()
+      );
     }
-    return translatedProducts.filter(p =>
-      p.category && p.category.toLowerCase() === (section.categoryName || '').toLowerCase()
-    );
+
+    if (categories.length > 0) {
+      prods.sort((a, b) => {
+        const catA = categories.find(c => c.name.toLowerCase() === (a.category || '').toLowerCase());
+        const catB = categories.find(c => c.name.toLowerCase() === (b.category || '').toLowerCase());
+        const orderA = catA && catA.order !== undefined ? catA.order : 999;
+        const orderB = catB && catB.order !== undefined ? catB.order : 999;
+        return orderA - orderB;
+      });
+    }
+
+    return prods;
   };
 
   const handleAddToCart = (product, e) => {
@@ -278,12 +294,36 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
           {t('products.loading')}
         </div>
       ) : (
-        CATEGORY_SECTIONS.map((section, sIdx) => {
-          const sectionProducts = getProductsForSection(section);
-          if (sectionProducts.length === 0) return null;
+        (() => {
+          // Clone the default sections
+          let sortedSections = [...CATEGORY_SECTIONS];
+          
+          // Try to sort them based on the categories fetched from backend
+          if (categories.length > 0) {
+            sortedSections.sort((a, b) => {
+              // Find matching category for section a
+              const catA = a.filterType === 'crystal' 
+                ? categories.find(c => c.type === 'crystal') // use first crystal category's order
+                : categories.find(c => c.name.toLowerCase() === (a.categoryName || '').toLowerCase());
+                
+              // Find matching category for section b
+              const catB = b.filterType === 'crystal' 
+                ? categories.find(c => c.type === 'crystal') 
+                : categories.find(c => c.name.toLowerCase() === (b.categoryName || '').toLowerCase());
+                
+              const orderA = catA && catA.order !== undefined ? catA.order : 999;
+              const orderB = catB && catB.order !== undefined ? catB.order : 999;
+              
+              return orderA - orderB;
+            });
+          }
 
-          return (
-            <motion.div
+          return sortedSections.map((section, sIdx) => {
+            const sectionProducts = getProductsForSection(section);
+            if (sectionProducts.length === 0) return null;
+
+            return (
+              <motion.div
               key={section.title}
               initial="hidden"
               whileInView="visible"
@@ -418,7 +458,8 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
               </ScrollableCarousel>
             </motion.div>
           );
-        })
+          });
+        })()
       )}
 
       {/* Product Detail Modal */}

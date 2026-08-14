@@ -69,6 +69,11 @@ const Product = sequelize.define('Product', {
     type: DataTypes.INTEGER,
     defaultValue: 100,
     allowNull: true
+  },
+  order: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
   }
 }, {
   tableName: 'products'
