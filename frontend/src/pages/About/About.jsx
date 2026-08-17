@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import CosmicInsights from './CosmicInsights';
+import AbtCertificate from './AbtCertificate';
 import Team from './Team';
 import { useLanguage } from '../../context/LanguageContext';
 
@@ -102,9 +103,9 @@ export default function About() {
 
         </div>
       </section>
+      <AbtCertificate />
 
       <CosmicInsights />
-
     </>
   );
 }
