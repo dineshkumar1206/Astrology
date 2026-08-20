@@ -6,6 +6,7 @@ import AbtCertificate from './AbtCertificate';
 import Team from './Team';
 import { useLanguage } from '../../context/LanguageContext';
 
+
 // High-quality relevant founder photography for the right-hand container
 const aboutImage = "/4-1.webp";
 
@@ -104,7 +105,7 @@ export default function About() {
         </div>
       </section>
       <AbtCertificate />
-
+      
       <CosmicInsights />
     </>
   );
