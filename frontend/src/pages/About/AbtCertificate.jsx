@@ -73,12 +73,12 @@ export default function AbtCertificate() {
   const currentCert = certificates[currentIndex];
 
   return (
-    <section className="bg-[#1A0B2E] py-24 w-full relative overflow-hidden">
+    <section className="bg-[#1A0B2E] py-16 lg:py-24 w-full relative overflow-hidden">
       {/* Background glowing orbs */}
       <div className="absolute top-0 left-[-10%] w-[40%] h-[60%] rounded-full bg-[#D9B56A] opacity-5 blur-[150px] pointer-events-none" />
       <div className="absolute bottom-0 right-[-10%] w-[30%] h-[50%] rounded-full bg-[#9B6AD9] opacity-5 blur-[120px] pointer-events-none" />
 
-      <div className="w-full max-w-[1320px] mx-auto px-[6vw] relative z-10">
+      <div className="w-full max-w-[1320px] mx-auto px-5 lg:px-[6vw] relative z-10">
         
         {/* Header Section */}
         <motion.div
@@ -97,12 +97,12 @@ export default function AbtCertificate() {
         </motion.div>
 
         {/* Carousel Container */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-12 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">
           
           {/* Left Column: Certificate Image & Controls */}
           <div className="w-full lg:w-[60%] flex flex-col items-center">
             
-            <div className="w-full relative min-h-[350px] sm:min-h-[450px] flex justify-center items-center">
+            <div className="w-full relative min-h-[250px] sm:min-h-[450px] flex justify-center items-center">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentCert.id}

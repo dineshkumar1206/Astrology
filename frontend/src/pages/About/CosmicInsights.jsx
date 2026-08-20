@@ -14,10 +14,10 @@ export default function CosmicInsights() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative bg-[#F8F6FF] text-[#2A1635] py-24 w-full overflow-hidden box-border">
+    <section className="relative bg-[#F8F6FF] text-[#2A1635] py-16 lg:py-24 w-full overflow-hidden box-border">
       
 
-      <div className="w-full max-w-[1000px] mx-auto px-[4vw] relative z-20 mt-12 text-center">
+      <div className="w-full max-w-[1000px] mx-auto px-5 lg:px-[4vw] relative z-20 mt-8 lg:mt-12 text-center">
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -42,7 +42,7 @@ export default function CosmicInsights() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="font-sans font-light text-[16px] leading-[1.8] text-[#3E2F48] max-w-[800px] mx-auto mb-8 space-y-6 text-justify md:text-center"
+          className="font-sans font-light text-[15px] sm:text-[16px] leading-[1.8] text-[#3E2F48] max-w-[800px] mx-auto mb-8 space-y-6 text-justify md:text-center"
         >
           <p>
             With years of profound experience in ancient wisdom, Saraa Tarot offers deep insights through Tamil Rasi readings, 
@@ -59,7 +59,7 @@ export default function CosmicInsights() {
       </div>
 
       {/* Image Gallery */}
-      <div className="w-full max-w-[1100px] mx-auto px-[4vw] relative z-20 mt-16">
+      <div className="w-full max-w-[1100px] mx-auto px-5 lg:px-[4vw] relative z-20 mt-12 lg:mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-10 items-start">
           {galleryImages.map((img, idx) => (
             <motion.div 
