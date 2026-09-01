@@ -172,22 +172,12 @@ export default function ProductDetailModal({ product, onClose, onAddToCart }) {
 
               <hr className="border-none border-t border-[rgba(214,178,106,0.15)] my-4" />
 
-              <p className="text-[#D3C7DC] leading-6 text-[0.95rem] mb-6">
-                {product.desc}
-              </p>
-
-              {/* Inclusions */}
-              {product.inclusions && product.inclusions.length > 0 && (
-                <>
-                  <h4 className="text-sara-gold uppercase text-[0.85rem] tracking-[1px] mb-2">
-                    {t('productDetailModal.whatsIncluded')}
-                  </h4>
-                  <ul className="pl-5 m-0 mb-8 text-[#D3C7DC] leading-7 text-[0.9rem]">
-                    {product.inclusions.map((inc, index) => (
-                      <li key={index} className="mb-1.5">{inc}</li>
-                    ))}
-                  </ul>
-                </>
+              {product.desc && (
+                <ul className="pl-5 m-0 mb-8 text-[#D3C7DC] leading-7 text-[0.95rem] list-disc">
+                  {product.desc.split('\n').map((point, index) => point.trim() && (
+                    <li key={index} className="mb-1.5">{point.trim()}</li>
+                  ))}
+                </ul>
               )}
             </div>
 

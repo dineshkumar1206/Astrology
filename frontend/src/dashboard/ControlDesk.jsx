@@ -769,24 +769,12 @@ export default function ControlDesk() {
                             <p className="text-[11px] text-[#D9B56A] font-bold uppercase tracking-wider mb-2.5">
                               {product.type}
                             </p>
-                            <p className="text-xs text-[#3E2F48] leading-relaxed mb-4 line-clamp-3">
-                              {product.desc || 'No description provided.'}
-                            </p>
-
-                            {/* Inclusions */}
-                            {Array.isArray(product.inclusions) && product.inclusions.length > 0 && (
-                              <div className="border-t border-[#D9B56A]/10 pt-3 mt-3">
-                                <span className="text-[9px] text-[#D9B56A] font-bold uppercase tracking-widest block mb-1">Inclusions:</span>
-                                <ul className="space-y-1">
-                                  {product.inclusions.map((inc, i) => (
-                                    <li key={i} className="text-[11px] text-[#3E2F48] flex items-center gap-1.5">
-                                      <span className="w-1 h-1 bg-[#D9B56A] rounded-full shrink-0" />
-                                      <span className="truncate">{inc}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
+                            {/* Description as points */}
+                            <ul className="text-xs text-[#3E2F48] leading-relaxed mb-4 pl-4 list-disc space-y-1">
+                              {product.desc ? product.desc.split('\n').map((point, i) => point.trim() && (
+                                <li key={i}>{point.trim()}</li>
+                              )) : <li>No description provided.</li>}
+                            </ul>
 
                             {/* Sizes */}
                             {Array.isArray(product.sizes) && product.sizes.length > 0 && (

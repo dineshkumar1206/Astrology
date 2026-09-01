@@ -201,9 +201,13 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
             <h1 className="text-white font-serif text-[2rem] sm:text-[2.5rem] font-normal leading-tight mb-4">
               {product.name}
             </h1>
-            <p className="text-[#D3C7DC] text-[0.95rem] leading-7 mb-6">
-              {product.desc}
-            </p>
+            {product.desc && (
+              <ul className="text-[#D3C7DC] text-[0.95rem] leading-7 mb-6 pl-5 m-0 list-disc">
+                {product.desc.split('\n').map((point, index) => point.trim() && (
+                  <li key={index} className="mb-1.5">{point.trim()}</li>
+                ))}
+              </ul>
+            )}
 
             <div className="text-sara-gold text-[2rem] font-semibold mb-6">
               Rs. {(product.price + (isCrystal && healing ? 1000 : 0)).toLocaleString('en-IN')}
@@ -330,20 +334,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
                 : (addedToCart ? t('productDetail.addedToCart') : t('productDetail.addToCart'))}
             </button>
 
-            {/* Inclusions */}
-            {product.inclusions && product.inclusions.length > 0 && (
-              <div className="border-t border-[rgba(214,178,106,0.15)] pt-6">
-                <h3 className="text-sara-gold font-serif text-lg mb-4 tracking-[1px]">{t('productDetail.whatsIncluded')}</h3>
-                <ul className="m-0 pl-0 list-none">
-                  {product.inclusions.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 mb-3 text-[#D3C7DC] text-[0.9rem] leading-6">
-                      <span className="text-sara-gold mt-1 text-[8px]">●</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+
           </div>
         </motion.div>
 

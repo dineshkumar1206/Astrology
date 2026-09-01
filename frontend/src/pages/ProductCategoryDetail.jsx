@@ -173,9 +173,13 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                             <h4 className="text-white text-[1.35rem] my-1 mb-2 font-medium">
                               {item.name}
                             </h4>
-                            <p className="text-[#D3C7DC] text-[0.9rem] leading-[1.5] m-0">
-                              {item.desc}
-                            </p>
+                            {item.desc && (
+                              <ul className="text-[#D3C7DC] text-[0.9rem] leading-[1.5] m-0 pl-4 list-disc space-y-1">
+                                {item.desc.split('\n').map((point, i) => point.trim() && (
+                                  <li key={i}>{point.trim()}</li>
+                                ))}
+                              </ul>
+                            )}
                           </div>
 
                           <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">

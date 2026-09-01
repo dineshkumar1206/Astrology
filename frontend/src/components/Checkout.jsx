@@ -18,6 +18,18 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
 
+  const CRYSTAL_CATEGORIES = ["rasi", "bracelet", "pyrite", "rings", "pendants", "tumbles", "crystal balls", "pyrite frames", "crystal mala", "crystal tower", "crystal"];
+  const isPhoneAddressRequired = cartItems.some(item => {
+    const nameStr = (item.name || '').toLowerCase();
+    const catStr = (item.category || '').toLowerCase();
+    
+    if (nameStr.includes('murugar')) return true;
+    if (nameStr.includes('crystal')) return true;
+    if (CRYSTAL_CATEGORIES.includes(catStr)) return true;
+    
+    return false;
+  });
+
   const [lastOrderDetails, setLastOrderDetails] = useState({ items: [], total: 0 });
 
   const itemsTotalAmount = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -41,7 +53,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
   const handlePay = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
-    if (!phone.trim() || !address.trim()) {
+    if (isPhoneAddressRequired && (!phone.trim() || !address.trim())) {
       setError(t('checkout.fillDetails'));
       return;
     }
@@ -147,7 +159,7 @@ Please confirm my booking and process it. Thank you!`;
   const handleSimulatePayment = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) return;
-    if (!phone.trim() || !address.trim()) {
+    if (isPhoneAddressRequired && (!phone.trim() || !address.trim())) {
       setError(t('checkout.fillDetails'));
       return;
     }
@@ -339,11 +351,11 @@ Please confirm my booking and process it. Thank you!`;
               <div className="flex flex-col gap-5">
                 <div>
                   <label className="block text-[12px] font-semibold uppercase tracking-[0.5px] text-sara-muted mb-2">
-                    {t('checkout.phoneNumber')} <span className="text-red-500">*</span>
+                    {t('checkout.phoneNumber')} {isPhoneAddressRequired && <span className="text-red-500">*</span>}
                   </label>
                   <input
                     type="tel"
-                    required
+                    required={isPhoneAddressRequired}
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
                     placeholder={t('checkout.phonePlaceholder')}
@@ -353,10 +365,10 @@ Please confirm my booking and process it. Thank you!`;
 
                 <div>
                   <label className="block text-[12px] font-semibold uppercase tracking-[0.5px] text-sara-muted mb-2">
-                    {t('checkout.address')} <span className="text-red-500">*</span>
+                    {t('checkout.address')} {isPhoneAddressRequired && <span className="text-red-500">*</span>}
                   </label>
                   <textarea
-                    required
+                    required={isPhoneAddressRequired}
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     placeholder={t('checkout.addressPlaceholder')}

@@ -380,9 +380,13 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                           <h3 className="text-white text-[15px] font-medium leading-tight m-0 mb-1 line-clamp-2">
                             {product.name}
                           </h3>
-                          <p className="text-[#D3C7DC] text-[12px] m-0 mb-2 line-clamp-2 leading-relaxed">
-                            {product.desc}
-                          </p>
+                          {product.desc && (
+                            <ul className="text-[#D3C7DC] text-[12px] m-0 mb-2 pl-4 list-disc line-clamp-2 leading-relaxed">
+                              {product.desc.split('\n').map((point, i) => point.trim() && (
+                                <li key={i}>{point.trim()}</li>
+                              ))}
+                            </ul>
+                          )}
 
                           {/* Stock Status Alerts on Home Cards */}
                           {product.stock !== null && product.stock !== undefined && (
