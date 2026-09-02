@@ -1,73 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
-
-const TESTIMONIALS = [
-  {
-    id: 1,
-    name: "Priya S.",
-    role: "Tarot Consultation",
-    avatar: "",
-    rating: 5,
-    quote: "Sara's tarot reading was incredibly accurate. She connected with my energy immediately and gave me clarity on a situation I had been struggling with for months. I felt a huge weight lift after our session."
-  },
-  {
-    id: 2,
-    name: "Ananya R.",
-    role: "Spiritual Healing",
-    avatar: "",
-    rating: 5,
-    quote: "I was skeptical at first, but after my spiritual healing session with Sara, I noticed a profound shift in my energy. My anxiety reduced significantly and I feel more grounded than I have in years."
-  },
-  {
-    id: 3,
-    name: "Vikram M.",
-    role: "Murugar Cards",
-    avatar: "",
-    rating: 5,
-    quote: "The Murugar card reading was a transformative experience. Every card that was drawn resonated deeply with my current life path. Sara's interpretation was insightful and practical."
-  },
-  {
-    id: 4,
-    name: "Lakshmi K.",
-    role: "Kali Pooja",
-    avatar: "",
-    rating: 5,
-    quote: "The Kali Pooja ceremony was conducted with such devotion and precision. I felt the powerful energy clearing blocks from my life. Within weeks, I started seeing positive changes in my career and relationships."
-  },
-  {
-    id: 5,
-    name: "Divya N.",
-    role: "Tarot Card Reading Classes",
-    avatar: "",
-    rating: 5,
-    quote: "Learning tarot from Sara was an absolute joy. She has a gift for teaching complex concepts in a simple, intuitive way. I now feel confident reading cards for myself and others."
-  },
-  {
-    id: 6,
-    name: "Rajesh P.",
-    role: "Spiritual Counseling",
-    avatar: "",
-    rating: 5,
-    quote: "Sara's counseling sessions helped me navigate a difficult period in my life. Her compassionate approach combined with spiritual wisdom gave me the strength to make important decisions with clarity."
-  },
-  {
-    id: 7,
-    name: "Meera J.",
-    role: "Spiritual Healing",
-    avatar: "",
-    rating: 5,
-    quote: "The distance healing session was surprisingly powerful. I could feel the energy working even from miles away. My sleep improved, and I felt a renewed sense of purpose and peace."
-  },
-  {
-    id: 8,
-    name: "Arun K.",
-    role: "Tarot Consultation",
-    avatar: "",
-    rating: 5,
-    quote: "I have been to many tarot readers, but Sara is exceptional. Her readings are not just accurate but also deeply healing. She provides guidance that is both spiritual and practical."
-  }
-];
+import { useTranslatedTestimonials, useTranslatedText } from "../utils/translator";
+import api from "../api/client";
 
 const fadeInUpVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -122,8 +57,29 @@ function Avatar({ name }) {
 
 export default function Testimonial() {
   const sectionRef = useRef(null);
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage(); 
+  
+  const [dbTestimonials, setDbTestimonials] = useState([]);
+  const translatedTestimonials = useTranslatedTestimonials(dbTestimonials, locale);
+
+  const translatedSubtitle = useTranslatedText('Client Experiences', locale);
+  const translatedTitle = useTranslatedText('What Our Clients Say', locale);
+  const translatedDesc = useTranslatedText("Real words from real people who have experienced the transformative power of Sara's spiritual services.", locale);
+  const translatedViewAll = useTranslatedText('View All Testimonials', locale);
+
   const [visibleCount, setVisibleCount] = useState(4);
+
+  useEffect(() => {
+    const fetchTestis = async () => {
+      try {
+        const res = await api.get('/api/testimonials');
+        setDbTestimonials(res.data);
+      } catch (err) {
+        console.error('Error fetching testimonials', err);
+      }
+    };
+    fetchTestis();
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -141,7 +97,7 @@ export default function Testimonial() {
     return () => window.removeEventListener("resize", updateCount);
   }, []);
 
-  const displayed = TESTIMONIALS.slice(0, visibleCount);
+  const displayed = translatedTestimonials.slice(0, visibleCount);
 
   return (
     <div
@@ -157,43 +113,38 @@ export default function Testimonial() {
         <div className="absolute bottom-[5%] right-[10%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.08)_0%,transparent_70%)] blur-[50px]" />
       </div>
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ staggerChildren: 0.12 }}
+      <div
         className="relative z-10 max-w-[1240px] mx-auto"
       >
-        <motion.p
-          variants={fadeInUpVariants}
+        <p
+          data-aos="fade-up"
           className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-[#000000] m-0 mb-2"
         >
-          {t('testimonial.subtitle') || 'Client Experiences'}
-        </motion.p>
+          {translatedSubtitle}
+        </p>
 
-        <motion.h2
-          variants={fadeInUpVariants}
+        <h2
+          data-aos="fade-up"
+          data-aos-delay="100"
           className="text-center font-serif text-[clamp(36px,5.5vw,60px)] font-semibold tracking-[0.5px] m-0 mb-4 text-black"
         >
-          {t('Guidance Drawn from the Deck') || 'What Our Clients Say'}
-        </motion.h2>
+          {translatedTitle}
+        </h2>
 
-        <motion.p
-          variants={fadeInUpVariants}
+        <p
+          data-aos="fade-up"
+          data-aos-delay="200"
           className="text-center font-sans text-[15px] leading-relaxed text-black/60 max-w-[600px] mx-auto mb-14"
         >
-          {t('Real words from real people who have experienced the transformative power of Sara\'s spiritual services.') || 'Real words from real people who have experienced the transformative power of Sara\'s spiritual services.'}
-        </motion.p>
+          {translatedDesc}
+        </p>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayed.map((item, index) => (
             <motion.div
               key={item.id}
-              custom={index}
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, amount: 0.2 }}
+              data-aos="fade-up"
+              data-aos-delay={(index % 6) * 100}
               whileHover={{ y: -6, transition: { duration: 0.3 } }}
               className="bg-white/70 backdrop-blur-sm border border-[rgba(214,178,106,0.2)] rounded-2xl p-6 shadow-[0_8px_30px_rgba(161,61,142,0.06)] hover:shadow-[0_12px_40px_rgba(161,61,142,0.12)] transition-shadow duration-300 flex flex-col"
             >
@@ -222,20 +173,21 @@ export default function Testimonial() {
           ))}
         </div>
 
-        {TESTIMONIALS.length > visibleCount && (
-          <motion.div
-            variants={fadeInUpVariants}
+        {translatedTestimonials.length > visibleCount && (
+          <div
+            data-aos="fade-up"
+            data-aos-delay="300"
             className="text-center mt-10"
           >
             <button
-              onClick={() => setVisibleCount(TESTIMONIALS.length)}
+              onClick={() => setVisibleCount(translatedTestimonials.length)}
               className="font-sans text-[12px] font-semibold tracking-[2px] uppercase bg-gradient-to-r from-sara-gold to-sara-goldSoft text-black py-3.5 px-8 cursor-pointer rounded transition-all duration-300 hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)] hover:-translate-y-0.5"
             >
-              {t('testimonial.viewAll') || 'View All Testimonials'}
+              {translatedViewAll}
             </button>
-          </motion.div>
+          </div>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

@@ -73,7 +73,7 @@ export default function KaliPooja({ cart = [], setCart, setIsCartOpen }) {
         </div>
 
         {/* Header Section */}
-        <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
+        <div data-aos="fade-up" className="mb-16 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             {t('kaliPooja.badge')}
           </span>
@@ -89,7 +89,7 @@ export default function KaliPooja({ cart = [], setCart, setIsCartOpen }) {
           
           {/* Items Listing Column */}
           <div className="flex-[2_1_600px]">
-            <h3 className="text-sara-gold font-serif text-1.5rem mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
+            <h3 data-aos="fade-up" className="text-sara-gold font-serif text-1.5rem mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
               {t('categoryCommon.availableBookings')}
             </h3>
 
@@ -103,9 +103,11 @@ export default function KaliPooja({ cart = [], setCart, setIsCartOpen }) {
                   {t('categoryCommon.empty')}
                 </div>
               ) : (
-                translatedItems.map((item) => (
+                translatedItems.map((item, idx) => (
                   <div 
                     key={item.id}
+                    data-aos="fade-up"
+                    data-aos-delay={idx * 100}
                     onClick={() => setActiveProduct(item)}
                     className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
                   >
@@ -143,7 +145,7 @@ export default function KaliPooja({ cart = [], setCart, setIsCartOpen }) {
           </div>
 
           {/* Guidelines Sidebar Column */}
-          <div className="flex-[1_1_300px]">
+          <div className="flex-[1_1_300px]" data-aos="fade-left">
             <div className="bg-white border border-[rgba(214,178,106,0.25)] rounded-md p-8 sticky top-[120px] bg-gradient-to-b from-[rgba(214,178,106,0.02)] to-transparent">
               <h4 className="text-sara-gold font-serif text-[1.25rem] mb-5 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1px] uppercase">
                 {t('categoryCommon.importantNotes')}

@@ -9,6 +9,7 @@ import api, { getErrorMessage } from '../api/client';
 // Component Imports
 import AdminNavbar from './AdminNavbar'; 
 import Orders from './Orders';
+import TestimonialsManager from './TestimonialsManager';
 
 export default function ControlDesk() {
   const navigate = useNavigate();
@@ -532,6 +533,9 @@ export default function ControlDesk() {
         {activeCategory === '_orders' ? (
           /* ─── ORDERS DASHBOARD VIEW ─── */
           <Orders />
+        ) : activeCategory === '_testimonials' ? (
+          /* ─── TESTIMONIALS DASHBOARD VIEW ─── */
+          <TestimonialsManager />
         ) : activeCategory === '_manage_menus' ? (
           /* ─── CATEGORY MANAGEMENT DASHBOARD VIEW ─── */
           <div>

@@ -35,6 +35,8 @@ export default function Hero() {
     <section
       ref={sectionRef}
       className="relative overflow-hidden w-full min-h-[95vh] flex items-center box-border bg-[radial-gradient(ellipse_80%_100%_at_100%_50%,rgba(161,61,142,0.10)_0%,rgba(161,61,142,0.04)_40%,transparent_70%),linear-gradient(135deg,#FFFFFF_0%,#FDFCFF_40%,#F5EEFF_70%,#EAD6FA_100%)]"
+      data-aos="fade-in"
+      data-aos-mirror="true"
     >
       <div
         aria-hidden="true"
@@ -45,7 +47,7 @@ export default function Hero() {
         className="absolute bottom-[5%] left-[15%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.15)_0%,transparent_70%)] blur-[50px] pointer-events-none z-0 animate-[floatGlowGold_10s_ease-in-out_infinite]"
       />
 
-      <div className="absolute -left-[190px] top-1/2 -translate-y-1/2 opacity-[0.05] pointer-events-none z-[1] w-[640px]">
+      <div className="absolute -left-[190px] top-1/2 -translate-y-1/2 opacity-[0.1] pointer-events-none z-[1] w-[640px]">
         <img
           src="/home-2.webp"
           alt="Zodiac background alignment watermark"
@@ -134,10 +136,7 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-[10px] z-[6]">
-        <span className="w-[7px] h-[7px] rounded-full bg-sara-gold transition-[background-color,transform] duration-300 ease-in-out" />
-        <span className="w-[7px] h-[7px] rounded-full bg-[rgba(42,22,53,0.15)] transition-[background-color,transform] duration-300 ease-in-out" />
-      </div>
+
     </section>
   );
 }

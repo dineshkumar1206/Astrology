@@ -176,7 +176,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
         </div>
 
         {/* Header Section */}
-        <div className="mb-12 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
+        <div data-aos="fade-up" className="mb-12 border-b border-[rgba(214,178,106,0.15)] pb-10 bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             {t('crystalsPage.badge')}
           </span>
@@ -233,9 +233,11 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                 </div>
               ) : (
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-8">
-                  {filteredItems.map((item) => (
+                  {filteredItems.map((item, idx) => (
                     <div 
                       key={item.id}
+                      data-aos="fade-up"
+                      data-aos-delay={idx * 100}
                       onClick={(e) => handleOpenPopup(item.id, e)}
                       className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded overflow-hidden cursor-pointer transition-all duration-300 flex flex-col justify-between hover:border-sara-gold hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(161,61,142,0.15)]"
                     >

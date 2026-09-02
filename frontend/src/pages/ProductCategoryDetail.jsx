@@ -131,7 +131,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                 <span className="text-sara-gold"><TranslatedCategoryName name={dynamicCat.name} locale={locale} /></span>
               </div>
 
-              <div className="mb-16 border-b border-[rgba(214,178,106,0.15)] bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
+              <div data-aos="fade-up" className="mb-16 border-b border-[rgba(214,178,106,0.15)] bg-white -mx-4 sm:-mx-8 px-4 sm:px-8 pt-16 pb-10 bg-[radial-gradient(ellipse_at_center,rgba(161,61,142,0.06)_0%,transparent_70%)]">
                 <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
                   {dynamicCat.type === 'crystal' ? t('productCategoryDetail.crystalType') : t('productCategoryDetail.divineType')}
                 </span>
@@ -145,7 +145,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
 
               <div className="flex flex-row gap-12 flex-wrap">
                 <div className="flex-[2_1_600px]">
-                  <h3 className="text-sara-gold font-[Cinzel] text-[1.5rem] mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
+                  <h3 data-aos="fade-up" className="text-sara-gold font-[Cinzel] text-[1.5rem] mb-8 border-b border-[rgba(214,178,106,0.1)] pb-2 tracking-[1.5px] uppercase">
                     {t('productCategoryDetail.availableBookings')}
                   </h3>
 
@@ -155,9 +155,11 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                         No offerings available at the moment. Please check back later.
                       </div>
                     ) : (
-                       translatedProducts.map((item) => (
+                       translatedProducts.map((item, idx) => (
                         <div
                           key={item.id}
+                          data-aos="fade-up"
+                          data-aos-delay={idx * 100}
                           onClick={() => setActiveProduct(item)}
                           className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
                         >

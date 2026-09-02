@@ -350,12 +350,10 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                   const hasHealing = isCrystal && !!cardHealing[product.id];
 
                   return (
-                    <motion.div
+                    <div
                       key={product.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.4, delay: idx * 0.06, ease: [0.25, 1, 0.5, 1] }}
+                      data-aos="fade-up"
+                      data-aos-delay={(idx % 10) * 100}
                       onClick={() => setActiveProduct(product)}
                       className="min-w-[260px] max-w-[260px] bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded-lg overflow-hidden flex flex-col flex-shrink-0 transition-all duration-300 hover:border-sara-gold hover:-translate-y-1 hover:shadow-[0_12px_30px_rgba(161,61,142,0.15)] select-none cursor-pointer"
                     >
@@ -456,7 +454,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                           </button>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </ScrollableCarousel>

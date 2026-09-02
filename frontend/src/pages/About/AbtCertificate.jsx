@@ -81,11 +81,8 @@ export default function AbtCertificate() {
       <div className="w-full max-w-[1320px] mx-auto px-5 lg:px-[6vw] relative z-10">
         
         {/* Header Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8, ease: [0.25, 1, 0.5, 1] }}
+        <div
+          data-aos="fade-up"
           className="text-center mb-16"
         >
           <p className="m-0 mb-3 font-['Poppins'] tracking-[0.2em] uppercase text-[14px] text-[#D9B56A]">
@@ -94,7 +91,7 @@ export default function AbtCertificate() {
           <h2 className="m-0 font-['Poppins'] text-[clamp(36px,5vw,56px)] font-light leading-[1.2] text-[#F4F0EA]">
             Our <span className="font-semibold text-[#D9B56A]">Certifications</span>
           </h2>
-        </motion.div>
+        </div>
 
         {/* Carousel Container */}
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">

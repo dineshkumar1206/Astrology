@@ -62,7 +62,7 @@ export default function ContactForm() {
   return (
     <section className="py-24 w-full box-border px-4 bg-gradient-to-b from-[#FDFBF7] to-sara-cream">
 
-      <div className="max-w-3xl mx-auto p-8 md:p-12 bg-white border border-sara-gold/15 shadow-[0_4px_20px_rgba(29,11,46,0.08)] rounded-sm">
+      <div data-aos="fade-up" className="max-w-3xl mx-auto p-8 md:p-12 bg-white border border-sara-gold/15 shadow-[0_4px_20px_rgba(29,11,46,0.08)] rounded-sm">
         <div className="text-center mb-12">
           <h3 className="m-0 mb-2 font-serif text-3xl text-[#2A1635] font-normal">
             {t('contactForm.title')}

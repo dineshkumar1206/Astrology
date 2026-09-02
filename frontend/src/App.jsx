@@ -14,12 +14,20 @@ import AdminLogin from './pages/AdminLogin';
 import Dashboard from './dashboard/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+
 export default function App() {
   const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
+    AOS.init({
+      duration: 800,
+      once: false,
+    });
+    
     if (location.hash) {
       const id = location.hash.replace('#', '');
       const element = document.getElementById(id);

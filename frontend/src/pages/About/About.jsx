@@ -21,31 +21,23 @@ export default function About() {
         ></div>
         <div className="absolute inset-0 bg-[#2A1635]/80 z-10"></div>
 
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          transition={{ staggerChildren: 0.15 }}
+        <div
           className="relative z-20 text-center px-5 lg:px-4"
         >
-          <motion.h1
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } }
-            }}
+          <h1
+            data-aos="fade-up"
             className="font-serif text-[clamp(54px,8vw,84px)] text-[#F4F0EA] m-0 mb-2 font-normal"
           >
             {t('aboutPage.heroTitle')}
-          </motion.h1>
-          <motion.p
-            variants={{
-              hidden: { opacity: 0, y: 30 },
-              visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.25, 1, 0.5, 1] } }
-            }}
+          </h1>
+          <p
+            data-aos="fade-up"
+            data-aos-delay="100"
             className="font-sans text-[14px] text-sara-gold uppercase tracking-[2px] m-0"
           >
             {t('aboutPage.heroSubtitle')}
-          </motion.p>
-        </motion.div>
+          </p>
+        </div>
 
         <div className="absolute bottom-[-1px] left-0 w-full z-30 overflow-hidden leading-none">
           <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full h-[80px] block fill-[#F8F6FF]">
@@ -62,26 +54,27 @@ export default function About() {
           <div className="w-full lg:flex-1 lg:basis-[540px] lg:max-w-[620px]">
 
             {/* Small upper serif label */}
-            <p className="m-0 mb-3 font-['Poppins'] italic text-[18px] text-[#D9B56A]">
+            <p data-aos="fade-up" className="m-0 mb-3 font-['Poppins'] italic text-[18px] text-[#D9B56A]">
               {t('aboutPage.label')}
             </p>
 
             {/* Main Title Header */}
-            <h2 className="m-0 mb-6 font-['Poppins'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
+            <h2 data-aos="fade-up" data-aos-delay="100" className="m-0 mb-6 font-['Poppins'] text-[clamp(32px,4.5vw,48px)] font-normal leading-[1.2] text-[#2A1635]">
               {t('aboutPage.heading')}
             </h2>
 
             {/* Description Copy */}
-            <p className="m-0 mb-6 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
+            <p data-aos="fade-up" data-aos-delay="150" className="m-0 mb-6 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
               {t('aboutPage.p1')}
             </p>
-            <p className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
+            <p data-aos="fade-up" data-aos-delay="200" className="m-0 mb-12 font-['Poppins'] font-light text-[15px] leading-[1.75] text-[#3E2F48]">
               {t('aboutPage.p2')}
             </p>
 
             {/* Action button */}
             <Link
               to="/contact"
+              data-aos="fade-up" data-aos-delay="250"
               className="inline-block bg-transparent text-[#D9B56A] border border-dashed border-[#D9B56A]/40 py-4 px-8 font-['Poppins'] text-[13px] font-medium uppercase tracking-[1.5px] cursor-pointer transition-all duration-300 mt-2 hover:border-solid hover:border-[#D9B56A] hover:bg-[#D9B56A]/5"
             >
               {t('aboutPage.connectBtn')}
@@ -92,7 +85,7 @@ export default function About() {
           {/* Right Column Container: Asymmetric visual presentation layout window */}
           <div className="w-full lg:flex-1 lg:basis-[420px] lg:max-w-[560px] flex justify-center lg:justify-end relative mt-12 lg:mt-0">
 
-            <div className="w-full aspect-[4/3.8] rounded-tl-[80px] rounded-br-[80px] lg:rounded-tl-[120px] lg:rounded-br-[120px] overflow-hidden border border-[#D9B56A]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative">
+            <div data-aos="fade-left" data-aos-delay="200" className="w-full aspect-[4/3.8] rounded-tl-[80px] rounded-br-[80px] lg:rounded-tl-[120px] lg:rounded-br-[120px] overflow-hidden border border-[#D9B56A]/20 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative">
               <img
                 src={aboutImage}
                 alt={t('aboutPage.founderAlt')}

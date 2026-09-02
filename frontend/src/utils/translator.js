@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 /**
  * Translates a given text to the target language (e.g., 'ta' for Tamil) using the free Google Translate API.
@@ -57,13 +58,39 @@ export async function translateProduct(product, targetLang) {
 }
 
 /**
+ * Translates a testimonial object (name, role, quote)
+ * @param {Object} testimonial - The testimonial from the DB.
+ * @param {string} targetLang - The target language.
+ * @returns {Promise<Object>} The translated testimonial.
+ */
+export async function translateTestimonial(testimonial, targetLang) {
+  if (!testimonial || targetLang === 'en') return testimonial;
+
+  try {
+    const [translatedName, translatedRole, translatedQuote] = await Promise.all([
+      translateText(testimonial.name, targetLang),
+      translateText(testimonial.role, targetLang),
+      translateText(testimonial.quote, targetLang)
+    ]);
+
+    return {
+      ...testimonial,
+      name: translatedName,
+      role: translatedRole,
+      quote: translatedQuote
+    };
+  } catch (err) {
+    console.error('Failed to translate testimonial:', err);
+    return testimonial;
+  }
+}
+
+/**
  * React Hook to translate any text dynamically on the client side.
  * @param {string} text - The input text to translate.
  * @param {string} targetLang - The target language ('en', 'ta').
  * @returns {string} The translated text.
  */
-import { useState, useEffect } from 'react';
-
 export function useTranslatedText(text, targetLang) {
   const [translated, setTranslated] = useState(text);
 
@@ -109,6 +136,44 @@ export function useTranslatedList(list, targetLang) {
     const translateAll = async () => {
       const result = await Promise.all(
         list.map(p => translateProduct(p, targetLang))
+      );
+      if (active) setTranslated(result);
+    };
+    translateAll();
+
+    return () => {
+      active = false;
+    };
+  }, [list, targetLang]);
+
+  return translated;
+}
+
+/**
+ * React Hook to translate an array of testimonial objects dynamically on the client side.
+ * @param {Array} list - The list of testimonial objects from DB or fallbacks.
+ * @param {string} targetLang - The target language code ('en', 'ta').
+ * @returns {Array} The translated list.
+ */
+export function useTranslatedTestimonials(list, targetLang) {
+  const [translated, setTranslated] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+    if (!list || list.length === 0) {
+      setTranslated([]);
+      return;
+    }
+    if (targetLang === 'en') {
+      setTranslated(list);
+      return;
+    }
+
+    setTranslated(list); // Snappy fallback display
+
+    const translateAll = async () => {
+      const result = await Promise.all(
+        list.map(t => translateTestimonial(t, targetLang))
       );
       if (active) setTranslated(result);
     };

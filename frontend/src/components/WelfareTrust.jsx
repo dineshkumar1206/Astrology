@@ -64,7 +64,7 @@ export default function WelfareTrust() {
       <div className="absolute bottom-[-120px] left-[-80px] w-[360px] h-[360px] rounded-full bg-[radial-gradient(circle,rgba(161,61,142,0.08)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="relative max-w-[1000px] mx-auto">
-        <div className="text-center mb-12">
+        <div data-aos="fade-up" className="text-center mb-12">
           <span className="text-sara-gold tracking-[2px] text-xs font-semibold uppercase">
             {t('welfareTrust.badge')}
           </span>
@@ -76,7 +76,7 @@ export default function WelfareTrust() {
           </p>
         </div>
 
-        <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] shadow-[0_20px_50px_rgba(161,61,142,0.15)] flex flex-col md:flex-row min-h-[450px]">
+        <div data-aos="fade-up" data-aos-delay="200" className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] shadow-[0_20px_50px_rgba(161,61,142,0.15)] flex flex-col md:flex-row min-h-[450px]">
           
           <div className="relative w-full md:w-1/2 min-h-[300px] md:min-h-full overflow-hidden">
             <AnimatePresence mode="sync">
@@ -136,7 +136,7 @@ export default function WelfareTrust() {
 
         </div>
         
-        <div className="flex justify-center gap-3 mt-10">
+        <div data-aos="zoom-in" data-aos-delay="400" className="flex justify-center gap-3 mt-10">
           {SERVICES.map((_, i) => (
             <button
               key={i}

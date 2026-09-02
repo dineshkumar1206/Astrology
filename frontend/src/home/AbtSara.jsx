@@ -46,26 +46,23 @@ export default function AbtSara() {
         <div className="absolute bottom-[5%] left-[10%] w-[400px] h-[400px] rounded-full bg-[radial-gradient(circle,rgba(214,178,106,0.08)_0%,transparent_70%)] blur-[50px] animate-[floatGlowGold_8s_ease-in-out_infinite]" />
       </div>
 
-      <motion.div
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.15 }}
-        transition={{ staggerChildren: 0.12 }}
+      <div
         className="relative z-10 max-w-[1240px] mx-auto"
       >
-        <motion.p
-          variants={fadeInUpVariants}
+        <p
+          data-aos="fade-up"
           className="text-center font-sans font-normal text-[14px] uppercase tracking-[3px] text-[#000000] m-0 mb-2"
         >
           {t('aboutHome.subtitle')}
-        </motion.p>
+        </p>
 
-        <motion.h2
-          variants={fadeInUpVariants}
+        <h2
+          data-aos="fade-up"
+          data-aos-delay="100"
           className="text-center font-serif text-[clamp(44px,6.5vw,72px)] font-semi bold tracking-[0.5px] m-0 mb-16 text-black"
         >
           {t('aboutHome.title')}
-        </motion.h2>
+        </h2>
 
         <motion.div
           style={{ y: moonY, rotate: moonRotate }}
@@ -82,7 +79,8 @@ export default function AbtSara() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_1.1fr] gap-12 items-center">
 
           <motion.div
-            variants={fadeInUpVariants}
+            data-aos="fade-up"
+            data-aos-delay="200"
             whileHover={{ scale: 1.015, transition: { duration: 0.4 } }}
             className="w-full md:max-w-[450px] lg:max-w-none mx-auto aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(161,61,142,0.10)] bg-white"
           >
@@ -93,8 +91,9 @@ export default function AbtSara() {
             />
           </motion.div>
 
-          <motion.div
-            variants={fadeInUpVariants}
+          <div
+            data-aos="fade-up"
+            data-aos-delay="300"
             className="flex flex-col justify-center py-5"
           >
             <p className="font-sans font-light text-[15px] leading-[1.8] text-black m-0 mb-6">
@@ -112,10 +111,11 @@ export default function AbtSara() {
                 {t('aboutHome.connectBtn')}
               </button>
             </div>
-          </motion.div>
+          </div>
 
-          <motion.div
-            variants={fadeInUpVariants}
+          <div
+            data-aos="fade-up"
+            data-aos-delay="400"
             className="flex flex-col items-center gap-6"
           >
             <motion.div
@@ -129,10 +129,10 @@ export default function AbtSara() {
                 className="w-full h-full object-cover block"
               />
             </motion.div>
-          </motion.div>
+          </div>
         </div>
 
-      </motion.div>
+      </div>
     </div>
   );
 }

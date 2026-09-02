@@ -18,30 +18,21 @@ export default function CosmicInsights() {
       
 
       <div className="w-full max-w-[1000px] mx-auto px-5 lg:px-[4vw] relative z-20 mt-8 lg:mt-12 text-center">
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+        <p 
+          data-aos="fade-up"
           className="m-0 mb-2 font-serif italic text-[18px] text-[#D9B56A]"
         >
           Spiritual Guidance & Rasi Reading
-        </motion.p>
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+        </p>
+        <h2 
+          data-aos="fade-up" data-aos-delay="200"
           className="m-0 mb-8 font-serif text-[clamp(32px,4vw,48px)] font-normal text-[#2A1635]"
         >
           Discover Your Cosmic Path
-        </motion.h2>
+        </h2>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+        <div
+          data-aos="fade-up" data-aos-delay="400"
           className="font-sans font-light text-[15px] sm:text-[16px] leading-[1.8] text-[#3E2F48] max-w-[800px] mx-auto mb-8 space-y-6 text-justify md:text-center"
         >
           <p>
@@ -55,23 +46,20 @@ export default function CosmicInsights() {
             in leading magazines, especially her profound interpretations of the Murugar messages, 
             which hold a special place in the hearts of many devotees.
           </p>
-        </motion.div>
+        </div>
       </div>
 
       {/* Image Gallery */}
       <div className="w-full max-w-[1100px] mx-auto px-5 lg:px-[4vw] relative z-20 mt-12 lg:mt-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-10 items-start">
           {galleryImages.map((img, idx) => (
-            <motion.div 
+            <div 
               key={idx}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              data-aos="zoom-in" data-aos-delay={idx * 100}
               className="w-full overflow-hidden rounded-lg shadow-md bg-white flex items-center justify-center"
             >
               <img src={img} alt={`Gallery ${idx + 1}`} className="w-full h-auto object-contain hover:scale-105 transition-transform duration-500" />
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

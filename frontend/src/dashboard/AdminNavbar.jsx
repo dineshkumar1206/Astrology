@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { LayoutDashboard, Globe, LogOut, Menu, X, ChevronDown, Settings, Package } from 'lucide-react';
+import { LayoutDashboard, Globe, LogOut, Menu, X, ChevronDown, Settings, Package, MessageSquareQuote } from 'lucide-react';
 
 const CRYSTAL_CATEGORIES_DEFAULT = ['Rasi', 'Bracelet', 'Pyrite', 'Rings', 'Pendants', 'Tumbles', 'Crystal balls', 'Pyrite frames', 'Crystal mala', 'Crystal tower'];
 const SERVICE_CATEGORIES_LEFT_DEFAULT = [
@@ -47,20 +47,106 @@ export default function AdminNavbar({
 
   return (
     <header className="bg-[#0B1225]/95 backdrop-blur-md border-b border-[#D9B56A]/20 w-full z-50 sticky top-0 shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
-      <div className="max-w-[1600px] mx-auto px-4 md:px-6 h-[76px] flex justify-between items-center gap-4">
+      <div className="max-w-[1600px] mx-auto px-4 md:px-6 py-3 min-h-[76px] flex justify-between items-center gap-4">
         
-        {/* 1. BRANDING (Left) */}
-        <div className="flex items-center gap-3 shrink-0">
-          <div className="bg-gradient-to-br from-[#D9B56A]/20 to-[#D9B56A]/5 border border-[#D9B56A]/40 shadow-[0_0_10px_rgba(217,181,106,0.1)] rounded-xl p-2 text-[#D9B56A]">
-            <LayoutDashboard size={18} strokeWidth={1.5} />
+        {/* 1. BRANDING & ACTIONS (Left) */}
+        <div className="flex flex-col gap-3 shrink-0">
+          <div className="flex items-center gap-3">
+            <div className="bg-gradient-to-br from-[#D9B56A]/20 to-[#D9B56A]/5 border border-[#D9B56A]/40 shadow-[0_0_10px_rgba(217,181,106,0.1)] rounded-xl p-2 text-[#D9B56A]">
+              <LayoutDashboard size={18} strokeWidth={1.5} />
+            </div>
+            <div className="flex flex-col justify-center">
+              <h1 className="text-[12px] md:text-[13px] font-bold text-white tracking-[0.15em] uppercase font-['Cinzel',sans-serif] leading-tight whitespace-nowrap">
+                Saraa Tarot
+              </h1>
+              <p className="text-[8px] text-[#D9B56A] font-bold uppercase tracking-widest mt-0.5 whitespace-nowrap">
+                Control Desk
+              </p>
+            </div>
           </div>
-          <div className="flex flex-col justify-center">
-            <h1 className="text-[12px] md:text-[13px] font-bold text-white tracking-[0.15em] uppercase font-['Cinzel',sans-serif] leading-tight whitespace-nowrap">
-              Saraa Tarot
-            </h1>
-            <p className="text-[8px] text-[#D9B56A] font-bold uppercase tracking-widest mt-0.5 whitespace-nowrap">
-              Control Desk
-            </p>
+
+          {/* ACTIONS & USER INFO (Desktop) */}
+          <div className="hidden lg:flex items-center gap-1 xl:gap-2">
+            <button
+              onClick={() => setActiveCategory('_orders')}
+              className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
+                activeCategory === '_orders'
+                  ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
+                  : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
+              }`}
+            >
+              <Package size={12} />
+              <span>Orders</span>
+            </button>
+
+            <button
+              onClick={() => setActiveCategory('_testimonials')}
+              className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
+                activeCategory === '_testimonials'
+                  ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
+                  : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
+              }`}
+            >
+              <MessageSquareQuote size={12} />
+              <span className="hidden xl:inline">Testimonials</span>
+              <span className="xl:hidden">Reviews</span>
+            </button>
+
+            <button
+              onClick={() => setActiveCategory('_manage_menus')}
+              className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
+                activeCategory === '_manage_menus'
+                  ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
+                  : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
+              }`}
+            >
+              <Settings size={12} />
+              <span className="hidden xl:inline">Manage Menus</span>
+              <span className="xl:hidden">Menus</span>
+            </button>
+
+            {/* Admin Profile Dropdown */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setIsAdminDropdownOpen(true)}
+              onMouseLeave={() => setIsAdminDropdownOpen(false)}
+            >
+              <button
+                className="flex items-center gap-1 xl:gap-2 px-1.5 xl:px-2.5 py-1.5 rounded-lg border border-[#D9B56A]/15 hover:border-[#D9B56A]/40 transition-all cursor-pointer bg-[#1c1635]/30 text-left"
+              >
+                <div className="flex flex-col">
+                  <span className="text-[10px] xl:text-[11px] font-semibold text-white truncate max-w-[100px] xl:max-w-[120px] leading-tight">
+                    {user?.email || 'Admin'}
+                  </span>
+                  <span className="text-[7px] xl:text-[8px] text-[#D9B56A] uppercase font-bold tracking-widest mt-0.5 hidden xl:block">
+                    Administrator
+                  </span>
+                </div>
+                <ChevronDown size={10} className="text-[#D9B56A] transition-transform duration-300" style={{ transform: isAdminDropdownOpen ? 'rotate(180deg)' : 'none' }} />
+              </button>
+
+              {/* Profile Options Dropdown */}
+              {isAdminDropdownOpen && (
+                <div className="absolute left-0 top-full pt-2 z-50">
+                  <div className="bg-[#0B1225] border border-[#D9B56A]/25 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 w-44 flex flex-col backdrop-blur-xl">
+                    <a
+                      href="/"
+                      className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold text-[#B7AFC7] hover:bg-[#1c1635] hover:text-white transition-colors"
+                    >
+                      <Globe size={13} />
+                      <span>Back to Site</span>
+                    </a>
+                    <button
+                      onClick={handleSignOut}
+                      className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold text-red-400 hover:bg-red-500/10 transition-colors w-full text-left cursor-pointer"
+                    >
+                      <LogOut size={13} />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -142,76 +228,7 @@ export default function AdminNavbar({
           ))}
         </nav>
 
-        {/* 3. ACTIONS & USER INFO (Right - Compact Dropdown Mode) */}
-        <div className="hidden lg:flex items-center gap-1 xl:gap-2 shrink-0">
-          <button
-            onClick={() => setActiveCategory('_orders')}
-            className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
-              activeCategory === '_orders'
-                ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
-                : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
-            }`}
-          >
-            <Package size={12} />
-            <span>Orders</span>
-          </button>
 
-          <button
-            onClick={() => setActiveCategory('_manage_menus')}
-            className={`flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[10px] xl:text-[11px] font-semibold transition-all duration-200 border cursor-pointer ${
-              activeCategory === '_manage_menus'
-                ? 'bg-[#D9B56A]/15 border-[#D9B56A]/40 text-[#D9B56A]'
-                : 'text-[#B7AFC7] border-transparent hover:text-white hover:bg-[#1c1635]/60'
-            }`}
-          >
-            <Settings size={12} />
-            <span className="hidden xl:inline">Manage Menus</span>
-            <span className="xl:hidden">Menus</span>
-          </button>
-
-          {/* Admin Profile Dropdown */}
-          <div 
-            className="relative"
-            onMouseEnter={() => setIsAdminDropdownOpen(true)}
-            onMouseLeave={() => setIsAdminDropdownOpen(false)}
-          >
-            <button
-              className="flex items-center gap-1 xl:gap-2 px-1.5 xl:px-2.5 py-1.5 rounded-lg border border-[#D9B56A]/15 hover:border-[#D9B56A]/40 transition-all cursor-pointer bg-[#1c1635]/30 text-left"
-            >
-              <div className="flex flex-col">
-                <span className="text-[10px] xl:text-[11px] font-semibold text-white truncate max-w-[100px] xl:max-w-[120px] leading-tight">
-                  {user?.email || 'Admin'}
-                </span>
-                <span className="text-[7px] xl:text-[8px] text-[#D9B56A] uppercase font-bold tracking-widest mt-0.5 hidden xl:block">
-                  Administrator
-                </span>
-              </div>
-              <ChevronDown size={10} className="text-[#D9B56A] transition-transform duration-300" style={{ transform: isAdminDropdownOpen ? 'rotate(180deg)' : 'none' }} />
-            </button>
-
-            {/* Profile Options Dropdown */}
-            {isAdminDropdownOpen && (
-              <div className="absolute right-0 top-full pt-2 z-50">
-                <div className="bg-[#0B1225] border border-[#D9B56A]/25 rounded-xl shadow-[0_10px_40px_rgba(0,0,0,0.5)] py-1.5 w-44 flex flex-col backdrop-blur-xl">
-                  <a
-                    href="/"
-                    className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold text-[#B7AFC7] hover:bg-[#1c1635] hover:text-white transition-colors"
-                  >
-                    <Globe size={13} />
-                    <span>Back to Site</span>
-                  </a>
-                  <button
-                    onClick={handleSignOut}
-                    className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold text-red-400 hover:bg-red-500/10 transition-colors w-full text-left cursor-pointer"
-                  >
-                    <LogOut size={13} />
-                    <span>Sign Out</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
 
         {/* 4. MOBILE / TABLET MENU TOGGLE (Shows below lg breakpoint) */}
         <div className="lg:hidden flex items-center gap-2 shrink-0">
@@ -225,6 +242,18 @@ export default function AdminNavbar({
             title="Orders"
           >
             <Package size={16} />
+          </button>
+
+          <button
+            onClick={() => setActiveCategory('_testimonials')}
+            className={`p-2 rounded-lg border transition-all cursor-pointer ${
+              activeCategory === '_testimonials'
+                ? 'bg-[#D9B56A]/20 border-[#D9B56A] text-[#D9B56A]'
+                : 'bg-[#D9B56A]/5 border-[#D9B56A]/20 text-[#B7AFC7] hover:text-white'
+            }`}
+            title="Testimonials"
+          >
+            <MessageSquareQuote size={16} />
           </button>
 
           <button
@@ -319,6 +348,18 @@ export default function AdminNavbar({
             >
               <Package size={14} />
               <span>View Orders</span>
+            </button>
+
+            <button
+              onClick={() => setActiveCategory('_testimonials')}
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-semibold transition-colors ${
+                activeCategory === '_testimonials' 
+                ? 'bg-[#D9B56A]/15 text-[#D9B56A]' 
+                : 'text-[#B7AFC7] hover:bg-[#1c1635]'
+              }`}
+            >
+              <MessageSquareQuote size={14} />
+              <span>Manage Testimonials</span>
             </button>
 
             <a

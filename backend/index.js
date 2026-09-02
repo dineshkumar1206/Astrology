@@ -56,6 +56,7 @@ const registerRoutes = (prefix) => {
   app.use(cleanPrefix === '/' ? '/api/contact' : `${cleanPrefix}api/contact`, require('./routes/contact'));
   app.use(cleanPrefix === '/' ? '/api/categories' : `${cleanPrefix}api/categories`, require('./routes/categories'));
   app.use(cleanPrefix === '/' ? '/api/orders' : `${cleanPrefix}api/orders`, require('./routes/orders'));
+  app.use(cleanPrefix === '/' ? '/api/testimonials' : `${cleanPrefix}api/testimonials`, require('./routes/testimonials'));
   
   app.get(cleanPrefix === '/' ? '/' : cleanPrefix.slice(0, -1), (req, res) => {
     res.send('Saraa Tarot API is running...');
@@ -180,6 +181,29 @@ const seedCategories = async () => {
   }
 };
 
+const seedTestimonials = async () => {
+  try {
+    const Testimonial = require('./models/Testimonial');
+    const count = await Testimonial.count();
+    if (count === 0) {
+      const initial = [
+        { name: "Priya S.", role: "Tarot Consultation", rating: 5, quote: "Sara's tarot reading was incredibly accurate. She connected with my energy immediately and gave me clarity on a situation I had been struggling with for months. I felt a huge weight lift after our session.", order: 0 },
+        { name: "Ananya R.", role: "Spiritual Healing", rating: 5, quote: "I was skeptical at first, but after my spiritual healing session with Sara, I noticed a profound shift in my energy. My anxiety reduced significantly and I feel more grounded than I have in years.", order: 1 },
+        { name: "Vikram M.", role: "Murugar Cards", rating: 5, quote: "The Murugar card reading was a transformative experience. Every card that was drawn resonated deeply with my current life path. Sara's interpretation was insightful and practical.", order: 2 },
+        { name: "Lakshmi K.", role: "Kali Pooja", rating: 5, quote: "The Kali Pooja ceremony was conducted with such devotion and precision. I felt the powerful energy clearing blocks from my life. Within weeks, I started seeing positive changes in my career and relationships.", order: 3 },
+        { name: "Divya N.", role: "Tarot Card Reading Classes", rating: 5, quote: "Learning tarot from Sara was an absolute joy. She has a gift for teaching complex concepts in a simple, intuitive way. I now feel confident reading cards for myself and others.", order: 4 },
+        { name: "Rajesh P.", role: "Spiritual Counseling", rating: 5, quote: "Sara's counseling sessions helped me navigate a difficult period in my life. Her compassionate approach combined with spiritual wisdom gave me the strength to make important decisions with clarity.", order: 5 },
+        { name: "Meera J.", role: "Spiritual Healing", rating: 5, quote: "The distance healing session was surprisingly powerful. I could feel the energy working even from miles away. My sleep improved, and I felt a renewed sense of purpose and peace.", order: 6 },
+        { name: "Arun K.", role: "Tarot Consultation", rating: 5, quote: "I have been to many tarot readers, but Sara is exceptional. Her readings are not just accurate but also deeply healing. She provides guidance that is both spiritual and practical.", order: 7 }
+      ];
+      await Testimonial.bulkCreate(initial);
+      console.log('Seeded initial testimonials.');
+    }
+  } catch (err) {
+    console.error('Failed to seed testimonials:', err);
+  }
+};
+
 // --- START SERVER ---
 app.listen(PORT, async () => {
   console.log(`Server is running on port ${PORT}`);
@@ -222,6 +246,7 @@ app.listen(PORT, async () => {
       console.log('Database tables synchronized.');
       await seedAdminUser();
       await seedCategories();
+      await seedTestimonials();
     })
     .catch(err => {
       console.error('Unable to connect to the database:', err);

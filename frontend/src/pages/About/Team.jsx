@@ -33,7 +33,7 @@ export default function Team() {
       <div className="max-w-[1320px] mx-auto px-[6vw] box-border">
         
         {/* Section Header */}
-        <div className="max-w-[800px]">
+        <div className="max-w-[800px]" data-aos="fade-up">
           <p className="m-0 mb-2 font-serif text-[18px] text-[#D9B56A] font-semibold tracking-[1px]">
             {t('team.badge')}
           </p>
@@ -45,7 +45,7 @@ export default function Team() {
         {/* 3-Column Team Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-10 mt-16 max-md:gap-16">
           {teamMembers.map((member, index) => (
-            <div key={index} className="relative w-full aspect-[3/4] md:aspect-[3/4.5] overflow-hidden cursor-pointer bg-[#FFFFFF] group">
+            <div key={index} data-aos="fade-up" data-aos-delay={index * 100} className="relative w-full aspect-[3/4] md:aspect-[3/4.5] overflow-hidden cursor-pointer bg-[#FFFFFF] group">
               
               {/* Member Image with Zoom on Hover */}
               <img 

@@ -169,10 +169,8 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
       </div>
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }}
+        <div
+          data-aos="fade-up"
           className="flex flex-col lg:flex-row gap-10 p-8 sm:p-12 my-10 bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded-2xl shadow-[0_20px_50px_rgba(161,61,142,0.15)]"
         >
           {/* Image */}
@@ -336,7 +334,7 @@ export default function ProductDetail({ cart = [], setCart, setIsCartOpen }) {
 
 
           </div>
-        </motion.div>
+        </div>
 
         {/* Back link */}
         <div className="border-t border-[rgba(214,178,106,0.1)] pt-8 mt-4">
