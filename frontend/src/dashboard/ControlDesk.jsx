@@ -1015,22 +1015,7 @@ export default function ControlDesk() {
                   />
                 </div>
 
-                {/* Inclusions (Crystals Only) */}
-                {isCrystalCategory(formData.category) && (
-                  <div>
-                    <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
-                      Inclusions (one item per line)
-                    </label>
-                    <textarea
-                      name="inclusions"
-                      value={formData.inclusions}
-                      onChange={handleInputChange}
-                      rows="3"
-                      placeholder="e.g.&#10;Spiritually cleansed and energized&#10;Sacred prasadham included"
-                      className="w-full px-4 py-2.5 rounded-lg bg-white border border-[#D9B56A]/15 text-[#2A1635] placeholder-[#3E2F48]/50 focus:outline-none focus:border-[#D9B56A]/50 focus:bg-white transition-all duration-200 resize-none"
-                    />
-                  </div>
-                )}
+
 
                 {/* Sizes (Crystals Only) */}
                 {isCrystalCategory(formData.category) && (

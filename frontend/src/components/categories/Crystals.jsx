@@ -37,6 +37,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
   const [cardHealing, setCardHealing] = useState({});
   const [crystalCategories, setCrystalCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState({});
+  const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
     if (subcategoryParam) {
@@ -44,6 +45,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
     } else {
       setSelectedCategory(null);
     }
+    setVisibleCount(9);
   }, [subcategoryParam]);
 
   useEffect(() => {
@@ -232,8 +234,9 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   <p className="text-[rgba(207,207,207,0.6)] m-0">{t('crystalsPage.empty')}</p>
                 </div>
               ) : (
+                <>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-8">
-                  {filteredItems.map((item, idx) => (
+                  {filteredItems.slice(0, visibleCount).map((item, idx) => (
                     <div 
                       key={item.id}
                       data-aos="fade-up"
@@ -266,9 +269,13 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                           <h4 className="text-white text-[1.15rem] mb-2 font-bold leading-snug">
                             {item.name}
                           </h4>
-                          <p className="text-[#D3C7DC] text-[0.85rem] leading-5 mb-4">
-                            {item.desc}
-                          </p>
+                          {item.desc && (
+                            <ul className="text-[#D3C7DC] text-[0.85rem] leading-5 mb-4 pl-4 m-0 list-disc text-left">
+                              {item.desc.split('\n').map((point, index) => point.trim() && (
+                                <li key={index} className="mb-1">{point.trim()}</li>
+                              ))}
+                            </ul>
+                          )}
                         </div>
                         
                         <div>
@@ -382,6 +389,17 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                     </div>
                   ))}
                 </div>
+                {filteredItems.length > visibleCount && (
+                  <div className="flex justify-center mt-12 mb-4">
+                    <button
+                      onClick={() => setVisibleCount(prev => prev + 9)}
+                      className="bg-transparent border border-sara-gold text-sara-gold px-8 py-3 rounded text-[13px] font-semibold uppercase tracking-[1.5px] hover:bg-sara-gold hover:text-sara-dark transition-all duration-300 shadow-[0_0_15px_rgba(214,178,106,0.1)] hover:shadow-[0_0_20px_rgba(214,178,106,0.3)]"
+                    >
+                      View More
+                    </button>
+                  </div>
+                )}
+                </>
               )}
             </>
           )}
@@ -493,18 +511,13 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                   
                   <hr className="border-none border-t border-[rgba(214,178,106,0.15)] my-4" />
                   
-                  <p className="text-[#D3C7DC] leading-6 text-[0.95rem] mb-6">
-                    {currentItem.desc}
-                  </p>
-
-                  <h4 className="text-sara-gold uppercase text-[0.85rem] tracking-[1px] mb-2">
-                    {t('crystalsPage.inclusions')}
-                  </h4>
-                  <ul className="pl-5 m-0 mb-8 text-[#D3C7DC] leading-7 text-[0.9rem]">
-                    {Array.isArray(currentItem.inclusions) && currentItem.inclusions.map((inc, index) => (
-                      <li key={index} className="mb-1.5">{inc}</li>
-                    ))}
-                  </ul>
+                  {currentItem.desc && (
+                    <ul className="text-[#D3C7DC] leading-6 text-[0.95rem] mb-6 pl-5 m-0 list-disc text-left">
+                      {currentItem.desc.split('\n').map((point, index) => point.trim() && (
+                        <li key={index} className="mb-1.5">{point.trim()}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
 
                 <button 
