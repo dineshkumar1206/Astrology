@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
-import Home from './pages/Home';
-import Checkout from './components/Checkout';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
-import ProductCategoryDetail from './pages/ProductCategoryDetail';
-import ProductDetail from './pages/ProductDetail';
-import About from './pages/About/About';
-import Contact from './pages/Contact';
-import Login from './pages/Login';
-import AdminLogin from './pages/AdminLogin';
-import Dashboard from './dashboard/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
+
+const Home = lazy(() => import('./pages/Home'));
+const Checkout = lazy(() => import('./components/Checkout'));
+const ProductCategoryDetail = lazy(() => import('./pages/ProductCategoryDetail'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const About = lazy(() => import('./pages/About/About'));
+const Contact = lazy(() => import('./pages/Contact'));
+const Login = lazy(() => import('./pages/Login'));
+const AdminLogin = lazy(() => import('./pages/AdminLogin'));
+const Dashboard = lazy(() => import('./dashboard/Dashboard'));
 
 import AOS from 'aos';
 import 'aos/dist/aos.css';
@@ -57,9 +58,10 @@ export default function App() {
       )}
       <ScrollToTop />
       
-      <Routes>
-        <Route 
-          path="/" 
+      <Suspense fallback={<div className="flex h-screen w-full items-center justify-center text-sara-gold"><div className="w-8 h-8 border-4 border-sara-gold border-t-transparent rounded-full animate-spin"></div></div>}>
+        <Routes>
+          <Route 
+            path="/" 
           element={
             <Home 
               cart={cart} 
@@ -103,15 +105,16 @@ export default function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/admin" element={<AdminLogin />} />
-        <Route 
-          path="/dashboard" 
-          element={
-            <ProtectedRoute requiredRole="ADMIN">
-              <Dashboard />
-            </ProtectedRoute>
-          } 
-        />
-      </Routes>
+          <Route 
+            path="/dashboard" 
+            element={
+              <ProtectedRoute requiredRole="ADMIN">
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+        </Routes>
+      </Suspense>
       
       {!isDashboard && <Footer />}
     </div>
