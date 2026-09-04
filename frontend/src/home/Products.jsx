@@ -188,9 +188,20 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
   const getProductsForSection = (section) => {
     let prods = [];
     if (section.filterType === 'crystal') {
-      prods = translatedProducts.filter(p =>
+      const allCrystals = translatedProducts.filter(p =>
         p.category && crystalCategoryNames.includes(p.category.toLowerCase())
       );
+      
+      const grouped = {};
+      allCrystals.forEach(p => {
+        const cat = p.category.toLowerCase();
+        if (!grouped[cat]) grouped[cat] = [];
+        if (grouped[cat].length < 2) {
+          grouped[cat].push(p);
+        }
+      });
+      
+      prods = Object.values(grouped).flat();
     } else {
       prods = translatedProducts.filter(p =>
         p.category && p.category.toLowerCase() === (section.categoryName || '').toLowerCase()
@@ -207,7 +218,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
       });
     }
 
-    return prods;
+    return prods.slice(0, 12);
   };
 
   const handleAddToCart = (product, e) => {
@@ -337,7 +348,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                 </h2>
                 <Link
                   to={section.viewAllPath}
-                  className="text-sara-gold text-[11px] font-semibold uppercase tracking-[1.5px] no-underline border border-[rgba(214,178,106,0.3)] px-4 py-2 rounded-sm transition-all duration-300 hover:bg-[rgba(214,178,106,0.1)] hover:border-sara-gold"
+                  className="bg-[rgba(214,178,106,0.1)] text-sara-gold text-[12px] font-bold uppercase tracking-[1.5px] no-underline border border-sara-gold px-5 py-2.5 rounded shadow-[0_0_10px_rgba(214,178,106,0.15)] transition-all duration-300 hover:bg-sara-gold hover:text-[#1E0F2B] hover:shadow-[0_0_15px_rgba(214,178,106,0.4)]"
                 >
                   {t('products.viewAll')}
                 </Link>
