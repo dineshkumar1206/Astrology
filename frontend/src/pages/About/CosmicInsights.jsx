@@ -4,10 +4,10 @@ import { useLanguage } from '../../context/LanguageContext';
 
 // Gallery images
 const galleryImages = [
-  "/2-1.webp",
-  "/meeting-1.webp",
-  "/news-11.webp",
-  "/news-22.webp"
+  "/images/2-1.webp",
+  "/images/meeting-1.webp",
+  "/images/news-11.webp",
+  "/images/news-22.webp"
 ];
 
 export default function CosmicInsights() {

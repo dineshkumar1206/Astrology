@@ -253,7 +253,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                              className="w-full h-full object-cover" 
                              onError={(e) => {
                                e.target.onerror = null; 
-                               e.target.src = '/saraa-logo.jpeg';
+                               e.target.src = '/images/saraa-logo.jpeg';
                              }}
                            />
                            <div className="absolute bottom-0 left-0 right-0 h-1/2 bg-gradient-to-t from-[#1E0F2B] to-transparent" />

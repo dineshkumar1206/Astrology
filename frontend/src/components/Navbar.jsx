@@ -103,7 +103,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
         {/* Brand Logo Identity */}
         <Link to="/" className="flex items-center cursor-pointer no-underline flex-shrink-0">
           <img
-            src="/saraa-logo.jpeg"
+            src="/images/saraa-logo.jpeg"
             alt="Saraa Tarot Logo"
             className="h-[70px] w-auto block rounded"
           />

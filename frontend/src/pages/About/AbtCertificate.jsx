@@ -5,7 +5,7 @@ import { useLanguage } from '../../context/LanguageContext';
 const certificates = [
   {
     id: 0,
-    image: "/certificate-1.webp",
+    image: "/images/certificate-1.webp",
     title: "Certified Tarot Master & Spiritual Guide",
     instructor: "Wargachuk Academy (IPHM Approved)",
     date: "March 6, 2024",
@@ -14,7 +14,7 @@ const certificates = [
   },
   {
     id: 1,
-    image: "/certificate.png",
+    image: "/images/certificate.png",
     title: "Master Life Coach & Practitioner | INTERNATIONALLY ACCREDITED",
     instructor: "Sufani Garza, Place of Bliss Academy",
     date: "March 6, 2024",
@@ -23,7 +23,7 @@ const certificates = [
   },
   {
     id: 2,
-    image: "/certificate-2.png",
+    image: "/images/certificate-2.png",
     title: "Certification in Spiritual Healing",
     instructor: "Prof Krishna N Sharma, Virtued Academy International",
     date: "14 March 2021",
@@ -32,7 +32,7 @@ const certificates = [
   },
   {
     id: 3,
-    image: "/certificate-13.webp",
+    image: "/images/certificate-13.webp",
     title: "Symbols I: Ancient Egyptian Symbols in Mythology & Religion",
     instructor: "Peggy Zogbaum",
     date: "March 6, 2024",
@@ -41,26 +41,46 @@ const certificates = [
   },
   {
     id: 4,
-    image: "/certificate-14.webp",
+    image: "/images/certificate-14.webp",
     title: "Personality Disorders: Master the Psychology of All 10 Types",
     instructor: "Dr. Day",
     date: "July 15, 2024",
     duration: "2 total hours",
     description: "An intensive psychological examination of human personality structures, behavioral patterns, and mental health archetypes. This clinical foundation enhances client communication, grounded empathy, and a professional, psychologically informed approach to holistic spiritual advisory."
+  },
+  {
+    id: 5,
+    image: "/images/certificate-3.png",
+    title: "Certified Spiritual Healing Advisor & Medium | ACCREDITED",
+    instructor: "Sufani Garza, Place of Bliss Academy",
+    date: "March 6, 2024",
+    duration: "4.5 total hours",
+    description: "Formally accredited in spiritual energy guidance, intuitive channel connection, and holistic healing methodologies. This certification validates expertise in facilitating deep energetic release, mediumship alignment, and compassionate spiritual care for clients navigating profound life journeys."
+  },
+  {
+    id: 6,
+    image: "/images/certificate-4.jpeg",
+    title: "Symbols I: Ancient Egyptian Symbols in Mythology & Religion",
+    instructor: "Peggy Zogbaum",
+    date: "March 6, 2024",
+    duration: "1.5 total hours",
+    description: "A specialized study into the sacred geometry, esoteric meanings, and religious iconography of ancient Egypt. This training deepens symbolic intuition, allowing for a richer, highly nuanced interpretation of archetypal energies during spiritual readings and consultations."
   }
 ];
 
 export default function AbtCertificate() {
   const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
 
   // Auto-play the carousel every 5 seconds
   useEffect(() => {
+    if (isHovered) return;
     const timer = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % certificates.length);
     }, 5000);
     return () => clearInterval(timer);
-  }, []);
+  }, [isHovered]);
 
   const nextCert = () => {
     setCurrentIndex((prev) => (prev + 1) % certificates.length);
@@ -94,7 +114,11 @@ export default function AbtCertificate() {
         </div>
 
         {/* Carousel Container */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">
+        <div 
+          className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           
           {/* Left Column: Certificate Image & Controls */}
           <div className="w-full lg:w-[60%] flex flex-col items-center">

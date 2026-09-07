@@ -4,9 +4,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useLanguage } from "../context/LanguageContext";
 
 const IMAGES = {
-  mainPortrait: "/abt-2.webp",
-  moonCircle: "/moon-1.webp",
-  cardSpread: "/Abt-Home-1.png"
+  mainPortrait: "/images/abt-2.webp",
+  moonCircle: "/images/moon-1.webp",
+  cardSpread: "/images/Abt-Home-1.png"
 };
 
 export default function AbtSara() {

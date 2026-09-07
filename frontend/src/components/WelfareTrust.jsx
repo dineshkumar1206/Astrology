@@ -9,35 +9,35 @@ const SERVICES = [
     icon: Cross, 
     titleKey: 'welfareTrust.medicalTitle', 
     descKey: 'welfareTrust.medicalDesc', 
-    image: '/welfare/medical.png' 
+    image: '/images/welfare/medical.png' 
   },
   { 
     key: 'spiritual', 
     icon: Sparkles, 
     titleKey: 'welfareTrust.spiritualTitle', 
     descKey: 'welfareTrust.spiritualDesc', 
-    image: '/welfare/spiritual.png' 
+    image: '/images/welfare/spiritual.png' 
   },
   { 
     key: 'temple', 
     icon: Landmark, 
     titleKey: 'welfareTrust.templeTitle', 
     descKey: 'welfareTrust.templeDesc', 
-    image: '/welfare/temple.png' 
+    image: '/images/welfare/temple.png' 
   },
   {
     key: 'education',
     icon: BookOpen,
     titleKey: 'welfareTrust.educationTitle',
     descKey: 'welfareTrust.educationDesc',
-    image: '/welfare/education.png'
+    image: '/images/welfare/education.png'
   },
   {
     key: 'awareness',
     icon: Lightbulb,
     titleKey: 'welfareTrust.awarenessTitle',
     descKey: 'welfareTrust.awarenessDesc',
-    image: '/welfare/awareness.png'
+    image: '/images/welfare/awareness.png'
   }
 ];
 

@@ -19,7 +19,19 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 
 export default function App() {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    try {
+      const savedCart = localStorage.getItem('sara_tarot_cart');
+      return savedCart ? JSON.parse(savedCart) : [];
+    } catch (e) {
+      console.error("Failed to parse cart from local storage", e);
+      return [];
+    }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('sara_tarot_cart', JSON.stringify(cart));
+  }, [cart]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
 

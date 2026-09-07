@@ -49,7 +49,7 @@ export default function Hero() {
 
       <div className="absolute -left-[190px] top-1/2 -translate-y-1/2 opacity-[0.1] pointer-events-none z-[1] w-[640px]">
         <img
-          src="/home-2.webp"
+          src="/images/home-2.webp"
           alt="Zodiac background alignment watermark"
           className="w-full h-auto object-contain block"
         />
@@ -63,7 +63,7 @@ export default function Hero() {
           className="absolute left-[42%] top-[65%] w-[80px] md:w-[110px] z-20 hidden lg:block drop-shadow-[0_15px_30px_rgba(161,61,142,0.3)]"
         >
           <motion.img
-            src="/crystal.webp"
+            src="/images/crystal.webp"
             alt="Crystal floating"
             className="w-full h-auto object-contain"
             animate={{ y: [0, -20, 0] }}
@@ -110,7 +110,7 @@ export default function Hero() {
           className="group flex-[0_0_500px] max-w-[560px] relative rounded-[22px] overflow-hidden border border-[rgba(214,178,106,0.35)] bg-white shadow-[0_30px_60px_rgba(42,22,53,0.12)] cursor-pointer transition-[border-color,box-shadow] duration-500 ease-out group-hover:border-[rgba(214,178,106,0.8)] group-hover:shadow-[0_45px_90px_rgba(214,178,106,0.35)] max-lg:w-full max-lg:max-w-[320px] max-lg:flex-none max-lg:ml-0"
         >
           <img
-            src="/home-abt-2.webp"
+            src="/images/home-abt-2.webp"
             alt="Personalized tarot reading session"
             className="w-full h-full aspect-square object-cover block transition-transform duration-700 ease-out group-hover:scale-[1.08]"
           />
