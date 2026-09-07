@@ -14,7 +14,7 @@ const certificates = [
   },
   {
     id: 1,
-    image: "/certificate-11.webp",
+    image: "/certificate.png",
     title: "Master Life Coach & Practitioner | INTERNATIONALLY ACCREDITED",
     instructor: "Sufani Garza, Place of Bliss Academy",
     date: "March 6, 2024",
@@ -23,12 +23,12 @@ const certificates = [
   },
   {
     id: 2,
-    image: "/certificate-12.webp",
-    title: "Certified Spiritual Healing Advisor & Medium | ACCREDITED",
-    instructor: "Sufani Garza, Place of Bliss Academy",
-    date: "March 6, 2024",
-    duration: "4.5 total hours",
-    description: "Formally accredited in spiritual energy guidance, intuitive channel connection, and holistic healing methodologies. This certification validates expertise in facilitating deep energetic release, mediumship alignment, and compassionate spiritual care for clients navigating profound life journeys."
+    image: "/certificate-2.png",
+    title: "Certification in Spiritual Healing",
+    instructor: "Prof Krishna N Sharma, Virtued Academy International",
+    date: "14 March 2021",
+    duration: "Comprehensive",
+    description: "Successfully completed the Certification in Spiritual Healing from Virtued Academy International, an Accredited Training Provider. This certification validates the completion of comprehensive spiritual healing training under the guidance of Course Coordinator Prof Krishna N Sharma."
   },
   {
     id: 3,
