@@ -3,6 +3,7 @@ import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import FloatingContact from './components/FloatingContact';
 import ProtectedRoute from './components/ProtectedRoute';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -30,7 +31,18 @@ export default function App() {
   });
 
   useEffect(() => {
-    localStorage.setItem('sara_tarot_cart', JSON.stringify(cart));
+    try {
+      const cartToSave = cart.map(item => {
+        // Prevent storing huge base64 images in localStorage which causes QuotaExceededError
+        if (item.image && item.image.length > 50000) {
+          return { ...item, image: null };
+        }
+        return item;
+      });
+      localStorage.setItem('sara_tarot_cart', JSON.stringify(cartToSave));
+    } catch (err) {
+      console.error("Failed to save cart to local storage", err);
+    }
   }, [cart]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const location = useLocation();
@@ -69,6 +81,7 @@ export default function App() {
         />
       )}
       <ScrollToTop />
+      {!isDashboard && <FloatingContact />}
       
       <Suspense fallback={<div className="flex h-screen w-full items-center justify-center text-sara-gold"><div className="w-8 h-8 border-4 border-sara-gold border-t-transparent rounded-full animate-spin"></div></div>}>
         <Routes>

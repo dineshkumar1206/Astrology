@@ -68,7 +68,7 @@ export default function Checkout({ cartItems = [], setCartItems }) {
     }
 
     const options = {
-      key: 'rzp_test_TKognp49Y6QBem',
+      key: import.meta.env.VITE_RAZORPAY_KEY || 'rzp_test_TKognp49Y6QBem',
       amount: grandTotal * 100, // amount in paisa
       currency: 'INR',
       name: 'SARAA TAROT SERVICES',
@@ -156,74 +156,7 @@ Please confirm my booking and process it. Thank you!`;
     }
   };
 
-  const handleSimulatePayment = async (e) => {
-    e.preventDefault();
-    if (cartItems.length === 0) return;
-    if (isPhoneAddressRequired && (!phone.trim() || !address.trim())) {
-      setError(t('checkout.fillDetails'));
-      return;
-    }
-    setIsProcessing(true);
-    setError('');
 
-    try {
-      const demoPaymentId = `pay_demo_${Math.random().toString(36).substring(2, 11)}`;
-      const res = await api.post(
-        '/api/orders',
-        {
-          items: cartItems,
-          total: grandTotal,
-          paymentMethod: 'RAZORPAY',
-          customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
-          razorpayPaymentId: demoPaymentId
-        }
-      );
-
-      const orderId = res.data?.order?.id || 'N/A';
-      const orderItems = cartItems.map(item => `${item.name}${item._selectedSize ? ` (Size: ${item._selectedSize})` : ''} x${item.quantity}`);
-
-      setLastOrderDetails({
-        id: orderId,
-        items: orderItems,
-        total: grandTotal,
-        customerInfo: { name: user.name, email: user.email, phone: phone.trim(), address: address.trim() },
-        razorpayPaymentId: demoPaymentId
-      });
-
-      setCartItems([]);
-      setIsSuccess(true);
-
-      // Auto-trigger WhatsApp redirect
-      const orderItemsText = orderItems.map((item, idx) => `${idx + 1}. ${item}`).join('\n');
-      const messageText = 
-`🔮 *SARAA TAROT - ORDER CONFIRMATION* 🔮
-
-Hello Saraa Tarot, I have successfully placed an order. Below are the details as proof of purchase:
-
-• *Order Reference:* #ORD${orderId}
-• *Payment ID:* ${demoPaymentId}
-• *Total Amount Paid:* ₹${grandTotal.toLocaleString('en-IN')}
-
-*Customer Details:*
-• *Name:* ${user.name}
-• *Email:* ${user.email}
-• *Phone:* ${phone.trim()}
-• *Delivery Address:* ${address.trim()}
-
-*Items Ordered:*
-${orderItemsText}
-
-Please confirm my booking and process it. Thank you!`;
-
-      const waLink = `https://wa.me/919655199507?text=${encodeURIComponent(messageText)}`;
-      window.open(waLink, '_blank');
-    } catch (err) {
-      console.error(err);
-      setError(err.response?.data?.message || 'Failed to place demo order.');
-    } finally {
-      setIsProcessing(false);
-    }
-  };
 
   if (!user) {
     return (
@@ -413,16 +346,7 @@ Please confirm my booking and process it. Thank you!`;
                     : `PAY SECURELY WITH RAZORPAY ₹${grandTotal.toLocaleString('en-IN')}`}
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleSimulatePayment}
-                  disabled={isProcessing || cartItems.length === 0}
-                  className={`w-full mt-4 bg-transparent text-amber-500 border border-amber-500/50 rounded py-[0.8rem] text-[13px] font-semibold uppercase tracking-[1px] flex justify-center items-center gap-[10px] transition-colors hover:bg-amber-500/10 ${
-                    isProcessing || cartItems.length === 0 ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
-                  }`}
-                >
-                  🧪 [Test Mode] Simulate Success & WhatsApp
-                </button>
+
               </form>
             </div>
 
