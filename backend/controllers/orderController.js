@@ -47,6 +47,10 @@ const createOrder = async (req, res) => {
       status: 'CONFIRMED'
     });
 
+    // Send order confirmation email asynchronously
+    const { sendOrderConfirmation } = require('../utils/emailService');
+    sendOrderConfirmation(order.toJSON()).catch(err => console.error('Failed to send order email:', err));
+
     return res.status(201).json({ order });
   } catch (err) {
     console.error('Create order error:', err);

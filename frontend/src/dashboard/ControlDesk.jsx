@@ -5,6 +5,7 @@ import { Plus, Pencil, Trash2, Loader2, AlertCircle, CheckCircle } from 'lucide-
 import { logout } from '../store/slices/authSlice';
 import { useLanguage } from '../context/LanguageContext';
 import api, { getErrorMessage } from '../api/client';
+import { API_BASE_URL } from '../config';
 
 // Component Imports
 import AdminNavbar from './AdminNavbar'; 
@@ -644,8 +645,8 @@ export default function ControlDesk() {
                               <circle cx="4" cy="16" r="1.5"/><circle cx="10" cy="16" r="1.5"/>
                             </svg>
                           </div>
-                          {cat.image && (
-                            <img src={cat.image} alt={cat.name} className="w-10 h-10 object-cover rounded border border-[#D9B56A]/20" />
+                          {cat.type !== 'crystal' && cat.image && (
+                            <img src={cat.image?.startsWith('/uploads') ? `${API_BASE_URL.replace(/\/$/, '')}${cat.image}` : cat.image} alt={cat.name} className="w-10 h-10 object-cover rounded border border-[#D9B56A]/20" onError={(e) => e.currentTarget.style.display='none'} />
                           )}
                           <div>
                             <h4 className="font-semibold text-[14px] text-[#2A1635]">{cat.name}</h4>
@@ -1139,7 +1140,8 @@ export default function ControlDesk() {
                   </select>
                 </div>
 
-                {/* Image Upload Area (Optional, useful for crystals) */}
+                {/* Image Upload Area (Optional) */}
+                {catFormData.type !== 'crystal' && (
                 <div>
                   <label className="block text-[11px] text-[#3E2F48] uppercase tracking-[1px] mb-1 font-medium">
                     Category Icon / Image (Optional)
@@ -1191,7 +1193,7 @@ export default function ControlDesk() {
                     ) : catFormData.image ? (
                       <div className="flex flex-col items-center">
                         <img 
-                          src={catFormData.image} 
+                          src={catFormData.image?.startsWith('/uploads') ? `${API_BASE_URL.replace(/\/$/, '')}${catFormData.image}` : catFormData.image} 
                           alt="Category Preview" 
                           style={{ maxHeight: '100px', borderRadius: '4px', marginBottom: '0.5rem' }} 
                           onError={(e) => {
@@ -1207,6 +1209,7 @@ export default function ControlDesk() {
                     )}
                   </div>
                 </div>
+                )}
 
                 {/* Description */}
                 <div>
