@@ -11,8 +11,9 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:5173',
   'http://localhost:5174',
-  'https://sara-tarot.vercel.app',
-  'https://astrology-ten-neon.vercel.app' // Added your new Vercel URL here
+  'https://www.saratarot.in/',
+  'https://astrology-ten-neon.vercel.app',
+  'https://saratarot.in/' // Added your new Vercel URL here
 ];
 if (process.env.FRONTEND_URL) {
   allowedOrigins.push(process.env.FRONTEND_URL);
@@ -45,6 +46,10 @@ app.use(cors({
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
+// Serve uploaded images
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/astrology/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // --- ROUTE REGISTRATION ---
 // This function ensures your routes work perfectly whether running locally 
 // or inside the '/astrology' subfolder on cPanel.
@@ -59,11 +64,13 @@ const registerRoutes = (prefix) => {
   app.use(cleanPrefix === '/' ? '/api/testimonials' : `${cleanPrefix}api/testimonials`, require('./routes/testimonials'));
   
   app.get(cleanPrefix === '/' ? '/' : cleanPrefix.slice(0, -1), (req, res) => {
-    res.send('Saraa Tarot API is running...');
+    res.setHeader('Content-Type', 'text/html');
+    res.end('Saraa Tarot API is running...');
   });
   if (cleanPrefix !== '/') {
     app.get(cleanPrefix, (req, res) => {
-      res.send('Saraa Tarot API is running...');
+      res.setHeader('Content-Type', 'text/html');
+      res.end('Saraa Tarot API is running...');
     });
   }
 };
@@ -240,7 +247,7 @@ app.listen(PORT, async () => {
   sequelize.authenticate()
     .then(() => {
       console.log('Database connected successfully.');
-      return sequelize.sync({ alter: true });
+      return sequelize.sync();
     })
     .then(async () => {
       console.log('Database tables synchronized.');

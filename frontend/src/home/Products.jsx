@@ -372,6 +372,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
                         <img
                           src={imgSrc}
                           alt={product.name}
+                          loading="lazy"
                           className="w-full h-full object-contain p-2 transition-transform duration-500 hover:scale-105"
                           onError={(e) => {
                             e.target.onerror = null;

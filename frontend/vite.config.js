@@ -6,5 +6,8 @@ export default defineConfig({
   plugins: [react()],
   build: {
     sourcemap: false, // Absolutely no source maps in production
+  },
+  esbuild: {
+    drop: ['console', 'debugger'], // Remove console logs for extra protection
   }
 })

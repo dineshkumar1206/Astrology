@@ -1,18 +1,13 @@
 const Product = require('../models/Product');
 
-// Helper to convert binary buffer images back to Base64 data URIs
-const formatProduct = (product) => {
+const formatProduct = (product, req) => {
   if (!product) return null;
-  const p = product.toJSON();
-  if (p.image) {
-    if (Buffer.isBuffer(p.image)) {
-      const str = p.image.toString('utf-8');
-      if (str.startsWith('/') || str.startsWith('http') || str.startsWith('data:')) {
-        p.image = str;
-      } else {
-        const mime = p.imageMime || 'image/jpeg';
-        p.image = `data:${mime};base64,${p.image.toString('base64')}`;
-      }
+  const p = product.toJSON ? product.toJSON() : product;
+  if (p.image && p.image.startsWith('/uploads/')) {
+    if (req) {
+      const host = `${req.protocol}://${req.get('host')}`;
+      const base = req.baseUrl ? req.baseUrl.replace(/\/api\/products.*/, '') : '';
+      p.image = `${host}${base}${p.image}`;
     }
   }
   return p;
@@ -379,7 +374,7 @@ const getProducts = async (req, res) => {
       products = await Product.findAll({ order: [['order', 'ASC'], ['id', 'ASC']] });
     }
 
-    let formattedProducts = products.map(p => formatProduct(p));
+    let formattedProducts = products.map(p => formatProduct(p, req));
 
     // Optional query parameter filtering
     const { category } = req.query;
@@ -407,15 +402,10 @@ const createProduct = async (req, res) => {
   }
 
   try {
-    let imageBuffer = null;
-    let imageMime = null;
+    let imageUrl = image || '';
 
     if (req.file) {
-      imageBuffer = req.file.buffer;
-      imageMime = req.file.mimetype;
-    } else if (image) {
-      imageBuffer = Buffer.from(image);
-      imageMime = null;
+      imageUrl = '/uploads/' + req.file.filename;
     }
 
     let parsedInclusions = inclusions;
@@ -442,14 +432,13 @@ const createProduct = async (req, res) => {
       type,
       category,
       desc,
-      image: imageBuffer,
-      imageMime,
+      image: imageUrl,
       inclusions: parsedInclusions,
       sizes: parsedSizes,
       stock: (stock !== undefined && stock !== '' && stock !== null && stock !== 'null') ? parseInt(stock, 10) : null
     });
 
-    res.status(201).json(formatProduct(newProduct));
+    res.status(201).json(formatProduct(newProduct, req));
   } catch (err) {
     console.error('createProduct error:', err);
     res.status(500).json({ message: 'Server error' });
@@ -477,13 +466,9 @@ const updateProduct = async (req, res) => {
     product.desc = desc !== undefined ? desc : product.desc;
 
     if (req.file) {
-      product.image = req.file.buffer;
-      product.imageMime = req.file.mimetype;
+      product.image = '/uploads/' + req.file.filename;
     } else if (image !== undefined) {
-      if (typeof image === 'string' && !image.startsWith('data:')) {
-        product.image = Buffer.from(image);
-        product.imageMime = null;
-      }
+      product.image = image;
     }
 
     if (inclusions !== undefined) {
@@ -515,7 +500,7 @@ const updateProduct = async (req, res) => {
     }
 
     await product.save();
-    res.json(formatProduct(product));
+    res.json(formatProduct(product, req));
   } catch (err) {
     console.error('updateProduct error:', err);
     res.status(500).json({ message: 'Server error' });
@@ -545,7 +530,7 @@ const getProductById = async (req, res) => {
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
     }
-    res.json(formatProduct(product));
+    res.json(formatProduct(product, req));
   } catch (err) {
     console.error('getProductById error:', err);
     res.status(500).json({ message: 'Server error' });

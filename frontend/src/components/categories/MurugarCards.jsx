@@ -16,6 +16,7 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
   const [items, setItems] = useState([]);
   const translatedItems = useTranslatedList(items, locale);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -141,73 +142,84 @@ export default function MurugarCards({ cart = [], setCart, setIsCartOpen }) {
 
             <div className="flex flex-col gap-6">
               {loading ? (
-                <div className="text-center py-12 text-sara-gold">
-                  {t('categoryCommon.loading')}
-                </div>
-              ) : translatedItems.length === 0 ? (
-                <div className="text-center py-12 text-sara-muted">
-                  {t('categoryCommon.empty')}
+                <div className="flex justify-center py-20">
+                  <span className="text-sara-gold text-[15px] tracking-[1px]">{t('murugarCards.loading')}</span>
                 </div>
               ) : (
-                translatedItems.map((item, idx) => (
-                  <div 
-                    key={item.id}
-                    data-aos="fade-up"
-                    data-aos-delay={idx * 100}
-                    onClick={() => setActiveProduct(item)}
-                    className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
-                  >
-                    {(item.image || FALLBACK_IMAGE) && (
-                      <div className="w-[120px] h-[140px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] bg-[#12071C] flex-shrink-0">
-                        <img 
-                          src={item.image || FALLBACK_IMAGE} 
-                          alt={item.name}
-                          className="w-full h-full object-cover"
-                          onError={(e) => { e.target.src = FALLBACK_IMAGE; }}
-                        />
-                      </div>
-                    )}
-
-                    <div className="flex-[1_1_280px]">
-                      <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
-                        {item.type}
-                      </div>
-                      <h4 className="text-white text-[1.35rem] mt-1 mb-2 font-bold">
-                        {item.name}
-                      </h4>
-                      <p className="text-[#D3C7DC] text-[0.9rem] leading-5 m-0">
-                        {item.desc}
-                      </p>
-                      {item.stock !== null && item.stock !== undefined && (
-                        <div className="text-[11px] font-medium mt-2 font-sans">
-                          {item.stock === 0 ? (
-                            <span className="text-[#ef5350] font-bold uppercase tracking-[0.5px]">● Out of Stock</span>
-                          ) : item.stock <= 5 ? (
-                            <span className="text-amber-500 font-bold text-[15px] animate-pulse block">⚠️ Only {item.stock} left!</span>
-                          ) : null}
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">
-                      <div className="text-sara-gold text-[1.75rem] font-semibold">
-                        ₹{(item.price + (expressChecked ? 1000 : 0)).toLocaleString('en-IN')}
-                      </div>
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
-                        disabled={item.stock === 0}
-                        className={`rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full ${
-                          item.stock === 0
-                            ? 'bg-gray-700 text-gray-500 border border-gray-600 cursor-not-allowed opacity-60'
-                            : 'bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold'
-                        }`}
+                <>
+                  <div className="flex flex-col gap-6">
+                    {translatedItems.slice(0, visibleCount).map((item, idx) => (
+                      <div 
+                        key={item.id}
+                        data-aos="fade-up"
+                        data-aos-delay={idx * 100}
+                        onClick={() => setActiveProduct(item)}
+                        className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
                       >
-                        {item.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('categoryCommon.bookAdd')}
+                        {(item.image || FALLBACK_IMAGE) && (
+                          <div className="w-[120px] h-[140px] rounded overflow-hidden border border-[rgba(214,178,106,0.2)] bg-[#12071C] flex-shrink-0">
+                            <img 
+                              src={(item.image?.startsWith('/uploads') ? `${API_BASE_URL.replace(/\/$/, '')}${item.image}` : item.image) || FALLBACK_IMAGE} 
+                              alt={item.name}
+                              className="w-full h-full object-cover"
+                              onError={(e) => { e.target.src = FALLBACK_IMAGE; }}
+                            />
+                          </div>
+                        )}
+
+                        <div className="flex-[1_1_280px]">
+                          <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
+                            {item.type}
+                          </div>
+                          <h4 className="text-white text-[1.35rem] mt-1 mb-2 font-bold">
+                            {item.name}
+                          </h4>
+                          <p className="text-[#D3C7DC] text-[0.9rem] leading-5 m-0">
+                            {item.desc}
+                          </p>
+                          {item.stock !== null && item.stock !== undefined && (
+                            <div className="text-[11px] font-medium mt-2 font-sans">
+                              {item.stock === 0 ? (
+                                <span className="text-[#ef5350] font-bold uppercase tracking-[0.5px]">● Out of Stock</span>
+                              ) : item.stock <= 5 ? (
+                                <span className="text-amber-500 font-bold text-[15px] animate-pulse block">⚠️ Only {item.stock} left!</span>
+                              ) : null}
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">
+                          <div className="text-sara-gold text-[1.75rem] font-semibold">
+                            ₹{(item.price + (expressChecked ? 1000 : 0)).toLocaleString('en-IN')}
+                          </div>
+                          <button
+                            onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
+                            disabled={item.stock === 0}
+                            className={`rounded-sm py-3 px-6 text-xs font-bold uppercase tracking-[1px] cursor-pointer transition-all w-full ${
+                              item.stock === 0
+                                ? 'bg-gray-700 text-gray-500 border border-gray-600 cursor-not-allowed opacity-60'
+                                : 'bg-transparent text-sara-gold border border-[rgba(214,178,106,0.4)] hover:bg-sara-gold hover:text-[#1E0F2B] hover:border-sara-gold'
+                            }`}
+                          >
+                            {item.stock === 0 ? (locale === 'ta' ? 'இருப்பு இல்லை' : 'Out of Stock') : t('categoryCommon.bookAdd')}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {translatedItems.length > visibleCount && (
+                    <div className="flex justify-center mt-12 mb-4">
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + 9)}
+                        className="bg-transparent border border-sara-gold text-sara-gold px-8 py-3 rounded text-[13px] font-semibold uppercase tracking-[1.5px] hover:bg-sara-gold hover:text-sara-dark transition-all duration-300 shadow-[0_0_15px_rgba(214,178,106,0.1)] hover:shadow-[0_0_20px_rgba(214,178,106,0.3)]"
+                      >
+                        View More
                       </button>
                     </div>
-                  </div>
-                ))
-            )}
+                  )}
+                </>
+              )}
             </div>
           </div>
 

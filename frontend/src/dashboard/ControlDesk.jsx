@@ -745,6 +745,7 @@ export default function ControlDesk() {
                               <img 
                                 src={product.image} 
                                 alt={product.name} 
+                                loading="lazy"
                                 className="w-full h-full object-cover"
                               />
                             ) : (

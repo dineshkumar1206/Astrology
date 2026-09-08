@@ -1,17 +1,13 @@
 const Category = require('../models/Category');
 
-const formatCategory = (category) => {
+const formatCategory = (category, req) => {
   if (!category) return null;
-  const cat = category.toJSON();
-  if (cat.image) {
-    if (Buffer.isBuffer(cat.image)) {
-      const str = cat.image.toString('utf-8');
-      if (str.startsWith('/') || str.startsWith('http') || str.startsWith('data:')) {
-        cat.image = str;
-      } else {
-        const mime = cat.imageMime || 'image/jpeg';
-        cat.image = `data:${mime};base64,${cat.image.toString('base64')}`;
-      }
+  const cat = category.toJSON ? category.toJSON() : category;
+  if (cat.image && cat.image.startsWith('/uploads/')) {
+    if (req) {
+      const host = `${req.protocol}://${req.get('host')}`;
+      const base = req.baseUrl ? req.baseUrl.replace(/\/api\/categories.*/, '') : '';
+      cat.image = `${host}${base}${cat.image}`;
     }
   }
   return cat;
@@ -21,7 +17,7 @@ const formatCategory = (category) => {
 exports.getCategories = async (req, res) => {
   try {
     const categories = await Category.findAll({ order: [['order', 'ASC'], ['id', 'ASC']] });
-    const formatted = categories.map(formatCategory);
+    const formatted = categories.map(c => formatCategory(c, req));
     res.json(formatted);
   } catch (err) {
     console.error('Failed to get categories:', err);
@@ -39,24 +35,21 @@ exports.createCategory = async (req, res) => {
 
     const calculatedSlug = slug || name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-    let imageBuffer = null;
-    let imageMime = null;
+    let imageUrl = null;
 
     if (req.file) {
-      imageBuffer = req.file.buffer;
-      imageMime = req.file.mimetype;
+      imageUrl = '/uploads/' + req.file.filename;
     }
 
     const category = await Category.create({
       name,
       type,
       desc,
-      image: imageBuffer,
-      imageMime,
+      image: imageUrl,
       slug: calculatedSlug
     });
 
-    res.status(201).json(formatCategory(category));
+    res.status(201).json(formatCategory(category, req));
   } catch (err) {
     console.error('Failed to create category:', err);
     res.status(500).json({ message: 'Server error creating category' });
@@ -82,12 +75,11 @@ exports.updateCategory = async (req, res) => {
     }
 
     if (req.file) {
-      category.image = req.file.buffer;
-      category.imageMime = req.file.mimetype;
+      category.image = '/uploads/' + req.file.filename;
     }
 
     await category.save();
-    res.json(formatCategory(category));
+    res.json(formatCategory(category, req));
   } catch (err) {
     console.error('Failed to update category:', err);
     res.status(500).json({ message: 'Server error updating category' });

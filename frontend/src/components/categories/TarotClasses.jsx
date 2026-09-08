@@ -13,6 +13,7 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
   const [items, setItems] = useState([]);
   const translatedItems = useTranslatedList(items, locale);
   const [loading, setLoading] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(9);
 
   useEffect(() => {
     const fetchItems = async () => {
@@ -103,7 +104,9 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
                   {t('categoryCommon.empty')}
                 </div>
               ) : (
-                 translatedItems.map((item, idx) => (
+                <>
+                  <div className="flex flex-col gap-6">
+                    {translatedItems.slice(0, visibleCount).map((item, idx) => (
                   <div 
                     key={item.id}
                     data-aos="fade-up"
@@ -135,8 +138,20 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
                       </button>
                     </div>
                   </div>
-                ))
-            )}
+                ))}
+                  </div>
+                  {translatedItems.length > visibleCount && (
+                    <div className="flex justify-center mt-12 mb-4">
+                      <button
+                        onClick={() => setVisibleCount(prev => prev + 9)}
+                        className="bg-transparent border border-sara-gold text-sara-gold px-8 py-3 rounded text-[13px] font-semibold uppercase tracking-[1.5px] hover:bg-sara-gold hover:text-sara-dark transition-all duration-300 shadow-[0_0_15px_rgba(214,178,106,0.1)] hover:shadow-[0_0_20px_rgba(214,178,106,0.3)]"
+                      >
+                        View More
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </div>
 

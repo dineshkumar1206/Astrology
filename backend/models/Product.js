@@ -28,11 +28,7 @@ const Product = sequelize.define('Product', {
     allowNull: true
   },
   image: {
-    type: DataTypes.BLOB('long'),
-    allowNull: true
-  },
-  imageMime: {
-    type: DataTypes.STRING,
+    type: DataTypes.TEXT,
     allowNull: true
   },
   inclusions: {

@@ -248,7 +248,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
                       {item.image && (
                         <div className="w-full h-[200px] overflow-hidden relative bg-[#12071C]">
                            <img 
-                             src={item.image} 
+                             src={item.image?.startsWith('/uploads') ? `${API_BASE_URL.replace(/\/$/, '')}${item.image}` : item.image} 
                              alt={item.name} 
                              className="w-full h-full object-cover" 
                              onError={(e) => {
@@ -433,7 +433,7 @@ export default function Crystals({ cart = [], setCart, setIsCartOpen }) {
               {currentItem.image && (
                 <div className="flex-[1_1_350px]">
                   <img 
-                    src={currentItem.image} 
+                    src={currentItem.image?.startsWith('/uploads') ? `${API_BASE_URL.replace(/\/$/, '')}${currentItem.image}` : currentItem.image} 
                     alt={currentItem.name} 
                     className="w-full rounded border border-[rgba(214,178,106,0.15)] bg-[#12071C] object-cover h-full min-h-[300px] max-h-[400px]"
                   />
