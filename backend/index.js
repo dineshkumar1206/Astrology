@@ -62,6 +62,7 @@ const registerRoutes = (prefix) => {
   app.use(cleanPrefix === '/' ? '/api/categories' : `${cleanPrefix}api/categories`, require('./routes/categories'));
   app.use(cleanPrefix === '/' ? '/api/orders' : `${cleanPrefix}api/orders`, require('./routes/orders'));
   app.use(cleanPrefix === '/' ? '/api/testimonials' : `${cleanPrefix}api/testimonials`, require('./routes/testimonials'));
+  app.use(cleanPrefix === '/' ? '/api/analytics' : `${cleanPrefix}api/analytics`, require('./routes/analytics'));
   
   app.get(cleanPrefix === '/' ? '/' : cleanPrefix.slice(0, -1), (req, res) => {
     res.setHeader('Content-Type', 'text/html');
@@ -88,6 +89,12 @@ const User = require('./models/User');
 const Category = require('./models/Category');
 const Order = require('./models/Order');
 const LoginHistory = require('./models/LoginHistory');
+const SiteVisit = require('./models/SiteVisit');
+
+// Set up relationships
+LoginHistory.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(LoginHistory, { foreignKey: 'userId' });
+
 
 const seedAdminUser = async () => {
   try {

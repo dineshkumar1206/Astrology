@@ -9,8 +9,10 @@ import { API_BASE_URL } from '../config';
 
 // Component Imports
 import AdminNavbar from './AdminNavbar'; 
+import AdminSidebar from './AdminSidebar';
 import Orders from './Orders';
 import TestimonialsManager from './TestimonialsManager';
+import Overview from './Overview';
 
 export default function ControlDesk() {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ export default function ControlDesk() {
   const user = useSelector(state => state.auth.user) || {};
 
   // Active Category Selection
-  const [activeCategory, setActiveCategory] = useState('Tarot Private Consultation');
+  const [activeCategory, setActiveCategory] = useState('_dashboard');
 
   // Products and Categories states
   const [products, setProducts] = useState([]);
@@ -252,7 +254,8 @@ export default function ControlDesk() {
       
       // Auto select first category if current is not in the loaded list
       const loadedCatNames = catData.map(c => c.name);
-      if (loadedCatNames.length > 0 && !loadedCatNames.includes(activeCategory) && activeCategory !== '_manage_menus' && activeCategory !== '_orders') {
+      const systemCategories = ['_dashboard', '_orders', '_testimonials', '_manage_menus'];
+      if (loadedCatNames.length > 0 && !loadedCatNames.includes(activeCategory) && !systemCategories.includes(activeCategory)) {
         setActiveCategory(loadedCatNames[0]);
       }
     } catch (err) {
@@ -517,23 +520,35 @@ export default function ControlDesk() {
   );
 
   return (
-    <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] flex flex-col font-sans">
+    <div className="min-h-screen bg-[#F8F6FF] text-[#2A1635] flex font-sans overflow-hidden">
       
-      {/* ─── NAVBAR PANEL ─── */}
-      <AdminNavbar 
+      {/* ─── SIDEBAR PANEL ─── */}
+      <AdminSidebar 
         user={user}
         activeCategory={activeCategory}
         setActiveCategory={setActiveCategory}
         handleSignOut={handleSignOut}
-        categories={categories}
       />
 
-      {/* ─── MAIN PANEL ─── */}
-      <main className="flex-grow p-6 md:p-8 max-w-[1400px] mx-auto w-full overflow-y-auto">
-        
-        {activeCategory === '_orders' ? (
-          /* ─── ORDERS DASHBOARD VIEW ─── */
-          <Orders />
+      <div className="flex-1 flex flex-col h-screen overflow-hidden relative">
+        {/* ─── NAVBAR PANEL ─── */}
+        <AdminNavbar 
+          user={user}
+          activeCategory={activeCategory}
+          setActiveCategory={setActiveCategory}
+          handleSignOut={handleSignOut}
+          categories={categories}
+        />
+
+        {/* ─── MAIN PANEL ─── */}
+        <main className="flex-grow p-6 md:p-8 w-full overflow-y-auto">
+          
+          {activeCategory === '_dashboard' ? (
+            /* ─── DASHBOARD OVERVIEW VIEW ─── */
+            <Overview />
+          ) : activeCategory === '_orders' ? (
+            /* ─── ORDERS DASHBOARD VIEW ─── */
+            <Orders />
         ) : activeCategory === '_testimonials' ? (
           /* ─── TESTIMONIALS DASHBOARD VIEW ─── */
           <TestimonialsManager />
@@ -824,7 +839,8 @@ export default function ControlDesk() {
             )}
           </div>
         )}
-      </main>
+        </main>
+      </div>
 
       {/* ─── PRODUCT ADD / EDIT MODAL ─── */}
       {showModal && (
@@ -1249,7 +1265,6 @@ export default function ControlDesk() {
           </div>
         </div>
       )}
-
     </div>
   );
 }

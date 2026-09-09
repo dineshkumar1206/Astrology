@@ -70,6 +70,23 @@ export default function App() {
 
   const isDashboard = location.pathname.startsWith('/dashboard') || location.pathname === '/admin';
 
+  useEffect(() => {
+    // Record a site visit when the app loads (once per session/load)
+    const trackSiteVisit = async () => {
+      try {
+        // Only track if not in dashboard/admin to keep stats clean, or track everywhere
+        if (!isDashboard) {
+          const api = (await import('./api/client')).default;
+          await api.post('/api/analytics/track-visit');
+        }
+      } catch (err) {
+        console.error("Visit tracking failed:", err);
+      }
+    };
+    trackSiteVisit();
+    // Empty dependency array ensures this runs once when App mounts
+  }, [isDashboard]);
+
   return (
     <div>
       {!isDashboard && (
