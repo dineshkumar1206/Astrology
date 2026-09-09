@@ -38,6 +38,11 @@ export const translations = {
       tagline: "Trust the cards, embrace the journey, and find your true North.",
       bookBtn: "Book A Reading"
     },
+    homeVideo: {
+      subtitle: "Divine Guidance",
+      title: "Experience the Magic of Saraa Tarot",
+      watchBtn: "Watch Video"
+    },
     aboutHome: {
       subtitle: "The Founder",
       title: "The Story of Saraa Tarot",
@@ -645,6 +650,11 @@ export const translations = {
       manageMenus: "மெனுக்களை நிர்வகி",
       crystals: "படிகங்கள்",
       spiritualServices: "ஆன்மீக சேவைகள்"
+    },
+    homeVideo: {
+      subtitle: "தெய்வீக வழிகாட்டுதல்",
+      title: "சாரா டாரோட்டின் மாயாஜாலத்தை அனுபவியுங்கள்",
+      watchBtn: "வீடியோ பார்க்க"
     },
     hero: {
       subtitle: "விண்மீன் வழிகாட்டுதல் மற்றும் ஆன்மீக குணம் பெறுதல்",

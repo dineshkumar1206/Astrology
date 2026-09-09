@@ -78,18 +78,20 @@ export default function AbtSara() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr_1.1fr] gap-12 items-center">
 
-          <motion.div
-            data-aos="fade-up"
-            data-aos-delay="200"
-            whileHover={{ scale: 1.015, transition: { duration: 0.4 } }}
-            className="w-full md:max-w-[450px] lg:max-w-none mx-auto aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(161,61,142,0.10)] bg-white"
-          >
-            <img
-              src={IMAGES.mainPortrait}
-              alt="Portrait of Saraa - Founder of Saraa Tarot"
-              className="w-full h-full object-cover block"
-            />
-          </motion.div>
+          <div className="w-[80%] max-w-[280px] sm:max-w-[320px] md:w-full md:max-w-[450px] lg:max-w-none mx-auto">
+            <motion.div
+              data-aos="fade-up"
+              data-aos-delay="200"
+              whileHover={{ scale: 1.015, transition: { duration: 0.4 } }}
+              className="w-full aspect-[4/6] overflow-hidden rounded-2xl border border-[rgba(214,178,106,0.2)] shadow-[0_25px_50px_rgba(161,61,142,0.10)] bg-white"
+            >
+              <img
+                src={IMAGES.mainPortrait}
+                alt="Portrait of Saraa - Founder of Saraa Tarot"
+                className="w-full h-full object-cover block"
+              />
+            </motion.div>
+          </div>
 
           <div
             data-aos="fade-up"
@@ -118,10 +120,11 @@ export default function AbtSara() {
             data-aos-delay="400"
             className="flex flex-col items-center gap-6"
           >
+          <div className="w-[80%] max-w-[280px] sm:max-w-[320px] md:w-full md:max-w-[450px] lg:max-w-none mx-auto">
             <motion.div
               style={{ y: cardSpreadY }}
               whileHover={{ scale: 1.02 }}
-              className="w-full md:max-w-[450px] lg:max-w-none mx-auto aspect-[4/5] min-h-[400px] overflow-hidden rounded-t-[160px] rounded-b-3xl border border-[rgba(214,178,106,0.25)] shadow-[0_30px_60px_rgba(161,61,142,0.15)] bg-white"
+              className="w-full aspect-[4/5] min-h-[400px] overflow-hidden rounded-t-[160px] rounded-b-3xl border border-[rgba(214,178,106,0.25)] shadow-[0_30px_60px_rgba(161,61,142,0.15)] bg-white"
             >
               <img
                 src={IMAGES.cardSpread}
@@ -129,6 +132,7 @@ export default function AbtSara() {
                 className="w-full h-full object-cover block"
               />
             </motion.div>
+          </div>
           </div>
         </div>
 
