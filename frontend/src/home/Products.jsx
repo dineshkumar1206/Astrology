@@ -18,12 +18,12 @@ const fadeInUpVariants = {
 };
 
 const CATEGORY_SECTIONS = [
+  { title: 'Tarot Card Reading', viewAllPath: '/products/tarot-classes', categoryName: 'Tarot Card Reading' },
+  { title: 'Tarot Private Consultation', viewAllPath: '/products/tarot-consultation', categoryName: 'Tarot Private Consultation' },
   { title: 'Saraa Healing Crystals', viewAllPath: '/products/crystals', filterType: 'crystal' },
   { title: 'Murugar Card Deck', viewAllPath: '/products/murugar-cards', categoryName: 'Murugar Cards' },
-  { title: 'Tarot Private Consultation', viewAllPath: '/products/tarot-consultation', categoryName: 'Tarot Private Consultation' },
   { title: 'Spiritual Healing', viewAllPath: '/products/spiritual-healing', categoryName: 'Spiritual Healing' },
   { title: 'Kali Pooja', viewAllPath: '/products/kali-pooja', categoryName: 'Kali Pooja' },
-  { title: 'Tarot Card Reading', viewAllPath: '/products/tarot-classes', categoryName: 'Tarot Card Reading' },
   { title: 'Spiritual Counseling', viewAllPath: '/products/counseling-classes', categoryName: 'Spiritual Counseling' },
 ];
 
@@ -310,24 +310,7 @@ export default function Products({ cart = [], setCart, setIsCartOpen }) {
           let sortedSections = [...CATEGORY_SECTIONS];
           
           // Try to sort them based on the categories fetched from backend
-          if (categories.length > 0) {
-            sortedSections.sort((a, b) => {
-              // Find matching category for section a
-              const catA = a.filterType === 'crystal' 
-                ? categories.find(c => c.type === 'crystal') // use first crystal category's order
-                : categories.find(c => c.name.toLowerCase() === (a.categoryName || '').toLowerCase());
-                
-              // Find matching category for section b
-              const catB = b.filterType === 'crystal' 
-                ? categories.find(c => c.type === 'crystal') 
-                : categories.find(c => c.name.toLowerCase() === (b.categoryName || '').toLowerCase());
-                
-              const orderA = catA && catA.order !== undefined ? catA.order : 999;
-              const orderB = catB && catB.order !== undefined ? catB.order : 999;
-              
-              return orderA - orderB;
-            });
-          }
+          // We removed this sorting logic to respect the frontend-defined order.
 
           return sortedSections.map((section, sIdx) => {
             const sectionProducts = getProductsForSection(section);
