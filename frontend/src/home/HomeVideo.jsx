@@ -8,8 +8,7 @@ export default function HomeVideo() {
   const [activeVideoId, setActiveVideoId] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const { t } = useLanguage();
-  
-  const videos = ['ie0KDqhoBJM', 'LWKBDHhiphE', 'xE36u_RnZE4'];
+  const videos = ['LWKBDHhiphE', 'ie0KDqhoBJM', 'xE36u_RnZE4'];
 
   const openVideo = (id) => {
     setActiveVideoId(id);

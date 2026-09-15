@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import CosmicInsights from './CosmicInsights';
 import AbtCertificate from './AbtCertificate';
 import Team from './Team';
+import HomeVideo from '../../home/HomeVideo';
 import { useLanguage } from '../../context/LanguageContext';
 
 
@@ -97,7 +98,8 @@ export default function About() {
 
         </div>
       </section>
-      <AbtCertificate />
+      {/* <AbtCertificate /> */}
+      <HomeVideo/>
       
       <CosmicInsights />
     </>

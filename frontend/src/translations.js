@@ -32,15 +32,16 @@ export const translations = {
     },
     hero: {
       subtitle: "CELESTIAL GUIDANCE & SPIRITUAL HEALING",
-      titleFirst: "Awaken Your ",
-      titleSecond: "Inner Wisdom",
-      description: "Step into the realm of Saraa Tarot and uncover the hidden truths waiting for you. Receive personalized intuitive readings designed to illuminate your path, heal your spirit, and empower your choices.",
-      tagline: "Trust the cards, embrace the journey, and find your true North.",
-      bookBtn: "Book A Reading"
+      titleFirst: "Sara South Indian's Best ",
+      titleSecond: "Tarot Card Reader & Spiritual Healer",
+      titleThird: "( Certified as a Tarot Master )",
+      description: "Experience transformative spiritual guidance with Sara, South India's most trusted Tarot expert. Through deep intuitive insight and compassionate healing, she illuminates your life's path, helping you overcome obstacles and achieve lasting inner peace.",
+      tagline: "Your journey to clarity and spiritual awakening begins here.",
+      bookBtn: "Join the Class"
     },
     homeVideo: {
       subtitle: "Divine Guidance",
-      title: "Experience the Magic of Saraa Tarot",
+      title: "Experience the magic of Sara's Spiritual journey",
       watchBtn: "Watch Video"
     },
     aboutHome: {
@@ -653,16 +654,17 @@ export const translations = {
     },
     homeVideo: {
       subtitle: "தெய்வீக வழிகாட்டுதல்",
-      title: "சாரா டாரோட்டின் மாயாஜாலத்தை அனுபவியுங்கள்",
+      title: "சாராவின் ஆன்மீக பயணத்தின் மாயாஜாலத்தை அனுபவியுங்கள்",
       watchBtn: "வீடியோ பார்க்க"
     },
     hero: {
       subtitle: "விண்மீன் வழிகாட்டுதல் மற்றும் ஆன்மீக குணம் பெறுதல்",
-      titleFirst: "உங்கள் ",
-      titleSecond: "உள் ஞானத்தை",
-      description: "சாரா டேரட்டின் உலகில் அடியெடுத்து வையுங்கள், உங்களுக்காகக் காத்திருக்கும் மறைந்த உண்மைகளைக் கண்டறியுங்கள். உங்கள் பாதையை ஒளிரச் செய்யவும், ஆன்மாவை குணப்படுத்தவும், உங்கள் தேர்வுகளை மேம்படுத்தவும் வடிவமைக்கப்பட்ட தனிப்பயனான உள்ளுணர்வு வாசிப்புகளைப் பெறுங்கள்.",
-      tagline: "அட்டைகளை நம்புங்கள், பயணத்தை ஏற்றுக்கொள்ளுங்கள், உங்கள் உண்மையான வடக்கைக் கண்டறியுங்கள்.",
-      bookBtn: "வாசிப்புக்கு முன்பதிவு செய்க"
+      titleFirst: "சாரா தென்னிந்தியாவின் சிறந்த ",
+      titleSecond: "டாரட் கார்டு வாசகர் & ஆன்மீக குணப்படுத்துபவர்",
+      titleThird: "( சான்றளிக்கப்பட்ட டாரட் மாஸ்டர் )",
+      description: "தென்னிந்தியாவின் மிகவும் நம்பகமான டாரட் நிபுணரான சாறாவிடம் இருந்து உருமாறும் ஆன்மீக வழிகாட்டுதலை அனுபவியுங்கள். ஆழ்ந்த உள்ளுணர்வு மற்றும் இரக்க குணம் மூலம், அவர் உங்கள் வாழ்க்கைப் பாதையை ஒளிரச் செய்து, தடைகளைத் தாண்டி நிலையான உள் அமைதியை அடைய உதவுகிறார்.",
+      tagline: "தெளிவு மற்றும் ஆன்மீக விழிப்புணர்விற்கான உங்கள் பயணம் இங்கே தொடங்குகிறது.",
+      bookBtn: "வகுப்பில் சேரவும்"
     },
     aboutHome: {
       subtitle: "நிறுவனர்",

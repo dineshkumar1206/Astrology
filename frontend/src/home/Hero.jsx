@@ -79,13 +79,19 @@ export default function Hero() {
         >
           <motion.h1
             variants={fadeInUpVariants}
-            className="m-0 mb-8 font-semibold leading-[1.05] tracking-[-0.03em] text-start"
-            style={{ fontFamily: "'Plus Jakarta Sans', 'Poppins', sans-serif" }}
+            className="m-0 mb-8 text-start"
+            style={{ fontFamily: "'Poppins', sans-serif" }}
           >
-            <span className="block text-[clamp(50px,6vw,80px)]">
-              <span className="text-black">{t('hero.titleFirst')}</span>
-              <span className="text-sara-gold">{t('hero.titleSecond')}</span>
+            <span className="block text-[clamp(28px,4vw,56px)] leading-[1.2] font-bold tracking-[0.5px]">
+              <span className="text-[#1A0B2E] drop-shadow-sm">{t('hero.titleFirst')}</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-sara-gold via-[#E8C985] to-sara-gold drop-shadow-[0_2px_15px_rgba(214,178,106,0.3)]">{t('hero.titleSecond')}</span>
             </span>
+            <div className="flex items-center gap-4 mt-5">
+              <div className="h-px w-8 bg-sara-gold/80"></div>
+              <span className="block text-[clamp(13px,1.2vw,16px)] text-sara-gold font-semibold tracking-[3px] uppercase font-['Poppins',sans-serif]">
+                {typeof t('hero.titleThird') === 'string' ? t('hero.titleThird').replace(/[()]/g, '').trim() : t('hero.titleThird')}
+              </span>
+            </div>
           </motion.h1>
 
           <motion.div
@@ -128,7 +134,7 @@ export default function Hero() {
           />
 
           <button
-            onClick={() => navigate('/products/tarot-consultation')}
+            onClick={() => navigate('/products/tarot-classes')}
             className="absolute bottom-0 right-0 border-none py-[1.2rem] px-[2.5rem] font-['Poppins',sans-serif] text-[13px] font-medium uppercase tracking-[2px] cursor-pointer z-[15] bg-gradient-to-br from-sara-gold to-sara-goldSoft text-[#2A1635] transition-[transform,box-shadow,filter] duration-[350ms] ease-in-out hover:brightness-90 hover:-translate-y-px hover:shadow-[0_8px_24px_rgba(214,178,106,0.35)]"
           >
             {t('hero.bookBtn')}

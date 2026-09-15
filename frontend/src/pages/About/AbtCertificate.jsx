@@ -50,7 +50,7 @@ const certificates = [
   },
   {
     id: 5,
-    image: "/images/certificate-3.png",
+    image: "/images/certificate-13.webp",
     title: "Certified Spiritual Healing Advisor & Medium | ACCREDITED",
     instructor: "Sufani Garza, Place of Bliss Academy",
     date: "March 6, 2024",
@@ -59,7 +59,7 @@ const certificates = [
   },
   {
     id: 6,
-    image: "/images/certificate-4.jpeg",
+    image: "/images/certificate-11.webp",
     title: "Symbols I: Ancient Egyptian Symbols in Mythology & Religion",
     instructor: "Peggy Zogbaum",
     date: "March 6, 2024",

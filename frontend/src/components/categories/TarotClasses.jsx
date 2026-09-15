@@ -114,6 +114,16 @@ export default function TarotClasses({ cart = [], setCart, setIsCartOpen }) {
                     onClick={() => setActiveProduct(item)}
                     className="bg-gradient-to-br from-[#1E0F2B] to-[#0C0614] border border-[rgba(214,178,106,0.2)] rounded p-8 flex flex-row gap-6 flex-wrap items-center justify-between transition-all duration-300 hover:border-sara-gold hover:shadow-[0_4px_25px_rgba(161,61,142,0.15)] cursor-pointer"
                   >
+                    {item.image && (
+                      <div className="w-[70px] h-[70px] shrink-0">
+                        <img
+                          src={item.image?.startsWith('/uploads') ? `${API_BASE_URL.replace(/\/$/, '')}${item.image}` : item.image}
+                          alt={item.name}
+                          className="w-full h-full object-contain rounded-lg border border-[rgba(214,178,106,0.2)] bg-black/40 p-1"
+                          onError={(e) => { e.currentTarget.style.display = 'none' }}
+                        />
+                      </div>
+                    )}
                     <div className="flex-[1_1_280px]">
                       <div className="text-sara-gold text-[11px] uppercase tracking-[1px] font-semibold">
                         {item.type}

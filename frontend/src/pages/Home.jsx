@@ -10,7 +10,7 @@ function Home({ cart, setCart, setIsCartOpen }) {
     <>
     <Hero/>
     <Products cart={cart} setCart={setCart} setIsCartOpen={setIsCartOpen}/>
-    <HomeVideo/>
+    {/* <HomeVideo/> */}
     <AbtSara/>
     <Testimonial/>
     </>
