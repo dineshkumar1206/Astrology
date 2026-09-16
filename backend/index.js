@@ -147,12 +147,7 @@ const seedCategories = async () => {
     const currentCategories = await Category.findAll();
 
     const newCrystalNames = targetCategories.filter(c => c.type === 'crystal').map(c => c.name);
-    for (const cur of currentCategories) {
-      if (cur.type === 'crystal' && !newCrystalNames.includes(cur.name)) {
-        await cur.destroy();
-        console.log(`Removed obsolete crystal category: ${cur.name}`);
-      }
-    }
+    // Removed destructive deletion of user-created crystal categories
 
     for (const target of targetCategories) {
       const match = currentCategories.find(c => c.name.toLowerCase() === target.name.toLowerCase());

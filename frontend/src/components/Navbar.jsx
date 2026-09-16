@@ -12,6 +12,8 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
+  const [isCrystalsDropdownOpen, setIsCrystalsDropdownOpen] = useState(false);
+  const [isMobileCrystalsOpen, setIsMobileCrystalsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const { locale, setLocale, t } = useLanguage();
   const [isLangDropdownOpen, setIsLangDropdownOpen] = useState(false);
@@ -97,6 +99,12 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
     );
   }
 
+  const crystalCategories = categories.filter(c => c.type === 'crystal');
+  const crystalDropdownItems = crystalCategories.map(cat => ({
+    label: getTranslatedLabel(cat.name),
+    path: getCategoryPath(cat)
+  }));
+
   return (
     <nav className="sticky top-0 z-[1000] w-full box-border bg-[#0B1225] border-b border-[rgba(223,186,107,0.15)]">
       <div className="max-w-[1360px] mx-auto px-6 py-2 flex justify-between items-center box-border flex-nowrap">
@@ -153,13 +161,38 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
               )}
             </li>
 
-            <li>
+            <li
+              onMouseEnter={() => setIsCrystalsDropdownOpen(true)}
+              onMouseLeave={() => setIsCrystalsDropdownOpen(false)}
+              className="relative py-6 cursor-pointer flex-shrink-0"
+            >
               <Link
                 to="/products/crystals"
-                className="text-white no-underline transition-colors duration-300 hover:text-sara-gold"
+                className={`flex items-center gap-1.5 whitespace-nowrap no-underline transition-colors duration-300 hover:text-sara-gold ${isCrystalsDropdownOpen ? 'text-sara-gold' : 'text-white'}`}
               >
                 {t('nav.crystals')}
+                {crystalDropdownItems.length > 0 && (
+                  <svg width="8" height="5" viewBox="0 0 10 6" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                )}
               </Link>
+
+              {/* Dropdown Options */}
+              {isCrystalsDropdownOpen && crystalDropdownItems.length > 0 && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 bg-[#130f24] border border-[rgba(223,186,107,0.25)] rounded w-[280px] py-3 shadow-[0_12px_30px_rgba(0,0,0,0.6)] z-[1100] flex flex-col box-border">
+                  {crystalDropdownItems.map((subItem) => (
+                    <Link
+                      key={subItem.path}
+                      to={subItem.path}
+                      className="px-6 py-3 text-white no-underline text-[11px] uppercase tracking-[1px] transition-colors duration-200 text-left hover:bg-[rgba(223,186,107,0.1)] hover:text-sara-gold"
+                      onClick={() => setIsCrystalsDropdownOpen(false)}
+                    >
+                      {subItem.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </li>
 
             <li>
@@ -381,13 +414,52 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
             </li>
 
             <li>
-              <Link
-                to="/products/crystals"
-                onClick={() => setIsOpen(false)}
-                className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block"
-              >
-                {t('nav.crystals')}
-              </Link>
+              <div className="flex justify-between items-center w-full">
+                <Link
+                  to="/products/crystals"
+                  onClick={() => setIsOpen(false)}
+                  className="text-white no-underline font-sans text-sm uppercase tracking-[1px] block flex-grow"
+                >
+                  {t('nav.crystals')}
+                </Link>
+                {crystalDropdownItems.length > 0 && (
+                  <button
+                    onClick={() => setIsMobileCrystalsOpen(!isMobileCrystalsOpen)}
+                    className="bg-transparent border-none p-2 text-white cursor-pointer"
+                  >
+                    <svg
+                      width="10"
+                      height="6"
+                      viewBox="0 0 10 6"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className={`transition-transform duration-200 ${isMobileCrystalsOpen ? 'rotate-180' : 'rotate-0'}`}
+                    >
+                      <path d="M1 1l4 4 4-4" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                )}
+              </div>
+
+              {/* Mobile Crystals Sub-menu Links */}
+              {isMobileCrystalsOpen && crystalDropdownItems.length > 0 && (
+                <div className="flex flex-col gap-3.5 py-2 pl-4 border-l border-[rgba(223,186,107,0.2)] mt-2 box-border">
+                  {crystalDropdownItems.map((subItem) => (
+                    <Link
+                      key={subItem.path}
+                      to={subItem.path}
+                      onClick={() => {
+                        setIsOpen(false);
+                        setIsMobileCrystalsOpen(false);
+                      }}
+                      className="text-[rgba(243,240,234,0.85)] no-underline font-sans text-xs uppercase tracking-[1px] block"
+                    >
+                      {subItem.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
             </li>
 
             <li>
