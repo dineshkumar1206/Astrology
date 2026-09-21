@@ -18,9 +18,9 @@ const fadeInUpVariants = {
 };
 
 const CATEGORY_SECTIONS = [
+  { title: 'Saraa Healing Crystals', viewAllPath: '/products/crystals', filterType: 'crystal' },
   { title: 'Tarot Card Reading', viewAllPath: '/products/tarot-classes', categoryName: 'Tarot Card Reading' },
   { title: 'Tarot Private Consultation', viewAllPath: '/products/tarot-consultation', categoryName: 'Tarot Private Consultation' },
-  { title: 'Saraa Healing Crystals', viewAllPath: '/products/crystals', filterType: 'crystal' },
   { title: 'Murugar Card Deck', viewAllPath: '/products/murugar-cards', categoryName: 'Murugar Cards' },
   { title: 'Spiritual Healing', viewAllPath: '/products/spiritual-healing', categoryName: 'Spiritual Healing' },
   { title: 'Kali Pooja', viewAllPath: '/products/kali-pooja', categoryName: 'Kali Pooja' },
