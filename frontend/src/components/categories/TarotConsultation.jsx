@@ -9,7 +9,7 @@ import WelfareTrust from '../../components/WelfareTrust';
 
 export default function TarotConsultation({ cart = [], setCart, setIsCartOpen }) {
   const { locale, t } = useLanguage();
-  const [expressChecked, setExpressChecked] = useState(false);
+
   const [items, setItems] = useState([]);
   const translatedItems = useTranslatedList(items, locale);
   const [loading, setLoading] = useState(true);
@@ -34,15 +34,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
   const handleAddToCart = (item) => {
     if (!setCart) return;
 
-    let finalPrice = item.price;
-    let nameSuffix = '';
-
-    if (expressChecked) {
-      finalPrice += 1000;
-      nameSuffix = t('categoryCommon.express24h');
-    }
-
-    const cartItemId = expressChecked ? `${item.id}-express` : item.id;
+    const cartItemId = item.id;
     const existingItem = cart.find((c) => c.id === cartItemId);
 
     if (existingItem) {
@@ -58,8 +50,8 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
         ...cart,
         {
           id: cartItemId,
-          name: `${item.name}${nameSuffix}`,
-          price: finalPrice,
+          name: item.name,
+          price: item.price,
           image: item.image || '/saraa-logo.jpeg',
           quantity: 1
         }
@@ -104,26 +96,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
               {t('categoryCommon.availableBookings')}
             </h3>
 
-            {/* Express Booking Toggle */}
-            <div 
-              className="bg-[rgba(214,178,106,0.05)] border border-[rgba(214,178,106,0.3)] rounded p-5 mb-8 flex items-center gap-3 cursor-pointer"
-              onClick={() => setExpressChecked(!expressChecked)}
-            >
-              <input 
-                type="checkbox" 
-                checked={expressChecked}
-                onChange={() => {}}
-                className="cursor-pointer w-[18px] h-[18px] accent-sara-gold" 
-              />
-              <div>
-                <div className="font-semibold text-sara-gold text-sm tracking-[0.5px]">
-                  {t('categoryCommon.expressLabel')}
-                </div>
-                <div className="text-xs text-sara-muted mt-0.5">
-                  {t('categoryCommon.expressDesc')}
-                </div>
-              </div>
-            </div>
+
 
             <div className="flex flex-col gap-6">
               {loading ? (
@@ -173,7 +146,7 @@ export default function TarotConsultation({ cart = [], setCart, setIsCartOpen })
 
                     <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">
                       <div className="text-sara-gold text-[1.75rem] font-semibold">
-                        ₹{(item.price + (expressChecked ? 1000 : 0)).toLocaleString('en-IN')}
+                        ₹{item.price.toLocaleString('en-IN')}
                       </div>
                       <button
                         onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
