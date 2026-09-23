@@ -30,6 +30,7 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
   const translatedProducts = useTranslatedList(products, locale);
   const [loading, setLoading] = useState(true);
   const [activeProduct, setActiveProduct] = useState(null);
+  const [cardHealing, setCardHealing] = useState({});
 
   useEffect(() => {
     const fetchCategoriesAndProducts = async () => {
@@ -67,12 +68,25 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
     const cartItemId = size ? `${item.id}-${size}` : item.id;
     const cartName = size ? `${item.name} (${size})` : item.name;
 
-    const existingItem = cart.find((c) => c.id === cartItemId);
+    const hasHealing = dynamicCat?.type === 'crystal' && !!cardHealing[item.id];
+    let finalPrice = item.price;
+    let finalName = cartName;
+
+    if (hasHealing) {
+      finalPrice += 1000;
+      const suffix = locale === 'ta' ? ' (+ கூடுதல் குணப்படுத்தும் சக்தி)' : ' (+ Extra Healing Power)';
+      finalName = `${finalName}${suffix}`;
+    }
+
+    const healingKey = hasHealing ? '-healing' : '';
+    const cartItemIdWithHealing = `${cartItemId}${healingKey}`;
+
+    const existingItem = cart.find((c) => c.id === cartItemIdWithHealing);
 
     if (existingItem) {
       setCart(
         cart.map((c) =>
-          c.id === cartItemId
+          c.id === cartItemIdWithHealing
             ? { ...c, quantity: c.quantity + qty }
             : c
         )
@@ -81,9 +95,9 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
       setCart([
         ...cart,
         {
-          id: cartItemId,
-          name: cartName,
-          price: item.price,
+          id: cartItemIdWithHealing,
+          name: finalName,
+          price: finalPrice,
           image: item.image || '/saraa-logo.jpeg',
           quantity: qty
         }
@@ -182,11 +196,50 @@ export default function ProductCategoryDetail({ cart = [], setCart, setIsCartOpe
                                 ))}
                               </ul>
                             )}
+
+                            {dynamicCat?.type === 'crystal' && (
+                              <div
+                                className="flex flex-col gap-1.5 mt-4 border-t border-[rgba(214,178,106,0.15)] pt-3 mb-2 select-none"
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <div className="text-[10px] text-[rgba(255,255,255,0.45)] uppercase tracking-[0.5px] font-semibold">
+                                  {locale === 'ta' ? 'குணப்படுத்துதல் விருப்பம்:' : 'Healing Option:'}
+                                </div>
+                                <div className="flex flex-col gap-1.5">
+                                  <label className="flex items-center gap-2 text-[12px] text-[#D3C7DC] cursor-pointer">
+                                    <input
+                                      type="radio"
+                                      name={`healing-${item.id}`}
+                                      checked={!cardHealing[item.id]}
+                                      onChange={(e) => {
+                                        e.stopPropagation();
+                                        setCardHealing(prev => ({ ...prev, [item.id]: false }));
+                                      }}
+                                      className="w-4 h-4 accent-sara-gold cursor-pointer"
+                                    />
+                                    <span>{locale === 'ta' ? 'இல்லை' : 'Without Healing'}</span>
+                                  </label>
+                                  <label className="flex items-center gap-2 text-[12px] text-sara-gold font-semibold cursor-pointer">
+                                    <input
+                                      type="radio"
+                                      name={`healing-${item.id}`}
+                                      checked={!!cardHealing[item.id]}
+                                      onChange={(e) => {
+                                        e.stopPropagation();
+                                        setCardHealing(prev => ({ ...prev, [item.id]: true }));
+                                      }}
+                                      className="w-4 h-4 accent-sara-gold cursor-pointer"
+                                    />
+                                    <span>{locale === 'ta' ? 'குணப்படுத்துதலுடன் (+ ₹1,000)' : 'With Healing (+ ₹1,000)'}</span>
+                                  </label>
+                                </div>
+                              </div>
+                            )}
                           </div>
 
                           <div className="flex flex-col items-end justify-center gap-3 min-w-[150px]">
                             <div className="text-sara-gold text-[1.75rem] font-semibold">
-                              ₹{item.price.toLocaleString('en-IN')}
+                              ₹{(item.price + (cardHealing[item.id] ? 1000 : 0)).toLocaleString('en-IN')}
                             </div>
                             <button
                               onClick={(e) => { e.stopPropagation(); handleAddToCart(item); }}
