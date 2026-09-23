@@ -70,7 +70,7 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
   };
 
   const getTranslatedLabel = (name) => {
-    const lowerName = name.toLowerCase();
+    const lowerName = name.toLowerCase().trim();
     if (lowerName.includes('crystals')) return t('nav.crystals');
     if (lowerName.includes('private consultation') || lowerName.includes('tarot consultation')) return t('categories.tarot.title');
     if (lowerName.includes('spiritual healing') || lowerName.includes('healing')) return t('categories.healing.title');
@@ -78,6 +78,21 @@ export default function Navbar({ cartItems = [], setCartItems, isCartOpen, setIs
     if (lowerName.includes('tarot card reading') || lowerName.includes('tarot reading') || lowerName.includes('tarot classes')) return t('categories.tarotClasses.title');
     if (lowerName.includes('spiritual counseling') || lowerName.includes('counseling')) return t('categories.counselingClasses.title');
     if (lowerName.includes('kali pooja')) return t('categories.pooja.title');
+    
+    if (locale === 'ta') {
+      if (lowerName === 'bracelet') return 'பிரேஸ்லெட்';
+      if (lowerName === 'rasi') return 'ராசி';
+      if (lowerName === 'pyrite frames' || lowerName === 'pyrite frame') return 'பைரைட் பிரேம்கள்';
+      if (lowerName === 'rings' || lowerName === 'ring') return 'மோதிரங்கள்';
+      if (lowerName === 'pendants' || lowerName === 'pendant') return 'பதக்கங்கள்';
+      if (lowerName === 'tumbles' || lowerName === 'tumble') return 'டம்பிள்ஸ்';
+      if (lowerName === 'crystal prymid' || lowerName === 'crystal pyramid') return 'படிக பிரமிடு';
+      if (lowerName === 'pyrite') return 'பைரைட்';
+      if (lowerName === 'crystal balls' || lowerName === 'crystal ball') return 'படிக பந்துகள்';
+      if (lowerName === 'crystal mala') return 'படிக மாலை';
+      if (lowerName === 'crystal tower') return 'படிக கோபுரம்';
+    }
+
     return name;
   };
 

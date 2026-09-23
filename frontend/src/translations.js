@@ -2,7 +2,7 @@ export const translations = {
   en: {
     translation: {
       nav: {
-      brand: "Saraa Tarot",
+      brand: "Sara Tarot",
       home: "Home",
       services: "Spiritual Services",
       about: "About",
@@ -46,9 +46,9 @@ export const translations = {
     },
     aboutHome: {
       subtitle: "The Founder",
-      title: "The Story of Saraa Tarot",
-      p1: "Saraa's journey into the mystical realm of Tarot and spiritual healing began as a deeply personal calling to help others find alignment. Guided by decades of study and intuitive practice, she founded Saraa Tarot to bridge the gap between the material world and divine wisdom.",
-      p2: "Through personalized consultations and spiritual classes, Saraa provides a compassionate, empowering space. Every reading and session is crafted to decode life's complexities and guide your spirit toward absolute clarity.",
+      title: "The Story of Sara Tarot",
+      p1: "Sara's journey into the mystical realm of Tarot and spiritual healing began as a deeply personal calling to help others find alignment. Guided by decades of study and intuitive practice, she founded Sara Tarot to bridge the gap between the material world and divine wisdom.",
+      p2: "Through personalized consultations and spiritual classes, Sara provides a compassionate, empowering space. Every reading and session is crafted to decode life's complexities and guide your spirit toward absolute clarity.",
       connectBtn: "Connect With Me"
     },
     zodiac: {
@@ -87,9 +87,9 @@ export const translations = {
       addToCart: "Add To Cart"
     },
     aboutSection: {
-      title: "About Saraa Tarot",
+      title: "About Sara Tarot",
       subtitle: "YOUR SPIRITUAL CONDUIT",
-      p1: "Welcome to Saraa Tarot, a sacred space dedicated to helping you navigate life's complex journeys through astrology, tarot readings, and energy work. Led by Sara, our mission is to offer deep clarity, practical solutions, and spiritual remedies to individuals seeking guidance.",
+      p1: "Welcome to Sara Tarot, a sacred space dedicated to helping you navigate life's complex journeys through astrology, tarot readings, and energy work. Led by Sara, our mission is to offer deep clarity, practical solutions, and spiritual remedies to individuals seeking guidance.",
       p2: "Whether you are facing relationship hurdles, searching for career direction, seeking financial flow, or in need of protection through powerful Kali Pooja and spiritual healing, we align with cosmic vibrations to offer custom solutions tailored to your unique energy signature.",
       experience: "Years of Guidance",
       clients: "Happy Seekers",
@@ -185,7 +185,7 @@ export const translations = {
       submitBtn: "Send Booking Request via WhatsApp"
     },
     contactSection: {
-      title: "Connect with Saraa Tarot",
+      title: "Connect with Sara Tarot",
       subtitle: "GET IN TOUCH",
       desc: "For appointments, general inquiries, or classes, feel free to reach out. We are available for WhatsApp calls and Zoom sessions globally.",
       phone: "Phone / WhatsApp",
@@ -221,7 +221,7 @@ export const translations = {
       addressLine: "Shri sathya nagar, Othivakkam",
       locationLabel: "Location:",
       locationLine: "Guduvanchery, Chengalpattu",
-      brand: "Saraa Tarot",
+      brand: "Sara Tarot",
       desc: "Unlock the secrets of the cosmos and transform your life today! Connect with me for personalized consultations that reveal your unique strengths and help you navigate challenges with confidence.",
       info: "Info",
       emailLabel: "Email:",
@@ -231,7 +231,7 @@ export const translations = {
       cardReading: "Card Reading",
       chakraBalancing: "Chakra Balancing",
       mineralotherapy: "Mineralotherapy",
-      copyright: "\u00a9 {year} Saraa Tarot. All rights reserved."
+      copyright: "\u00a9 {year} Sara Tarot. All rights reserved."
     },
     welfareTrust: {
       badge: "Our Pledge of Service",
@@ -250,7 +250,7 @@ export const translations = {
     },
     contactPage: {
       title: "Contact",
-      subtitle: "Saraa Tarot | Cosmic Guidance",
+      subtitle: "Sara Tarot | Cosmic Guidance",
       sectionTitle: "Get in Touch with Cosmic Insights",
       heading: "Reach Out for Personalized Guidance Today",
       accordionItems: ["Personal Consultations", "Event Bookings", "Media Inquiries"],
@@ -357,17 +357,17 @@ export const translations = {
     },
     aboutPage: {
       heroTitle: "About",
-      heroSubtitle: "Saraa Tarot | The Vision & The Journey",
-      label: "Meet the Visionary Behind Saraa Tarot",
+      heroSubtitle: "Sara Tarot | The Vision & The Journey",
+      label: "Meet the Visionary Behind Sara Tarot",
       heading: "Guiding Your Spirit Toward Absolute Clarity",
-      p1: "Sara is a spiritual healer and tarot reader, and the founder of Saraa Tarot, her spiritual guidance platform. She created the Murugan Message Card system and conducts Vel Pooja-related spiritual events. She offers personalized tarot consultations, spiritual healing sessions, meditation programs, and devotional events, crafting every session to guide your spirit toward absolute clarity.",
+      p1: "Sara is a spiritual healer and tarot reader, and the founder of Sara Tarot, her spiritual guidance platform. She created the Murugan Message Card system and conducts Vel Pooja-related spiritual events. She offers personalized tarot consultations, spiritual healing sessions, meditation programs, and devotional events, crafting every session to guide your spirit toward absolute clarity.",
       p2: "Sara is a public speaker at spiritual events and organizes online spiritual workshops and poojas. She has made media appearances on Thanthi TV, Adhan TV, IBC Bakthi, Behind Bakthi, Varahi TV, Anmeega Glitz, and Retro Anmeegam, and creates Tamil-language content on spirituality, manifestation, Hindu traditions, and tarot through YouTube and social media.",
       feature1Title: "Intuitive Mastery",
       feature1Desc: "Harnessing deep empathic abilities to read the energies shaping your current path.",
       feature2Title: "Empathetic Healing",
       feature2Desc: "Creating a safe space for vulnerability, transformation, and profound emotional release.",
       connectBtn: "Connect With Me",
-      founderAlt: "Founder of Saraa Tarot"
+      founderAlt: "Founder of Sara Tarot"
     },
     cosmicInsights: {
       badge: "Exploring Cosmic Wisdom",
@@ -443,7 +443,7 @@ export const translations = {
       ]
     },
     crystalsPage: {
-      title: "Saraa Healing Crystals",
+      title: "Sara Healing Crystals",
       badge: "SACRED GEOMETRY & ENERGY TOOLS",
       collection: "Collection",
       description: "A curated selection of natural crystal categories, hand-selected, cleansed, and programmed with specific intentions by Sara to support your healing and manifest your desires.",
@@ -473,7 +473,7 @@ export const translations = {
     murugarCards: {
       title: "Murugar Card Desk",
       badge: "Divine Guidance Through Sacred Tamil Wisdom",
-      description: "Discover the World's First Murugan Card Deck, thoughtfully curated by Saraa Tarot. Blending divine South Indian heritage with intuitive divination, this unique deck connects you to the powerful spiritual energy of Lord Murugan. Gain profound clarity, divine protection, and profound life direction with every sacred card you draw.",
+      description: "Discover the World's First Murugan Card Deck, thoughtfully curated by Sara Tarot. Blending divine South Indian heritage with intuitive divination, this unique deck connects you to the powerful spiritual energy of Lord Murugan. Gain profound clarity, divine protection, and profound life direction with every sacred card you draw.",
       note: "*Note: Additional overseas courier charges apply to all international shipments.",
       imageAlt: "Murugar Card Reading",
       policyIntro: "Murugar Cards Reading Guidelines:",
@@ -604,7 +604,7 @@ export const translations = {
       saveMenuCategory: "Save Menu Category"
     },
     adminNavbar: {
-      brand: "Saraa Tarot",
+      brand: "Sara Tarot",
       controlDesk: "Control Desk",
       crystals: "Crystals",
       manageMenus: "Manage Menus",
